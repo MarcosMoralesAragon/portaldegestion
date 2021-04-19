@@ -27,4 +27,5 @@ Preguntar sobre como vamos a introducir los datos a los tecnicos ( nueva selecci
  <b> He cambiado eso </b> y ahora da el dato con el formato deseado. <br>
  <b> He encontrado la forma de eliminar y mejorar el sistema que utilizaba para la reforma de datos </b> tras leer algunas
  documentaciones online y con ayuda de Sergio he encontrado una forma más optima de realizar el formateo de datos. He
- ayudado tambien a Sergio con el uso del enum ya que los dos estabamos dandole vueltas al tema de como usarlo 
+ ayudado tambien a Sergio con el uso del enum ya que los dos estabamos dandole vueltas al tema de como usarlo <br><br>
+ Hoy el proyecto ha terminado en la version 2.1 ( aunque por error en un commit la he nombrado V3).
