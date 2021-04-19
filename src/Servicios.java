@@ -132,9 +132,10 @@ public class Servicios {
         System.out.print("> ");
         variableEmpleado.setDNI(in.nextLine());
 
+        Prints.separador();
         System.out.println("Fecha de nacimiento");
         System.out.print("> ");
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String fecha = in.nextLine();
         Date fechaNacimiento = format.parse(fecha);
         variableEmpleado.setFechaNacimiento(fechaNacimiento);
@@ -176,32 +177,39 @@ public class Servicios {
         System.out.println("Calle");
         System.out.print("> ");
         variableDireccion.setCalle(in.nextLine());
+
         Prints.separador();
         System.out.println("Numero");
         System.out.print("> ");
         variableDireccion.setNumero(in.nextInt());
+
         Prints.separador();
         System.out.println("Bloque");
         System.out.print("> ");
         vaciarScanner(in);
         variableDireccion.setBloque(in.nextLine());
+
         Prints.separador();
         System.out.println("Piso");
         System.out.print("> ");
         variableDireccion.setPiso(in.nextLine());
+
         Prints.separador();
         System.out.println("Puerta");
         System.out.print("> ");
         variableDireccion.setPuerta(in.nextLine());
+
         Prints.separador();
         System.out.println("Codigo Postal");
         System.out.print("> ");
         variableDireccion.setCodigoPostal(in.nextInt());
+
         Prints.separador();
         System.out.println("Localidad");
         System.out.print("> ");
         vaciarScanner(in);
         variableDireccion.setLocalidad(in.nextLine());
+
         Prints.separador();
         System.out.println("Provincia");
         System.out.print("> ");
@@ -413,32 +421,39 @@ public class Servicios {
         System.out.println("Calle");
         System.out.print("> ");
         Servicios.empleados.get(posicion).getDireccion().setCalle(in.nextLine());
+
         Prints.separador();
         System.out.println("Numero");
         System.out.print("> ");
         Servicios.empleados.get(posicion).getDireccion().setNumero(in.nextInt());
+
         Prints.separador();
         System.out.println("Bloque");
         System.out.print("> ");
         vaciarScanner(in);
         Servicios.empleados.get(posicion).getDireccion().setBloque(in.nextLine());
+
         Prints.separador();
         System.out.println("Piso");
         System.out.print("> ");
         Servicios.empleados.get(posicion).getDireccion().setPiso(in.nextLine());
+
         Prints.separador();
         System.out.println("Puerta");
         System.out.print("> ");
         Servicios.empleados.get(posicion).getDireccion().setPuerta(in.nextLine());
+
         Prints.separador();
         System.out.println("Codigo Postal");
         System.out.print("> ");
         Servicios.empleados.get(posicion).getDireccion().setCodigoPostal(in.nextInt());
+
         Prints.separador();
         System.out.println("Localidad");
         System.out.print("> ");
         vaciarScanner(in);
         Servicios.empleados.get(posicion).getDireccion().setLocalidad(in.nextLine());
+
         Prints.separador();
         System.out.println("Provincia");
         System.out.print("> ");

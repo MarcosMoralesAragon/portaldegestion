@@ -11,7 +11,9 @@ los mismos.
 
 ¿Esta bien como he utilizado los enum? <br> 
 ¿Esta bien mi salida formateadad de datos para reformar los datos de alta? <br>
-¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso?
+¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso? <br><br>
+
+Preguntar sobre como vamos a introducir los datos a los tecnicos ( nueva seleccion de elija cual es su puesto en la empresa ) (¿?)
 
 `Registro diario :`
 

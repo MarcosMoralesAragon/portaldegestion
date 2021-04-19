@@ -54,7 +54,7 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("  --> Cerrando programa, gracias por su uso <--");
+                    System.out.println("  → Cerrando programa, gracias por su uso ←");
                     salida = true;
                     break;
                 default:
