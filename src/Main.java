@@ -32,6 +32,7 @@ public class Main {
             System.out.println("3. Borrar");
             System.out.println("4. Modificar");
             System.out.println("5. Salir");
+            System.out.println("5. Salir");
             Prints.separador();
             System.out.print(" > ");
 
