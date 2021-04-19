@@ -24,7 +24,7 @@ public class Servicios {
         // Entrada de datos de los empleados
         datosEmpleados(in, variableEmpleado);
         // Entrada de datos de los campos de direccion
-       variableEmpleado.setDireccion(datosDireccion(in));
+        variableEmpleado.setDireccion(datosDireccion(in));
 
         Prints.separador();
         System.out.println("Su codigo asignado será : ");

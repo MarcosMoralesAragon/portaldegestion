@@ -67,28 +67,11 @@ public class Empleado {
                 " DNI --> " + DNI + " / " +
                 " Fecha de Nacimiento --> " + fechaNacimiento + " / " +
                 " Nacionalidad --> " + nacionalidad + " / " +
-                " Estado --> " + bonitoEstado(estado) + "\n" +
+                " Estado --> " + estado + "\n" +
                 " Dirección completa --> " + direccion + " / ";
 
     }
-    public String bonitoEstado (Estado estado){
-        String frase = null;
 
-        switch (estado){
-            case ALTA:
-                frase = "Alta";
-                break;
-
-            case BAJA:
-                frase = "Baja";
-                break;
-
-            case EN_TRAMITE:
-                frase = "En tramite";
-                break;
-        }
-        return frase;
-    }
 }
 
 

@@ -22,4 +22,7 @@ los mismos.
  no haber adaptado la función a cambiar ( la funcion cambio era una copia de la funcion creación ). <br><br>
  <b> Ya funciona la enumeración </b>, ahora solo me falta saber como cambiar el formato en el que sale 
  ( por ahora sale como es definido en el Enum ). <br><br>
- <b> He cambiado eso </b> y ahora da el dato con el formato deseado.
+ <b> He cambiado eso </b> y ahora da el dato con el formato deseado. <br>
+ <b> He encontrado la forma de eliminar y mejorar el sistema que utilizaba para la reforma de datos </b> tras leer algunas
+ documentaciones online y con ayuda de Sergio he encontrado una forma más optima de realizar el formateo de datos. He
+ ayudado tambien a Sergio con el uso del enum ya que los dos estabamos dandole vueltas al tema de como usarlo 
