@@ -66,5 +66,7 @@ public class Prints {
         System.out.println("| 3. En tramite  |");
         System.out.println("|                |");
         System.out.println("━━━━━━━━━━━━━━━━━━");
+
+
     }
 }

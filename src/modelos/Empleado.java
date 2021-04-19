@@ -57,18 +57,38 @@ public class Empleado {
     }
 
     public void setEstado (Estado e){ this.estado = e; }
-    public Estado getEstado(){ return  estado;  }
+    public Estado getEstado(){ return estado;  }
 
     @Override
     public String toString() {
-        return  " Código -->" + codigo + " / " +
-                " Nombre -->" + nombre + " / " +
-                " Apellido -->" + apellido + " / " +
-                " DNI -->" + DNI + " / " +
-                " Fecha de Nacimiento -->" + fechaNacimiento + " / " +
-                " Nacionalidad -->" + nacionalidad + " / \n" +
-                " model.Estado -->" + estado +
-                " Dirección completa -->" + direccion + " / ";
+        return  " Código --> " + codigo + " / " +
+                " Nombre --> " + nombre + " / " +
+                " Apellido --> " + apellido + " / " +
+                " DNI --> " + DNI + " / " +
+                " Fecha de Nacimiento --> " + fechaNacimiento + " / " +
+                " Nacionalidad --> " + nacionalidad + " / " +
+                " Estado --> " + bonitoEstado(estado) + "\n" +
+                " Dirección completa --> " + direccion + " / ";
 
     }
+    public String bonitoEstado (Estado estado){
+        String frase = null;
+
+        switch (estado){
+            case ALTA:
+                frase = "Alta";
+                break;
+
+            case BAJA:
+                frase = "Baja";
+                break;
+
+            case EN_TRAMITE:
+                frase = "En tramite";
+                break;
+        }
+        return frase;
+    }
 }
+
+

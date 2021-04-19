@@ -72,13 +72,13 @@ public class Direccion {
 
     @Override
     public String toString() {
-        return  " Calle -->" + calle + " / " +
-                " Numero -->" + numero + " / " +
-                " Bloque -->" + bloque + " / " +
-                " Piso -->" + piso + " / " +
-                " Puerta -->" + puerta + " / " +
-                " Codigo Postal -->" + codigoPostal + " / " +
-                " Localidad -->" + localidad + " / " +
-                " Provincia -->" + provincia ;
+        return  " Calle --> " + calle + " / " +
+                " Numero --> " + numero + " / " +
+                " Bloque --> " + bloque + " / " +
+                " Piso --> " + piso + " / " +
+                " Puerta --> " + puerta + " / " +
+                " Codigo Postal --> " + codigoPostal + " / " +
+                " Localidad --> " + localidad + " / " +
+                " Provincia --> " + provincia ;
     }
 }

@@ -1,6 +1,5 @@
 package modelos;
 
 public enum Estado {
-    ALTA, BAJA, ENTRAMITE
-
+    ALTA, BAJA, EN_TRAMITE
 }

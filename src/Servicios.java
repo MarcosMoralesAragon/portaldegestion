@@ -24,7 +24,7 @@ public class Servicios {
         // Entrada de datos de los empleados
         datosEmpleados(in, variableEmpleado);
         // Entrada de datos de los campos de direccion
-        variableEmpleado.setDireccion(datosDireccion(in));
+       variableEmpleado.setDireccion(datosDireccion(in));
 
         Prints.separador();
         System.out.println("Su codigo asignado será : ");
@@ -150,7 +150,19 @@ public class Servicios {
         System.out.print("> ");
         int eleccion = in.nextInt();
         vaciarScanner(in);
-       // Estado.setEstado(eleccion);
+        switch (eleccion){
+            case 1:
+                variableEmpleado.setEstado(Estado.ALTA);
+                break;
+
+            case 2:
+                variableEmpleado.setEstado(Estado.BAJA);
+                break;
+
+            case 3:
+                variableEmpleado.setEstado(Estado.EN_TRAMITE);
+                break;
+            }
     }
 
     private static Direccion datosDireccion(Scanner in){
@@ -298,8 +310,8 @@ public class Servicios {
                 cambioNacionalidad(in, posicion);
                 break;
 
-            case 6: // model.Estado
-                // cambioEstado(in, posicion);
+            case 6: // Estado
+                 cambioEstado(in, posicion);
                 break;
             case 7: // Dirección
                 cambioDireccion(in, posicion);
@@ -311,12 +323,13 @@ public class Servicios {
                 cambioDNI(in, posicion);
                 cambioFechaNacimiento(in, posicion);
                 cambioNacionalidad(in, posicion);
-                // Servicios.cambioEstado(in, posicion);
+                Servicios.cambioEstado(in, posicion);
                 cambioDireccion(in, posicion);
                 break;
         }
         return true;
     }
+
 
     private static void cambioNombre(Scanner in, int posicion){
         String nuevoString;
@@ -372,9 +385,27 @@ public class Servicios {
         Servicios.empleados.get(posicion).setNacionalidad(nuevoString);
 
     }
-    // public static void cambioEstado(Scanner in, int posicion){
+     public static void cambioEstado(Scanner in, int posicion){
+         Prints.separador();
+         Prints.estados();
+         System.out.println("Introduzca el nuevo estado del empleado");
+         System.out.print("> ");
+         int eleccion = in.nextInt();
+         vaciarScanner(in);
+         switch (eleccion){
+             case 1:
+                 Servicios.empleados.get(posicion).setEstado(Estado.ALTA);
+                 break;
 
-    // }
+             case 2:
+                 Servicios.empleados.get(posicion).setEstado(Estado.BAJA);
+                 break;
+
+             case 3:
+                 Servicios.empleados.get(posicion).setEstado(Estado.EN_TRAMITE);
+                 break;
+         }
+     }
     private static void cambioDireccion(Scanner in, int posicion){
         vaciarScanner(in);
 
