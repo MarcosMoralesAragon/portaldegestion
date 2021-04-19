@@ -48,7 +48,7 @@ public class Servicios {
     }
 
     public static void borrado(Scanner in) {
-        boolean salida = false;
+        boolean salida;
         int recordatorio = 0;
 
         System.out.println("3. Borrado");
@@ -59,7 +59,7 @@ public class Servicios {
             System.out.print("> ");
             int posicion = in.nextInt() - 1;
 
-            salida = borrado(posicion, recordatorio, salida, in);
+            salida = borrado(posicion, recordatorio, false, in);
 
         } while (!salida);
         Prints.terminadaAccion();
@@ -68,7 +68,7 @@ public class Servicios {
 
     public static void modificar(Scanner in) throws ParseException {
 
-        boolean salida = false;
+        boolean salida;
         System.out.println("4. Modificar");
 
         do {
@@ -77,7 +77,7 @@ public class Servicios {
             System.out.print(" > ");
             int posicion = in.nextInt() - 1;
 
-             salida = eleccionDeCambio(in,posicion, salida);
+             salida = eleccionDeCambio(in,posicion, false);
 
         } while (!salida);
         Prints.terminadaAccion();
@@ -150,7 +150,7 @@ public class Servicios {
         System.out.print("> ");
         int eleccion = in.nextInt();
         vaciarScanner(in);
-        Estado.generarEstado(eleccion);
+       // Estado.setEstado(eleccion);
     }
 
     private static Direccion datosDireccion(Scanner in){
@@ -376,46 +376,42 @@ public class Servicios {
 
     // }
     private static void cambioDireccion(Scanner in, int posicion){
-        Direccion variableDireccion = new Direccion();
-
         vaciarScanner(in);
 
         Prints.separador();
         System.out.println("Calle");
         System.out.print("> ");
-        variableDireccion.setCalle(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setCalle(in.nextLine());
         Prints.separador();
         System.out.println("Numero");
         System.out.print("> ");
-        variableDireccion.setNumero(in.nextInt());
+        Servicios.empleados.get(posicion).getDireccion().setNumero(in.nextInt());
         Prints.separador();
         System.out.println("Bloque");
         System.out.print("> ");
         vaciarScanner(in);
-        variableDireccion.setBloque(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setBloque(in.nextLine());
         Prints.separador();
         System.out.println("Piso");
         System.out.print("> ");
-        variableDireccion.setPiso(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setPiso(in.nextLine());
         Prints.separador();
         System.out.println("Puerta");
         System.out.print("> ");
-        variableDireccion.setPuerta(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setPuerta(in.nextLine());
         Prints.separador();
         System.out.println("Codigo Postal");
         System.out.print("> ");
-        variableDireccion.setCodigoPostal(in.nextInt());
+        Servicios.empleados.get(posicion).getDireccion().setCodigoPostal(in.nextInt());
         Prints.separador();
         System.out.println("Localidad");
         System.out.print("> ");
         vaciarScanner(in);
-        variableDireccion.setLocalidad(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setLocalidad(in.nextLine());
         Prints.separador();
         System.out.println("Provincia");
         System.out.print("> ");
-        variableDireccion.setProvincia(in.nextLine());
-
-        Servicios.empleados.get(posicion).setDireccion(variableDireccion);
+        Servicios.empleados.get(posicion).getDireccion().setProvincia(in.nextLine());
     }
 
 }

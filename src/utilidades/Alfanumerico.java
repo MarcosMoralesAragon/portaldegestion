@@ -8,19 +8,19 @@ public class Alfanumerico {
         // Genera el codigo alfanumerico de manera aleatroia entre numeros y letras minusculas
 
         int digitos = 0;
-        String resultado = "";
+        StringBuilder resultado = new StringBuilder();
         do {
             switch ((int)(Math.random()*2)){
                 case 0:
-                    resultado += Alfanumerico.numAleatorio();
+                    resultado.append(Alfanumerico.numAleatorio());
                     break;
                 case 1:
-                    resultado += Alfanumerico.letraAleatoria();
+                    resultado.append(Alfanumerico.letraAleatoria());
                     break;
             }
             digitos ++;
         }while (digitos < 6);
-        return resultado;
+        return resultado.toString();
     }
     // --------------> FUNCIONES GENERAR <--------------
     private static String letraAleatoria() {
