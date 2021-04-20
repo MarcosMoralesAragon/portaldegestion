@@ -3,9 +3,7 @@ import modelos.Empleado;
 import modelos.Estado;
 import utilidades.Alfanumerico;
 import utilidades.Prints;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,17 +15,17 @@ public class Servicios {
     public static ArrayList<Empleado> empleados = new ArrayList<>();
 
 
-    public static void crear(Scanner in) throws ParseException {
+    public static void crear(Scanner in) {
 
         Empleado variableEmpleado = new Empleado(null);
 
         // Entrada de datos de los empleados
         datosEmpleados(in, variableEmpleado);
-        // Entrada de datos de los campos de direccion
-        variableEmpleado.setDireccion(datosDireccion(in));
 
-        Prints.separador();
-        System.out.println("Su codigo asignado será : ");
+        // Entrada de datos de los campos de direccion
+        // variableEmpleado.setDireccion(datosDireccion(in));
+
+        Prints.separadorConTexto("Codigo");
         variableEmpleado.setCodigo(Alfanumerico.generar());
         System.out.println(variableEmpleado.getCodigo());
 
@@ -59,14 +57,25 @@ public class Servicios {
             System.out.print("> ");
             int posicion = in.nextInt() - 1;
 
-            salida = borrado(posicion, recordatorio, false, in);
+            System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea borrar a este empleado?");
+
+            Prints.asegurar();
+
+            Prints.siNo();
+            int eleccion = in.nextInt();
+
+            salida = sigueOSale(eleccion, in, "borrar");
+
+            if (salida = true){
+                Servicios.empleados.remove(posicion);
+            }
 
         } while (!salida);
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
     }
 
-    public static void modificar(Scanner in) throws ParseException {
+    public static void modificar(Scanner in){
 
         boolean salida;
         System.out.println("4. Modificar");
@@ -77,24 +86,21 @@ public class Servicios {
             System.out.print(" > ");
             int posicion = in.nextInt() - 1;
 
-             salida = eleccionDeCambio(in,posicion, false);
+            System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
+
+            Prints.siNo();
+            int eleccion = in.nextInt();
+
+            salida = sigueOSale(eleccion, in, "modificar");
+
+            if (salida = true){
+                eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
+            }
 
         } while (!salida);
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
     }
-
-
-
-
-
-
-
-
-
-
-    
-
 
 
     // ------------------------> FUNCIONES <-----------------------------
@@ -111,59 +117,45 @@ public class Servicios {
 
 
 
-    private static void datosEmpleados(Scanner in, Empleado variableEmpleado) throws ParseException {
+    private static void datosEmpleados(Scanner in, Empleado variableEmpleado) {
 
         // Almacena y guarda los datos del empleado.
 
-        System.out.println("1. Crear");
-        Prints.separador();
-        System.out.println("Introduzca el nombre del empleado que desea crear");
-        System.out.print("> ");
+       System.out.println("1. Crear");
+
+        Prints.separadorConTexto("Nombre");
         vaciarScanner(in);
         variableEmpleado.setNombre(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Introduzca los apellidos del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("Apellidos");
         variableEmpleado.setApellido(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Introduzca el DNI del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("DNI");
         variableEmpleado.setDNI(in.nextLine());
+        boolean salida = false;
+        do {
+            try{
+                vaciarScanner(in);
+                Prints.separadorConTexto("Fecha de Nacimiento");
+                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                String fecha = in.nextLine();
+                Date fechaNacimiento = format.parse(fecha);
+                variableEmpleado.setFechaNacimiento(fechaNacimiento);
+                salida = true;
+            } catch (Exception e){
+                System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
+                salida = false;
+            }
+        } while (!salida);
 
-        Prints.separador();
-        System.out.println("Fecha de nacimiento");
-        System.out.print("> ");
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        String fecha = in.nextLine();
-        Date fechaNacimiento = format.parse(fecha);
-        variableEmpleado.setFechaNacimiento(fechaNacimiento);
-
-        Prints.separador();
-        System.out.println("Introduzca la nacionalidad del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("Nacionalidad");
         variableEmpleado.setNacionalidad(in.nextLine());
 
-        Prints.separador();
         Prints.estados();
-        System.out.println("Introduzca el estado del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("Estado");
         int eleccion = in.nextInt();
         vaciarScanner(in);
-        switch (eleccion){
-            case 1:
-                variableEmpleado.setEstado(Estado.ALTA);
-                break;
-
-            case 2:
-                variableEmpleado.setEstado(Estado.BAJA);
-                break;
-
-            case 3:
-                variableEmpleado.setEstado(Estado.EN_TRAMITE);
-                break;
-            }
+        variableEmpleado.setEstado(Estado.values()[eleccion - 1]);
     }
 
     private static Direccion datosDireccion(Scanner in){
@@ -172,47 +164,30 @@ public class Servicios {
 
         Direccion variableDireccion = new Direccion();
 
-        Prints.separador();
-        System.out.println("Ahora rellene estos campos de la dirección");
-        System.out.println("Calle");
-        System.out.print("> ");
+        Prints.separadorConTexto("Calle");
         variableDireccion.setCalle(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Numero");
-        System.out.print("> ");
+        Prints.separadorConTexto("Numero");
         variableDireccion.setNumero(in.nextInt());
 
-        Prints.separador();
-        System.out.println("Bloque");
-        System.out.print("> ");
+        Prints.separadorConTexto("Bloque");
         vaciarScanner(in);
         variableDireccion.setBloque(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Piso");
-        System.out.print("> ");
+        Prints.separadorConTexto("Piso");
         variableDireccion.setPiso(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Puerta");
-        System.out.print("> ");
+        Prints.separadorConTexto("Puerta");
         variableDireccion.setPuerta(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Codigo Postal");
-        System.out.print("> ");
+        Prints.separadorConTexto("Codigo Postal");
         variableDireccion.setCodigoPostal(in.nextInt());
 
-        Prints.separador();
-        System.out.println("Localidad");
-        System.out.print("> ");
+        Prints.separadorConTexto("Localidad");
         vaciarScanner(in);
         variableDireccion.setLocalidad(in.nextLine());
 
-        Prints.separador();
-        System.out.println("Provincia");
-        System.out.print("> ");
+        Prints.separadorConTexto("Provincia");
         variableDireccion.setProvincia(in.nextLine());
 
         return variableDireccion;
@@ -220,83 +195,46 @@ public class Servicios {
 
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
+    private static boolean sigueOSale(int eleccion, Scanner in, String palabra){
+        boolean salida = false;
 
-    private static boolean borrado (int posicion, int recordatorio, boolean salida, Scanner in){
-
-        System.out.println("Ha seleccionado a " + Servicios.empleados.get(posicion).getNombre() + " ¿Seguro que desea borrar a este empleado?");
-
-        Prints.asegurar();
-
-        Prints.siNo();
-        int decision = in.nextInt();
-
-        switch (decision) {
+        switch (eleccion){
             case 1:
-                Servicios.empleados.remove(posicion);
                 salida = true;
                 break;
             case 2:
-                System.out.println("¿Quiere borrar a otro empleado o desea salir?");
+                System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
                 Prints.otroSalir();
                 System.out.print(" > ");
-                decision = in.nextInt();
-
-                if (decision == 2) {
+                eleccion = in.nextInt();
+                if (eleccion == 2){
                     salida = true;
                 }
                 break;
-            default:
-
-                break;
         }
+
         return salida;
     }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
 
-    private static boolean eleccionDeCambio ( Scanner in, int posicion, boolean salida) throws ParseException {
+    private static boolean eleccionDeCambio ( Scanner in, int posicion){
 
-        // El usuario introduce una decison por teclado ( en formato numerico 1 o 2). Este programa divide las acciones, en caso
-        // de 1, le redirije a el apartado de modificacion de campos y en caso de 2 le permitira elegir a otro empleado o salir al
-        // menu principal
-        System.out.println("Ha seleccionado a " + Servicios.empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
+        Prints.separador();
+        Prints.eleccionModificar();
+        System.out.println("Introduzca el numero del campo que desea editar");
+        System.out.print("> ");
+        vaciarScanner(in);
+        salida = cambioDeCampo(in, in.nextInt(), posicion);
 
-        Prints.siNo();
-        int decision = in.nextInt();
-
-        switch (decision){
-            case 1:
-                Prints.separador();
-                Prints.eleccionModificar();
-                System.out.println("Introduzca el numero del campo que desea editar");
-                System.out.print("> ");
-                vaciarScanner(in);
-                salida = cambioDeCampo(in, in.nextInt(), posicion);
-
-
-                break;
-            case 2:
-                System.out.println("¿Quiere modificar a otro empleado o desea salir?");
-                Prints.otroSalir();
-                System.out.print(" > ");
-                decision = in.nextInt();
-                if (decision == 2){
-                    salida = true;
-                }
-                break;
-            default:
-
-                break;
-        }
-        return salida;
     }
 
 
 
-    private static boolean cambioDeCampo(Scanner in, int decision, int posicion) throws ParseException {
+    private static boolean cambioDeCampo(Scanner in, int decision, int posicion) {
 
-        // El usuario desea el campo a cambiar y el switch le redireccioona a la funcion individual de cada un o para cambiar el parametro
+        // El usuario desea el campo a cambiar y el switch le redirecciona a la funcion individual de cada un o para cambiar el parametro
         // , esta asi realizado y que el 8 es cambiar todos los campos y asi solo tenemos que llamar a las funciones y no copiar y pegar
 
 
@@ -340,75 +278,65 @@ public class Servicios {
 
 
     private static void cambioNombre(Scanner in, int posicion){
-        String nuevoString;
-        Prints.separador();
-        System.out.println("Introduzca el nuevo nombre del empleado");
-        System.out.print("> ");
+
+        Prints.separadorConTexto("Nombre");
 
         vaciarScanner(in);
-        nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setNombre(nuevoString);
+         String nuevoString = in.nextLine();
+        Servicios.empleados.get(posicion).setNombre(nuevoString); // TODO Cambiar
     }
     private static void cambioApellidos(Scanner in, int posicion){
-        String nuevoString;
-        Prints.separador();
-        System.out.println("Introduzca el nuevo Apellido del empleado");
-        System.out.print("> ");
 
-        vaciarScanner(in);
-        nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setApellido(nuevoString);
-
-    }
-    private static void cambioDNI(Scanner in, int posicion){
-        Prints.separador();
-        System.out.println("Introduzca el nuevo DNI del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("Apellidos");
 
         vaciarScanner(in);
         String nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setDNI(nuevoString);
-
+        Servicios.empleados.get(posicion).setApellido(nuevoString); // TODO Cambiar
     }
-    private static void cambioFechaNacimiento(Scanner in, int posicion) throws ParseException {
-        Prints.separador();
-        System.out.println("Introduzca la nueva Fecha de nacimiento nombre del empleado");
-        System.out.print("> ");
+    private static void cambioDNI(Scanner in, int posicion){
+        Prints.separadorConTexto("DNI");
 
         vaciarScanner(in);
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = in.nextLine();
-        Date fechaNacimiento = format.parse(fecha);
-        Servicios.empleados.get(posicion).setFechaNacimiento(fechaNacimiento);
-
+        String nuevoString = in.nextLine();
+        Servicios.empleados.get(posicion).setDNI(nuevoString); // TODO Cambiar
+    }
+    private static void cambioFechaNacimiento(Scanner in, int posicion) {
+        boolean salida = false;
+        do {
+            try {
+                Prints.separadorConTexto("Fecha de nacimiento");
+                vaciarScanner(in);
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                String fecha = in.nextLine();
+                Date fechaNacimiento = format.parse(fecha);
+                Servicios.empleados.get(posicion).setFechaNacimiento(fechaNacimiento); // TODO Cambiar
+                salida = true;
+            } catch (Exception e){
+                System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
+                salida = false;
+            }
+        } while (!salida);
     }
     private static void cambioNacionalidad(Scanner in, int posicion){
-        String nuevoString;
-        Prints.separador();
-        System.out.println("Introduzca la nueva Nacionalidad del empleado");
-        System.out.print("> ");
+        Prints.separadorConTexto("Nacionalidad");
 
         vaciarScanner(in);
-        nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setNacionalidad(nuevoString);
+        String nuevoString = in.nextLine();
+        Servicios.empleados.get(posicion).setNacionalidad(nuevoString); // TODO cambiar
 
     }
      public static void cambioEstado(Scanner in, int posicion){
-         Prints.separador();
          Prints.estados();
-         System.out.println("Introduzca el nuevo estado del empleado");
-         System.out.print("> ");
+         Prints.separadorConTexto("Estado");
          int eleccion = in.nextInt();
          vaciarScanner(in);
-         switch (eleccion){
+         switch (eleccion){ // TODO Cambiar
              case 1:
                  Servicios.empleados.get(posicion).setEstado(Estado.ALTA);
                  break;
-
              case 2:
                  Servicios.empleados.get(posicion).setEstado(Estado.BAJA);
                  break;
-
              case 3:
                  Servicios.empleados.get(posicion).setEstado(Estado.EN_TRAMITE);
                  break;
@@ -417,47 +345,30 @@ public class Servicios {
     private static void cambioDireccion(Scanner in, int posicion){
         vaciarScanner(in);
 
-        Prints.separador();
-        System.out.println("Calle");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setCalle(in.nextLine());
+        Prints.separadorConTexto("Calle");
+        Servicios.empleados.get(posicion).getDireccion().setCalle(in.nextLine()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Numero");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setNumero(in.nextInt());
+        Prints.separadorConTexto("Numero");
+        Servicios.empleados.get(posicion).getDireccion().setNumero(in.nextInt()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Bloque");
-        System.out.print("> ");
+        Prints.separadorConTexto("Bloque");
         vaciarScanner(in);
-        Servicios.empleados.get(posicion).getDireccion().setBloque(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setBloque(in.nextLine()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Piso");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setPiso(in.nextLine());
+        Prints.separadorConTexto("Piso");
+        Servicios.empleados.get(posicion).getDireccion().setPiso(in.nextLine()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Puerta");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setPuerta(in.nextLine());
+        Prints.separadorConTexto("Puerta");
+        Servicios.empleados.get(posicion).getDireccion().setPuerta(in.nextLine()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Codigo Postal");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setCodigoPostal(in.nextInt());
+        Prints.separadorConTexto("Código Postal");
+        Servicios.empleados.get(posicion).getDireccion().setCodigoPostal(in.nextInt()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Localidad");
-        System.out.print("> ");
+        Prints.separadorConTexto("Localidad");
         vaciarScanner(in);
-        Servicios.empleados.get(posicion).getDireccion().setLocalidad(in.nextLine());
+        Servicios.empleados.get(posicion).getDireccion().setLocalidad(in.nextLine()); // TODO Cambiar
 
-        Prints.separador();
-        System.out.println("Provincia");
-        System.out.print("> ");
-        Servicios.empleados.get(posicion).getDireccion().setProvincia(in.nextLine());
+        Prints.separadorConTexto("Provincia");
+        Servicios.empleados.get(posicion).getDireccion().setProvincia(in.nextLine()); // TODO Cambiar
     }
-
 }

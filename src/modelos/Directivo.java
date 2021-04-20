@@ -2,19 +2,19 @@ package modelos;
 
 public class Directivo extends Empleado{
 
-    private String departamento;
+    private String departamentoACargo;
 
     public String getDepartamento() {
-        return departamento;
+        return departamentoACargo;
     }
 
     public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+        this.departamentoACargo = departamento;
     }
 
     public Directivo(String n, String departamento) {
         super(n);
-        this.departamento = departamento;
+        this.departamentoACargo = departamento;
     }
 
     @Override

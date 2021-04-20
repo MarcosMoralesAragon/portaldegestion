@@ -33,8 +33,25 @@ public class Prints {
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
     }
 
+    public static void separadorConTexto(String campo){
+        Prints.separador();
+        System.out.println(campo);
+        System.out.print("> ");
+    }
+
     public static void separador(){
         System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+    }
+
+    public static void main(){
+        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+        System.out.println("1. Crear");
+        System.out.println("2. Listar");
+        System.out.println("3. Borrar");
+        System.out.println("4. Modificar");
+        System.out.println("5. Salir");
+        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+        System.out.print(" > ");
     }
 
     public static void eleccionModificar() {
@@ -66,7 +83,5 @@ public class Prints {
         System.out.println("| 3. En tramite  |");
         System.out.println("|                |");
         System.out.println("━━━━━━━━━━━━━━━━━━");
-
-
     }
 }

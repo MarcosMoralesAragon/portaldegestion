@@ -20,21 +20,7 @@ public class Main {
             System.out.println(" ");
             System.out.println("Porfavor, introduzca a continuación el numero de la acción que desea realizar");
 
-
-            if (recordatorio == -1) {
-                System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
-                System.out.println(" --> Asegurese de que el número introducido coincide con los parámetros <--");
-            }
-
-            Prints.separador();
-            System.out.println("1. Crear");
-            System.out.println("2. Listar");
-            System.out.println("3. Borrar");
-            System.out.println("4. Modificar");
-            System.out.println("5. Salir");
-            Prints.separador();
-            System.out.print(" > ");
-
+           Prints.main();
             int eleccion = in.nextInt();
 
             switch (eleccion){
@@ -57,8 +43,6 @@ public class Main {
                     System.out.println("  → Cerrando programa, gracias por su uso ←");
                     salida = true;
                     break;
-                default:
-                    recordatorio = -1;
             }
         }
     }

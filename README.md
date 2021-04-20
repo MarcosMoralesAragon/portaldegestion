@@ -9,23 +9,38 @@ los mismos.
 
 `Cuestiones a resolver :`
 
-¿Esta bien como he utilizado los enum? <br> 
+¿Esta bien como he utilizado los enum? <br> <--
 ¿Esta bien mi salida formateadad de datos para reformar los datos de alta? <br>
-¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso? <br><br>
+¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso? <br>
+
+¿He aplicado bien el principio divide y venceras? <br>
+Separar las funciones de la clase Servicio o dejarlo dentro
 
 Preguntar sobre como vamos a introducir los datos a los tecnicos ( nueva seleccion de elija cual es su puesto en la empresa ) (¿?)
 
 `Registro diario :`
 
- _→ 19/04/2021 :_ Primer día en la empresa, por ahora casi toda la mañana se ha basado en pasarme los archivos desde un 
+<b>_→ 19/04/2021 :_ </b>Primer día en la empresa, por ahora casi toda la mañana se ha basado en pasarme los archivos desde un 
  terminal ( el mio personal ) al ordenador proporcionado por la empresa. No estaba ninguno de mis responsables asi que
- no he visto las instalaciones ni nada de eso. Por ahora el proyecto. <br><br>
+ no he visto las instalaciones ni nada de eso. Por ahora el proyecto. <br>
+
  Sergio ha encontrado un fallo en mi codigo ( cambio de dirección) y lo hemos corregido entre los dos, el fallo venia de
- no haber adaptado la función a cambiar ( la funcion cambio era una copia de la funcion creación ). <br><br>
+ no haber adaptado la función a cambiar ( la funcion cambio era una copia de la funcion creación ). <br>
+
  <b> Ya funciona la enumeración </b>, ahora solo me falta saber como cambiar el formato en el que sale 
- ( por ahora sale como es definido en el Enum ). <br><br>
+ ( por ahora sale como es definido en el Enum ). <br>
  <b> He cambiado eso </b> y ahora da el dato con el formato deseado. <br>
  <b> He encontrado la forma de eliminar y mejorar el sistema que utilizaba para la reforma de datos </b> tras leer algunas
  documentaciones online y con ayuda de Sergio he encontrado una forma más optima de realizar el formateo de datos. He
  ayudado tambien a Sergio con el uso del enum ya que los dos estabamos dandole vueltas al tema de como usarlo <br><br>
  Hoy el proyecto ha terminado en la version 2.1 ( aunque por error en un commit la he nombrado V3).
+
+<b>_→ 20/04/2021 :_</b> Vamos a tener ahora una reunion con curro para exponer las dudas y trabajarlas ( 8:38 ) <br>
+Hemos restrasado la reunión a las 10 por algunos imprevisto de ultima hora y hemos empezado a mirarnos excepciones ( 8:52 ) <br>
+Voy a probrar el try catch en la creacion de fechas ( 9:20 ) <br>
+Ya he implementado estas mejoras y he podido quitar el throw parse exception que tenia en todas las funciones que hacian referencia
+a algun campo del tipo fecha en breves empezamos la reunión( 9:49 ) <br>
+La reunion termino sobre las 11 y sergio y yo aprovechamos para ir al descanso. Hemos vuelto hace un rato y estoy trabajando
+en mejorar como se borran y cambian los datos de los empleados de manera efectiva (12:27) <br>
+Por ahora todos los prints estan adeacuados a como yo queria tenerlos para hoy y ya he averiguado y aplicado una forma más
+eficiente y concisa de establecer el estado de un empleado. He empezado a intentar ahora mejorar el modificar ( 13:09 )
