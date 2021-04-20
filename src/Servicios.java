@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Servicios {
@@ -46,8 +47,7 @@ public class Servicios {
     }
 
     public static void borrado(Scanner in) {
-        boolean salida;
-        int recordatorio = 0;
+        boolean salida = false;
 
         System.out.println("3. Borrado");
 
@@ -85,6 +85,8 @@ public class Servicios {
             System.out.println("Introduzca el numero del empleado del que desea cambiar algun dato");
             System.out.print(" > ");
             int posicion = in.nextInt() - 1;
+
+            buscaEmpleado(empleado);
 
             System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
 
@@ -214,6 +216,13 @@ public class Servicios {
         }
 
         return salida;
+    }
+
+    private Empleado buscaEmpleado(List empleado){
+
+        Empleado empleado = "null";
+
+        return empleado;
     }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
