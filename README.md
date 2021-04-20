@@ -43,4 +43,5 @@ a algun campo del tipo fecha en breves empezamos la reunión( 9:49 ) <br>
 La reunion termino sobre las 11 y sergio y yo aprovechamos para ir al descanso. Hemos vuelto hace un rato y estoy trabajando
 en mejorar como se borran y cambian los datos de los empleados de manera efectiva (12:27) <br>
 Por ahora todos los prints estan adeacuados a como yo queria tenerlos para hoy y ya he averiguado y aplicado una forma más
-eficiente y concisa de establecer el estado de un empleado. He empezado a intentar ahora mejorar el modificar ( 13:09 )
+eficiente y concisa de establecer el estado de un empleado. He empezado a intentar ahora mejorar el modificar ( 13:09 ) <br>
+Casi ya no queda tiempo he dejado planteado algunos TODO para no perder el hilo de lo que tengo que hacer ( 14:47 )

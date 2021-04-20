@@ -47,7 +47,7 @@ public class Servicios {
     }
 
     public static void borrado(Scanner in) {
-        boolean salida = false;
+        boolean salida;
 
         System.out.println("3. Borrado");
 
@@ -86,7 +86,7 @@ public class Servicios {
             System.out.print(" > ");
             int posicion = in.nextInt() - 1;
 
-            buscaEmpleado(empleado);
+            // buscaEmpleado(empleado);
 
             System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
 
@@ -96,7 +96,7 @@ public class Servicios {
             salida = sigueOSale(eleccion, in, "modificar");
 
             if (salida = true){
-                eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
+              //  eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
             }
 
         } while (!salida);
@@ -218,17 +218,17 @@ public class Servicios {
         return salida;
     }
 
-    private Empleado buscaEmpleado(List empleado){
+    private Empleado buscaEmpleado(List empleado, String codigo){
 
-        Empleado empleado = "null";
+        Empleado empleadoResultado = (Empleado) empleado.get(Integer.parseInt(codigo));
 
-        return empleado;
+        return empleadoResultado;
     }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
 
-    private static boolean eleccionDeCambio ( Scanner in, int posicion){
+  /*  private static boolean eleccionDeCambio ( Scanner in, int posicion){  //TODO Hacer que esto funcione
 
         Prints.separador();
         Prints.eleccionModificar();
@@ -237,7 +237,7 @@ public class Servicios {
         vaciarScanner(in);
         salida = cambioDeCampo(in, in.nextInt(), posicion);
 
-    }
+    } */
 
 
 
