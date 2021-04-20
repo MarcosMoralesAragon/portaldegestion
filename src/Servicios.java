@@ -1,6 +1,7 @@
 import modelos.Direccion;
 import modelos.Empleado;
 import modelos.Estado;
+import test.Producto;
 import utilidades.Alfanumerico;
 import utilidades.Prints;
 import java.text.DateFormat;
@@ -84,9 +85,9 @@ public class Servicios {
             Prints.separador();
             System.out.println("Introduzca el numero del empleado del que desea cambiar algun dato");
             System.out.print(" > ");
-            int posicion = in.nextInt() - 1;
+            String posicion = in.nextLine();
 
-            // buscaEmpleado(empleado);
+             buscaEmpleado(empleados, posicion);
 
             System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
 
@@ -96,7 +97,7 @@ public class Servicios {
             salida = sigueOSale(eleccion, in, "modificar");
 
             if (salida = true){
-              //  eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
+                eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
             }
 
         } while (!salida);
@@ -112,6 +113,40 @@ public class Servicios {
         if (in.hasNextLine()){
             in.skip("\n");
         }
+    }
+
+    private static boolean sigueOSale(int eleccion, Scanner in, String palabra){
+        boolean salida = false;
+
+        switch (eleccion){
+            case 1:
+                salida = true;
+                break;
+            case 2:
+                System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
+                Prints.otroSalir();
+                System.out.print(" > ");
+                eleccion = in.nextInt();
+                if (eleccion == 2){
+                    salida = true;
+                }
+                break;
+        }
+
+        return salida;
+    }
+
+    private static Empleado buscaEmpleado(List empleados, String codigo){
+
+        for (int x = 0; x < empleados.size(); x++) {
+            Empleado resultado = empleados.get(x);
+            if (empleados.getCodigo().equals(codigo.getCodigo())) {
+                encontrado = p;
+                break; // Terminar ciclo, pues ya lo encontramos
+            }
+        }
+
+        return empleadoResultado;
     }
 
 
@@ -197,38 +232,12 @@ public class Servicios {
 
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
-    private static boolean sigueOSale(int eleccion, Scanner in, String palabra){
-        boolean salida = false;
 
-        switch (eleccion){
-            case 1:
-                salida = true;
-                break;
-            case 2:
-                System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
-                Prints.otroSalir();
-                System.out.print(" > ");
-                eleccion = in.nextInt();
-                if (eleccion == 2){
-                    salida = true;
-                }
-                break;
-        }
-
-        return salida;
-    }
-
-    private Empleado buscaEmpleado(List empleado, String codigo){
-
-        Empleado empleadoResultado = (Empleado) empleado.get(Integer.parseInt(codigo));
-
-        return empleadoResultado;
-    }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
 
-  /*  private static boolean eleccionDeCambio ( Scanner in, int posicion){  //TODO Hacer que esto funcione
+  /  private static boolean eleccionDeCambio ( Scanner in, int posicion){  //TODO Hacer que esto funcione
 
         Prints.separador();
         Prints.eleccionModificar();
@@ -237,7 +246,7 @@ public class Servicios {
         vaciarScanner(in);
         salida = cambioDeCampo(in, in.nextInt(), posicion);
 
-    } */
+    }
 
 
 
