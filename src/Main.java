@@ -1,6 +1,4 @@
 import utilidades.Prints;
-
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -10,8 +8,6 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
-
-        int recordatorio = 0;
         boolean salida = false;
 
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
