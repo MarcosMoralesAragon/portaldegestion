@@ -46,7 +46,7 @@ Por ahora todos los prints estan adeacuados a como yo queria tenerlos para hoy y
 eficiente y concisa de establecer el estado de un empleado. He empezado a intentar ahora mejorar el modificar ( 13:09 ) <br>
 Casi ya no queda tiempo he dejado planteado algunos TODO para no perder el hilo de lo que tengo que hacer ( 14:47 ) <br>
 
-<b>_→ 20/04/2021 :_</b> Esta mañana hemos tenido hasta las 9:30 una pequeña clase con curro que nos ha explicado Arraylist
+<b>_→ 21/04/2021 :_</b> Esta mañana hemos tenido hasta las 9:30 una pequeña clase con curro que nos ha explicado Arraylist
 , List, Maps y Set. Y ahora acabo de terminar de reformar la función de borrado ( 10:36 ) <br>
 Casi he terminado la funcion de modificado, ya solo me falta guardar los nuevos valores en el arraylist (11:15) <br>
 Ya he terminado los cambios a la funcion modificar y voy a empezar la papelera de los datos que creamos, la cual funciona 
