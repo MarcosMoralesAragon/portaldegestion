@@ -7,7 +7,7 @@ import java.util.*;
  * @author MarcosMoralesAragon
  **/
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
 
@@ -17,8 +17,7 @@ public class Main {
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
 
         while (!salida){
-            System.out.println(" ");
-            System.out.println("Porfavor, introduzca a continuación el numero de la acción que desea realizar");
+            System.out.println("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
 
            Prints.main();
             int eleccion = in.nextInt();
@@ -36,12 +35,15 @@ public class Main {
                     break;
 
                 case 4:
-                        Servicios.modificar(in);
+                        Servicios.papelera();
                     break;
 
                 case 5:
-                    System.out.println("  → Cerrando programa, gracias por su uso ←");
-                    salida = true;
+                        Servicios.modificar(in);
+                    break;
+                case 6:
+                        System.out.println("  → Cerrando programa, gracias por su uso ←");
+                        salida = true;
                     break;
             }
         }

@@ -40,17 +40,18 @@ public class Prints {
     }
 
     public static void separador(){
-        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
     }
 
     public static void main(){
-        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
-        System.out.println("1. Crear");
-        System.out.println("2. Listar");
-        System.out.println("3. Borrar");
-        System.out.println("4. Modificar");
-        System.out.println("5. Salir");
-        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+        System.out.println("╔━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╗");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 1. Crear -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 2. Listar -_-_-_-_-_-_-_-_-_-_-_-_-_-_-╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 3. Borrar -_-_-_-_-_-_-_-_-_-_-_-_-_-_-╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 4. Papelera -_-_-_-_-_-_-_-_-_-_-_-_-_-╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 5. Modificar _-_-_-_-_-_-_-_-_-_-_-_-_-╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 6. Salir -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }
 
@@ -83,5 +84,9 @@ public class Prints {
         System.out.println("| 3. En tramite  |");
         System.out.println("|                |");
         System.out.println("━━━━━━━━━━━━━━━━━━");
+    }
+
+    public static void saltoLinea(){
+        System.out.println("\n");
     }
 }
