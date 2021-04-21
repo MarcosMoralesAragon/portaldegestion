@@ -44,4 +44,12 @@ La reunion termino sobre las 11 y sergio y yo aprovechamos para ir al descanso. 
 en mejorar como se borran y cambian los datos de los empleados de manera efectiva (12:27) <br>
 Por ahora todos los prints estan adeacuados a como yo queria tenerlos para hoy y ya he averiguado y aplicado una forma más
 eficiente y concisa de establecer el estado de un empleado. He empezado a intentar ahora mejorar el modificar ( 13:09 ) <br>
-Casi ya no queda tiempo he dejado planteado algunos TODO para no perder el hilo de lo que tengo que hacer ( 14:47 )
+Casi ya no queda tiempo he dejado planteado algunos TODO para no perder el hilo de lo que tengo que hacer ( 14:47 ) <br>
+
+<b>_→ 20/04/2021 :_</b> Esta mañana hemos tenido hasta las 9:30 una pequeña clase con curro que nos ha explicado Arraylist
+, List, Maps y Set. Y ahora acabo de terminar de reformar la función de borrado ( 10:36 ) <br>
+Casi he terminado la funcion de modificado, ya solo me falta guardar los nuevos valores en el arraylist (11:15) <br>
+Ya he terminado los cambios a la funcion modificar y voy a empezar la papelera de los datos que creamos, la cual funciona 
+con Maps( 13:27 ) <br>
+Ya he terminado con la papelera de HashMaps, voy a hacer un poco de limpieza de codigo, comentar y reestructurar estos ultimos
+30 min ( 14:30 )

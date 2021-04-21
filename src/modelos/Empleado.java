@@ -1,5 +1,6 @@
 package modelos;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Empleado {
@@ -59,13 +60,19 @@ public class Empleado {
     public void setEstado (Estado e){ this.estado = e; }
     public Estado getEstado(){ return estado;  }
 
+
+
     @Override
     public String toString() {
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+
         return  " Código --> " + codigo + " / " +
                 " Nombre --> " + nombre + " / " +
                 " Apellido --> " + apellido + " / " +
                 " DNI --> " + DNI + " / " +
-                " Fecha de Nacimiento --> " + fechaNacimiento + " / " +
+                " Fecha de Nacimiento --> " + fechaNacimientoFormateada + " / " +
                 " Nacionalidad --> " + nacionalidad + " / " +
                 " Estado --> " + estado + "\n" +
                 " Dirección completa --> " + direccion + " / ";

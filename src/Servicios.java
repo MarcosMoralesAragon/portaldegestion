@@ -1,20 +1,19 @@
 import modelos.Direccion;
 import modelos.Empleado;
 import modelos.Estado;
-import test.Producto;
 import utilidades.Alfanumerico;
 import utilidades.Prints;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Servicios {
 
-    private static final int ESPACIOS = 15;
+    private static final int ESPACIOS = 5;
     public static ArrayList<Empleado> empleados = new ArrayList<>();
+    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
 
     public static void crear(Scanner in) {
@@ -32,6 +31,7 @@ public class Servicios {
         System.out.println(variableEmpleado.getCodigo());
 
         empleados.add(variableEmpleado);
+        Prints.saltoLinea();
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
     }
@@ -39,10 +39,11 @@ public class Servicios {
 
         System.out.println("2. Listado");
         Prints.separador();
-
+        Prints.saltoLinea();
         for ( int i = 0; i < empleados.size(); i++){
-            System.out.println("model.Empleado Nº " + (i + 1) + " --> " + empleados.get(i));
+            System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i));
         }
+        Prints.saltoLinea();
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
     }
@@ -53,12 +54,14 @@ public class Servicios {
         System.out.println("3. Borrado");
 
         do {
+            vaciarScanner(in);
             Prints.separador();
-            System.out.println("Introduzca el numero del empleado que desea borrar");
+            System.out.println("Introduzca el codigo del empleado que desea borrar");
             System.out.print("> ");
-            int posicion = in.nextInt() - 1;
+            String codigo = in.nextLine();
 
-            System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea borrar a este empleado?");
+            Empleado empleadoBuscado =buscaEmpleado(empleados, codigo);
+            System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea cambiar a este empleado?");
 
             Prints.asegurar();
 
@@ -67,13 +70,29 @@ public class Servicios {
 
             salida = sigueOSale(eleccion, in, "borrar");
 
-            if (salida = true){
-                Servicios.empleados.remove(posicion);
+            if (salida){
+                accionBorradoEmpleado(empleados, codigo, empleadosBorrados);
             }
-
         } while (!salida);
+        Prints.saltoLinea();
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
+    }
+
+    public static void papelera() {
+        System.out.println("4. Papelera");
+        Prints.separador();
+        Prints.saltoLinea();
+        int i = 0;
+        for (Map.Entry borrados:empleadosBorrados.entrySet()) {
+            System.out.print("Empleado en papelera Nª" + (i + 1));
+            System.out.println(borrados.getValue());
+            i++;
+        }
+        Prints.saltoLinea();
+        Prints.terminadaAccion();
+        Prints.limpiar(ESPACIOS);
+
     }
 
     public static void modificar(Scanner in){
@@ -82,25 +101,26 @@ public class Servicios {
         System.out.println("4. Modificar");
 
         do {
+            vaciarScanner(in);
             Prints.separador();
             System.out.println("Introduzca el numero del empleado del que desea cambiar algun dato");
             System.out.print(" > ");
-            String posicion = in.nextLine();
+            String codigo = in.nextLine();
 
-             buscaEmpleado(empleados, posicion);
-
-            System.out.println("Ha seleccionado a " + empleados.get(posicion).getNombre() + " ¿Seguro que desea cambiar a este empleado?");
+            Empleado empleadoBuscado =buscaEmpleado(empleados, codigo);
+            System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea cambiar a este empleado?");
 
             Prints.siNo();
             int eleccion = in.nextInt();
 
             salida = sigueOSale(eleccion, in, "modificar");
 
-            if (salida = true){
-                eleccionDeCambio(in,posicion, false); //TODO Seguir con esto
+            if (salida){
+                accionModificadoEmpleado(empleados,codigo, in);
             }
 
         } while (!salida);
+        Prints.saltoLinea();
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
     }
@@ -136,16 +156,17 @@ public class Servicios {
         return salida;
     }
 
-    private static Empleado buscaEmpleado(List empleados, String codigo){
+   private static Empleado buscaEmpleado(ArrayList<Empleado> empleados, String codigo){
+
+        Empleado empleadoResultado = new Empleado(null);
 
         for (int x = 0; x < empleados.size(); x++) {
-            Empleado resultado = empleados.get(x);
-            if (empleados.getCodigo().equals(codigo.getCodigo())) {
-                encontrado = p;
+            Empleado empleadoBuscado = empleados.get(x);
+            if (empleadoBuscado.getCodigo().equals(codigo)) {
+                 empleadoResultado= empleadoBuscado;
                 break; // Terminar ciclo, pues ya lo encontramos
             }
         }
-
         return empleadoResultado;
     }
 
@@ -154,46 +175,45 @@ public class Servicios {
 
 
 
-    private static void datosEmpleados(Scanner in, Empleado variableEmpleado) {
+   private static void datosEmpleados(Scanner in, Empleado variableEmpleado) {
 
         // Almacena y guarda los datos del empleado.
 
        System.out.println("1. Crear");
 
-        Prints.separadorConTexto("Nombre");
-        vaciarScanner(in);
-        variableEmpleado.setNombre(in.nextLine());
+       Prints.separadorConTexto("Nombre");
+       vaciarScanner(in);
+       variableEmpleado.setNombre(in.nextLine());
 
-        Prints.separadorConTexto("Apellidos");
-        variableEmpleado.setApellido(in.nextLine());
+       Prints.separadorConTexto("Apellidos");
+       variableEmpleado.setApellido(in.nextLine());
 
-        Prints.separadorConTexto("DNI");
-        variableEmpleado.setDNI(in.nextLine());
-        boolean salida = false;
-        do {
-            try{
-                vaciarScanner(in);
-                Prints.separadorConTexto("Fecha de Nacimiento");
-                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                String fecha = in.nextLine();
-                Date fechaNacimiento = format.parse(fecha);
-                variableEmpleado.setFechaNacimiento(fechaNacimiento);
-                salida = true;
-            } catch (Exception e){
-                System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
-                salida = false;
-            }
-        } while (!salida);
+       Prints.separadorConTexto("DNI");
+       variableEmpleado.setDNI(in.nextLine());
+       boolean salida;
+       do {
+           try{
+               Prints.separadorConTexto("Fecha de Nacimiento");
+               DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+               String fecha = in.nextLine();
+               Date fechaNacimiento = format.parse(fecha);
+               variableEmpleado.setFechaNacimiento(fechaNacimiento);
+               salida = true;
+           } catch (Exception e){
+               System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
+               salida = false;
+           }
+       } while (!salida);
 
-        Prints.separadorConTexto("Nacionalidad");
-        variableEmpleado.setNacionalidad(in.nextLine());
+       Prints.separadorConTexto("Nacionalidad");
+       variableEmpleado.setNacionalidad(in.nextLine());
 
-        Prints.estados();
-        Prints.separadorConTexto("Estado");
-        int eleccion = in.nextInt();
-        vaciarScanner(in);
-        variableEmpleado.setEstado(Estado.values()[eleccion - 1]);
-    }
+       Prints.estados();
+       Prints.separadorConTexto("Estado");
+       int eleccion = in.nextInt();
+       vaciarScanner(in);
+       variableEmpleado.setEstado(Estado.values()[eleccion - 1]);
+   }
 
     private static Direccion datosDireccion(Scanner in){
 
@@ -232,161 +252,180 @@ public class Servicios {
 
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
+    private static void accionBorradoEmpleado(ArrayList<Empleado> empleados, String codigo,HashMap empleadosBorrados){
 
+        Empleado empleadoBuscado = buscaEmpleado(empleados, codigo);
+        empleadosBorrados.put(codigo, empleadoBuscado);
+        empleados.remove(empleadoBuscado);
+    }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
 
-  /  private static boolean eleccionDeCambio ( Scanner in, int posicion){  //TODO Hacer que esto funcione
-
-        Prints.separador();
-        Prints.eleccionModificar();
-        System.out.println("Introduzca el numero del campo que desea editar");
-        System.out.print("> ");
-        vaciarScanner(in);
-        salida = cambioDeCampo(in, in.nextInt(), posicion);
+    private static void accionModificadoEmpleado(ArrayList<Empleado> empleados, String codigo, Scanner in) {
+        Empleado empleadoBuscado = buscaEmpleado(empleados, codigo);
+        cambioDeCampo(in , empleadoBuscado );
 
     }
 
 
-
-    private static boolean cambioDeCampo(Scanner in, int decision, int posicion) {
-
-        // El usuario desea el campo a cambiar y el switch le redirecciona a la funcion individual de cada un o para cambiar el parametro
-        // , esta asi realizado y que el 8 es cambiar todos los campos y asi solo tenemos que llamar a las funciones y no copiar y pegar
-
+    private static void cambioDeCampo(Scanner in, Empleado empleadoBuscado) {
+        
+        Empleado modificado = null;
+        Prints.eleccionModificar();
+        System.out.println("Elija que campo quiere cambiar");
+        int decision = in.nextInt();
 
         switch (decision){
             case 1: // Nombre
-                cambioNombre(in, posicion);
+                modificado = cambioNombre(in, empleadoBuscado);
                 break;
             case 2: // Apellido
-                cambioApellidos(in, posicion);
+                modificado = cambioApellidos(in, empleadoBuscado);
                 break;
             case 3: // DNI
-                cambioDNI(in, posicion);
+                 modificado = cambioDNI(in, empleadoBuscado);
                 break;
             case 4: // Fecha de nacimiento
-                cambioFechaNacimiento(in, posicion);
+                modificado = cambioFechaNacimiento(in, empleadoBuscado);
                 break;
 
             case 5: // Nacionalidad
-                cambioNacionalidad(in, posicion);
+                modificado = cambioNacionalidad(in, empleadoBuscado);
                 break;
 
             case 6: // Estado
-                 cambioEstado(in, posicion);
+                 modificado = cambioEstado(in, empleadoBuscado);
                 break;
             case 7: // Dirección
-                cambioDireccion(in, posicion);
+                 modificado = cambioDireccion(in, empleadoBuscado);
                 break;
 
             case 8: // Todos
-                cambioNombre(in, posicion);
-                cambioApellidos(in, posicion);
-                cambioDNI(in, posicion);
-                cambioFechaNacimiento(in, posicion);
-                cambioNacionalidad(in, posicion);
-                Servicios.cambioEstado(in, posicion);
-                cambioDireccion(in, posicion);
+                modificado = cambioNombre(in, empleadoBuscado);
+                modificado = cambioApellidos(in, modificado);
+                modificado = cambioDNI(in, modificado);
+                modificado = cambioFechaNacimiento(in, modificado);
+                modificado = cambioNacionalidad(in, modificado);
+                modificado = cambioEstado(in, modificado);
+                modificado = cambioDireccion(in, modificado);
                 break;
         }
-        return true;
     }
 
 
-    private static void cambioNombre(Scanner in, int posicion){
-
+    private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
+        vaciarScanner(in);
+        String nuevoString = leerNombre(in);
+        empleadoBuscado.setNombre(nuevoString);
+        return empleadoBuscado;
+    }
+    private static String leerNombre(Scanner in){
         Prints.separadorConTexto("Nombre");
-
-        vaciarScanner(in);
-         String nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setNombre(nuevoString); // TODO Cambiar
+        String nombre = in.nextLine();
+        return nombre;
     }
-    private static void cambioApellidos(Scanner in, int posicion){
 
-        Prints.separadorConTexto("Apellidos");
 
-        vaciarScanner(in);
-        String nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setApellido(nuevoString); // TODO Cambiar
+    private static Empleado cambioApellidos(Scanner in, Empleado empleadoBuscado){
+
+        String nuevoString = leerApellido(in);
+        empleadoBuscado.setApellido(nuevoString);
+        return empleadoBuscado;
     }
-    private static void cambioDNI(Scanner in, int posicion){
-        Prints.separadorConTexto("DNI");
-
-        vaciarScanner(in);
-        String nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setDNI(nuevoString); // TODO Cambiar
+    private static String leerApellido(Scanner in){
+        Prints.separadorConTexto("Apellido");
+        String apellido = in.nextLine();
+        return apellido;
     }
-    private static void cambioFechaNacimiento(Scanner in, int posicion) {
+
+
+    private static Empleado cambioDNI(Scanner in, Empleado empleadoBuscado){
+        String nuevoString = leerApellido(in);
+        empleadoBuscado.setDNI(nuevoString);
+        return empleadoBuscado;
+    }
+    private static String leerDNI(Scanner in){
+        Prints.separadorConTexto("Apellido");
+        String DNI = in.nextLine();
+        return DNI;
+    }
+
+
+    private static Empleado cambioFechaNacimiento(Scanner in, Empleado empleadoBuscado) {
         boolean salida = false;
         do {
             try {
-                Prints.separadorConTexto("Fecha de nacimiento");
-                vaciarScanner(in);
-                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                String fecha = in.nextLine();
-                Date fechaNacimiento = format.parse(fecha);
-                Servicios.empleados.get(posicion).setFechaNacimiento(fechaNacimiento); // TODO Cambiar
+                Date fechaNacimiento = leerFecha(in);
+                empleadoBuscado.setFechaNacimiento(fechaNacimiento);
                 salida = true;
             } catch (Exception e){
                 System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
                 salida = false;
             }
         } while (!salida);
+        return empleadoBuscado;
     }
-    private static void cambioNacionalidad(Scanner in, int posicion){
+    private static Date leerFecha(Scanner in) throws ParseException {
+        Prints.separadorConTexto("Fecha de nacimiento");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = in.nextLine();
+        Date fechaNacimiento = format.parse(fecha);
+        return fechaNacimiento;
+    }
+
+
+    private static Empleado cambioNacionalidad(Scanner in, Empleado empleadoBuscado){
+
+        String nuevoString = leerNacionalidad(in);
+        empleadoBuscado.setNacionalidad(nuevoString);
+        return empleadoBuscado;
+    }
+    private static String leerNacionalidad(Scanner in){
         Prints.separadorConTexto("Nacionalidad");
-
-        vaciarScanner(in);
         String nuevoString = in.nextLine();
-        Servicios.empleados.get(posicion).setNacionalidad(nuevoString); // TODO cambiar
-
+        return nuevoString;
     }
-     public static void cambioEstado(Scanner in, int posicion){
-         Prints.estados();
-         Prints.separadorConTexto("Estado");
-         int eleccion = in.nextInt();
-         vaciarScanner(in);
-         switch (eleccion){ // TODO Cambiar
-             case 1:
-                 Servicios.empleados.get(posicion).setEstado(Estado.ALTA);
-                 break;
-             case 2:
-                 Servicios.empleados.get(posicion).setEstado(Estado.BAJA);
-                 break;
-             case 3:
-                 Servicios.empleados.get(posicion).setEstado(Estado.EN_TRAMITE);
-                 break;
-         }
-     }
-    private static void cambioDireccion(Scanner in, int posicion){
+
+
+    public static Empleado cambioEstado(Scanner in, Empleado empleadoBuscado){
+
+        int eleccion = leerEstado(in);
+        empleadoBuscado.setEstado(Estado.values()[eleccion - 1]);
+        return empleadoBuscado;
+    }
+    private static int leerEstado(Scanner in){
+        Prints.estados();
+        Prints.separadorConTexto("Estado");
+        int eleccion = in.nextInt();
         vaciarScanner(in);
+        return eleccion;
+    }
 
-        Prints.separadorConTexto("Calle");
-        Servicios.empleados.get(posicion).getDireccion().setCalle(in.nextLine()); // TODO Cambiar
 
-        Prints.separadorConTexto("Numero");
-        Servicios.empleados.get(posicion).getDireccion().setNumero(in.nextInt()); // TODO Cambiar
-
-        Prints.separadorConTexto("Bloque");
+    private static Empleado cambioDireccion(Scanner in, Empleado empleadoBuscado){
         vaciarScanner(in);
-        Servicios.empleados.get(posicion).getDireccion().setBloque(in.nextLine()); // TODO Cambiar
-
-        Prints.separadorConTexto("Piso");
-        Servicios.empleados.get(posicion).getDireccion().setPiso(in.nextLine()); // TODO Cambiar
-
-        Prints.separadorConTexto("Puerta");
-        Servicios.empleados.get(posicion).getDireccion().setPuerta(in.nextLine()); // TODO Cambiar
-
-        Prints.separadorConTexto("Código Postal");
-        Servicios.empleados.get(posicion).getDireccion().setCodigoPostal(in.nextInt()); // TODO Cambiar
-
-        Prints.separadorConTexto("Localidad");
+        empleadoBuscado.getDireccion().setCalle(leerStringDirección(in, "Calle"));
+        empleadoBuscado.getDireccion().setNumero(leerIntDirección(in, "Numero"));
         vaciarScanner(in);
-        Servicios.empleados.get(posicion).getDireccion().setLocalidad(in.nextLine()); // TODO Cambiar
+        empleadoBuscado.getDireccion().setBloque(leerStringDirección(in, "Bloque"));
+        empleadoBuscado.getDireccion().setPiso(leerStringDirección(in, "Piso"));
+        empleadoBuscado.getDireccion().setPuerta(leerStringDirección(in, "Puerta"));
+        empleadoBuscado.getDireccion().setCodigoPostal(leerIntDirección(in, "Codigo Postal"));
+        vaciarScanner(in);
+        empleadoBuscado.getDireccion().setLocalidad(leerStringDirección(in, "Localidad"));
+        empleadoBuscado.getDireccion().setProvincia(leerStringDirección(in, "Provincia"));
 
-        Prints.separadorConTexto("Provincia");
-        Servicios.empleados.get(posicion).getDireccion().setProvincia(in.nextLine()); // TODO Cambiar
+        return empleadoBuscado;
+    }
+    private static String leerStringDirección(Scanner in, String palabra){
+        Prints.separadorConTexto(palabra);
+        String string = in.nextLine();
+        return string;
+    }
+    private static int leerIntDirección(Scanner in, String palabra){
+        Prints.separadorConTexto(palabra);
+        int numero = in.nextInt();
+        return numero;
     }
 }

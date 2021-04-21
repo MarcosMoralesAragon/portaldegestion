@@ -15,19 +15,19 @@ public class Prueba {
 
         Producto busqueda = new Producto("123", "Gansito", 20f);
 
-        Producto encontrado = null;
+        Producto variablePrueba = new Producto();
         // Voy a buscar únicamente comparando el código
 
         for (int x = 0; x < productos.size(); x++) {
             Producto p = productos.get(x);
             if (p.getCodigo().equals(busqueda.getCodigo())) {
-                encontrado = p;
+                variablePrueba = p;
                 break; // Terminar ciclo, pues ya lo encontramos
             }
         }
         // Al terminar el ciclo comprobamos si se movió la variable
 
-        System.out.println(encontrado);
+        System.out.println(variablePrueba);
 
     }
 }
@@ -47,5 +47,14 @@ class Producto {
 
     public String getCodigo() {
         return codigo;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                '}';
     }
 }
