@@ -12,8 +12,8 @@ import java.util.*;
 public class Servicios {
 
     private static final int ESPACIOS = 5;
-    public static ArrayList<Empleado> empleados = new ArrayList<>();
-    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
+    public static final ArrayList<Empleado> empleados = new ArrayList<>();
+    public static final HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
 
     public static void crear(Scanner in) {
@@ -24,7 +24,7 @@ public class Servicios {
         datosEmpleados(in, variableEmpleado);
 
         // Entrada de datos de los campos de direccion
-        // variableEmpleado.setDireccion(datosDireccion(in));
+        variableEmpleado.setDireccion(datosDireccion(in));
 
         Prints.separadorConTexto("Codigo");
         variableEmpleado.setCodigo(Alfanumerico.generar());
@@ -68,7 +68,7 @@ public class Servicios {
             Prints.siNo();
             int eleccion = in.nextInt();
 
-            salida = sigueOSale(eleccion, in, "borrar");
+            salida = sigueOSale(eleccion);
 
             if (salida){
                 accionBorradoEmpleado(empleados, codigo, empleadosBorrados);
@@ -116,7 +116,7 @@ public class Servicios {
             Prints.siNo();
             int eleccion = in.nextInt();
 
-            salida = sigueOSale(eleccion, in, "modificar");
+            salida = sigueOSale(eleccion);
 
             if (salida){
                 accionModificadoEmpleado(empleados,codigo, in);
@@ -134,21 +134,18 @@ public class Servicios {
 
     private static String leerNombre(Scanner in){
             Prints.separadorConTexto("Nombre");
-           String nombre = in.nextLine();
-           return nombre;
+        return in.nextLine();
     }
     private static String leerApellido(Scanner in, String palabra){
         Prints.separadorConTexto(palabra);
-        String apellido = in.nextLine();
-        return apellido;
+        return in.nextLine();
     }
     private static String leerDNI(Scanner in){
         Prints.separadorConTexto("DNI");
         return in.nextLine();
     }
-    private static String leerFecha(Scanner in) throws ParseException {
-        String fecha = in.nextLine();
-        return fecha;
+    private static String leerFecha(Scanner in) {
+        return in.nextLine();
     }
     private static String leerNacionalidad(Scanner in){
         Prints.separadorConTexto("Nacionalidad");
@@ -163,8 +160,7 @@ public class Servicios {
     }
     private static String leerStringDirección(Scanner in, String palabra){
         Prints.separadorConTexto(palabra);
-        String string = in.nextLine();
-        return string;
+        return in.nextLine();
     }
     private static int leerIntDirección(Scanner in, String palabra){
         Prints.separadorConTexto(palabra);
@@ -179,7 +175,7 @@ public class Servicios {
         }
     }
 
-    private static boolean sigueOSale(int eleccion, Scanner in, String palabra){
+    private static boolean sigueOSale(int eleccion){
         boolean salida = false;
 
         switch (eleccion){
@@ -201,11 +197,8 @@ public class Servicios {
         Prints.otroSalir();
         System.out.print(" > ");
         eleccion = in.nextInt();
-        salida = false;
 
-        if (eleccion == 2){
-            salida = true;
-        }
+        salida = eleccion == 2;
         return salida;
     }
 
@@ -233,6 +226,8 @@ public class Servicios {
         // Almacena y guarda los datos del empleado.
 
        System.out.println("1. Crear");
+
+       vaciarScanner(in);
        variableEmpleado.setNombre(leerNombre(in));
 
        variableEmpleado.setPrimerApellido(leerApellido(in,"Primer apellido"));
@@ -258,7 +253,6 @@ public class Servicios {
 
        variableEmpleado.setNacionalidad(leerNacionalidad(in));
 
-       Prints.estados();
        variableEmpleado.setEstado(Estado.values()[leerEstado(in) - 1]);
    }
 
@@ -296,6 +290,8 @@ public class Servicios {
 
     private static void accionBorradoEmpleado(ArrayList<Empleado> empleados, String codigo,HashMap empleadosBorrados){
 
+        // Busca el empleado por el codigo y una vez seleccionado lo guarda en un mapa y luego lo borra del arrray
+
         Empleado empleadoBuscado = buscaEmpleado(empleados, codigo);
         empleadosBorrados.put(codigo, empleadoBuscado);
         empleados.remove(empleadoBuscado);
@@ -305,6 +301,10 @@ public class Servicios {
 
 
     private static void accionModificadoEmpleado(ArrayList<Empleado> empleados, String codigo, Scanner in) {
+
+        // Busca el empleado por el codigo y una vez seleccionado lo guarda en un mapa y luego lleva a el usuario a el modificador
+        // de campos
+
         Empleado empleadoBuscado = buscaEmpleado(empleados, codigo);
         cambioDeCampo(in , empleadoBuscado );
     }

@@ -61,3 +61,6 @@ hora mas y la ultima hora la dedicare a limpieza de código y comentar un poco t
 Ya he sido capaz de hacer que sepa separar las palabras, ahora necesito que pare en cada linea ( 13:12 ) <br>
 
 ![img.png](img.png)
+
+Sigo teniendo problemas para que se pare en cada linea pero voy a dedicar el tiempo que me queda a hacer algunos TODO para
+no perder el hilo y la semana que viene poder seguir ( 14:00 ) <br>
