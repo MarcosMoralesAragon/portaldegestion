@@ -15,6 +15,10 @@ public class Servicios {
     public static final ArrayList<Empleado> empleados = new ArrayList<>();
     public static final HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
+    // TODO Crear la implementacion de archivos txt y pasar los datos mediante
+    //  ellos, ademas tendre que añadir que se les asigne un alfanumerico de manera automatica al
+    //  crearse como pasa en la creacion por consola ( necesito esto para el borrado y modificado )
+
 
     public static void crear(Scanner in) {
 
