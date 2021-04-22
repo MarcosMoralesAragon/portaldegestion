@@ -24,7 +24,7 @@ public class Servicios {
         datosEmpleados(in, variableEmpleado);
 
         // Entrada de datos de los campos de direccion
-        variableEmpleado.setDireccion(datosDireccion(in));
+        // variableEmpleado.setDireccion(datosDireccion(in));
 
         Prints.separadorConTexto("Codigo");
         variableEmpleado.setCodigo(Alfanumerico.generar());
@@ -72,7 +72,10 @@ public class Servicios {
 
             if (salida){
                 accionBorradoEmpleado(empleados, codigo, empleadosBorrados);
+            } else {
+                salida = otroOSalir(in, "borrado");
             }
+
         } while (!salida);
         Prints.saltoLinea();
         Prints.terminadaAccion();
@@ -98,7 +101,7 @@ public class Servicios {
     public static void modificar(Scanner in){
 
         boolean salida;
-        System.out.println("4. Modificar");
+        System.out.println("5. Modificar");
 
         do {
             vaciarScanner(in);
@@ -117,6 +120,8 @@ public class Servicios {
 
             if (salida){
                 accionModificadoEmpleado(empleados,codigo, in);
+            }else {
+                salida = otroOSalir(in, "cambiar");
             }
 
         } while (!salida);
@@ -125,8 +130,47 @@ public class Servicios {
         Prints.limpiar(ESPACIOS);
     }
 
+    // ######## --------> FUNCIONES LEER <-------------------- #########
 
-    // ------------------------> FUNCIONES <-----------------------------
+    private static String leerNombre(Scanner in){
+            Prints.separadorConTexto("Nombre");
+           String nombre = in.nextLine();
+           return nombre;
+    }
+    private static String leerApellido(Scanner in, String palabra){
+        Prints.separadorConTexto(palabra);
+        String apellido = in.nextLine();
+        return apellido;
+    }
+    private static String leerDNI(Scanner in){
+        Prints.separadorConTexto("DNI");
+        return in.nextLine();
+    }
+    private static String leerFecha(Scanner in) throws ParseException {
+        String fecha = in.nextLine();
+        return fecha;
+    }
+    private static String leerNacionalidad(Scanner in){
+        Prints.separadorConTexto("Nacionalidad");
+        return in.nextLine();
+    }
+    private static int leerEstado(Scanner in){
+        Prints.estados();
+        Prints.separadorConTexto("Estado");
+        int eleccion = in.nextInt();
+        vaciarScanner(in);
+        return eleccion;
+    }
+    private static String leerStringDirección(Scanner in, String palabra){
+        Prints.separadorConTexto(palabra);
+        String string = in.nextLine();
+        return string;
+    }
+    private static int leerIntDirección(Scanner in, String palabra){
+        Prints.separadorConTexto(palabra);
+        return in.nextInt();
+    }
+        // ------------------------> FUNCIONES <-----------------------------
 
 
     static void vaciarScanner(Scanner in){
@@ -143,16 +187,25 @@ public class Servicios {
                 salida = true;
                 break;
             case 2:
-                System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
-                Prints.otroSalir();
-                System.out.print(" > ");
-                eleccion = in.nextInt();
-                if (eleccion == 2){
-                    salida = true;
-                }
+                salida = false;
                 break;
         }
 
+        return salida;
+    }
+
+    private static boolean otroOSalir (Scanner in , String palabra){
+        boolean salida;
+        int eleccion;
+        System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
+        Prints.otroSalir();
+        System.out.print(" > ");
+        eleccion = in.nextInt();
+        salida = false;
+
+        if (eleccion == 2){
+            salida = true;
+        }
         return salida;
     }
 
@@ -180,16 +233,14 @@ public class Servicios {
         // Almacena y guarda los datos del empleado.
 
        System.out.println("1. Crear");
+       variableEmpleado.setNombre(leerNombre(in));
 
-       Prints.separadorConTexto("Nombre");
-       vaciarScanner(in);
-       variableEmpleado.setNombre(in.nextLine());
+       variableEmpleado.setPrimerApellido(leerApellido(in,"Primer apellido"));
 
-       Prints.separadorConTexto("Apellidos");
-       variableEmpleado.setApellido(in.nextLine());
+       variableEmpleado.setSegundoApellido(leerApellido(in,"Segundo apellido"));
 
-       Prints.separadorConTexto("DNI");
-       variableEmpleado.setDNI(in.nextLine());
+       variableEmpleado.setDNI(leerDNI(in));
+
        boolean salida;
        do {
            try{
@@ -205,14 +256,10 @@ public class Servicios {
            }
        } while (!salida);
 
-       Prints.separadorConTexto("Nacionalidad");
-       variableEmpleado.setNacionalidad(in.nextLine());
+       variableEmpleado.setNacionalidad(leerNacionalidad(in));
 
        Prints.estados();
-       Prints.separadorConTexto("Estado");
-       int eleccion = in.nextInt();
-       vaciarScanner(in);
-       variableEmpleado.setEstado(Estado.values()[eleccion - 1]);
+       variableEmpleado.setEstado(Estado.values()[leerEstado(in) - 1]);
    }
 
     private static Direccion datosDireccion(Scanner in){
@@ -221,31 +268,26 @@ public class Servicios {
 
         Direccion variableDireccion = new Direccion();
 
-        Prints.separadorConTexto("Calle");
-        variableDireccion.setCalle(in.nextLine());
 
-        Prints.separadorConTexto("Numero");
-        variableDireccion.setNumero(in.nextInt());
+        variableDireccion.setCalle(leerStringDirección(in, "Calle"));
 
-        Prints.separadorConTexto("Bloque");
+        variableDireccion.setNumero(leerIntDirección(in, "Numero"));
+
         vaciarScanner(in);
-        variableDireccion.setBloque(in.nextLine());
+        variableDireccion.setBloque(leerStringDirección(in, "Bloque"));
 
-        Prints.separadorConTexto("Piso");
-        variableDireccion.setPiso(in.nextLine());
 
-        Prints.separadorConTexto("Puerta");
-        variableDireccion.setPuerta(in.nextLine());
+        variableDireccion.setPiso(leerStringDirección(in, "Piso"));
 
-        Prints.separadorConTexto("Codigo Postal");
-        variableDireccion.setCodigoPostal(in.nextInt());
 
-        Prints.separadorConTexto("Localidad");
+        variableDireccion.setPuerta(leerStringDirección(in, "Puerta"));
+
+        variableDireccion.setCodigoPostal(leerIntDirección(in, "Codigo Postal"));
+
         vaciarScanner(in);
-        variableDireccion.setLocalidad(in.nextLine());
+        variableDireccion.setLocalidad(leerStringDirección(in, "Localidad"));
 
-        Prints.separadorConTexto("Provincia");
-        variableDireccion.setProvincia(in.nextLine());
+        variableDireccion.setProvincia(leerStringDirección(in, "Provincia"));
 
         return variableDireccion;
     }
@@ -269,7 +311,8 @@ public class Servicios {
 
 
     private static void cambioDeCampo(Scanner in, Empleado empleadoBuscado) {
-        
+
+
         Empleado modificado;
         Prints.eleccionModificar();
         System.out.println("Elija que campo quiere cambiar");
@@ -277,30 +320,38 @@ public class Servicios {
 
         switch (decision){
             case 1: // Nombre
+                vaciarScanner(in);
                 cambioNombre(in, empleadoBuscado);
                 break;
             case 2: // Apellido
+                vaciarScanner(in);
                 cambioApellidos(in, empleadoBuscado);
                 break;
             case 3: // DNI
+                vaciarScanner(in);
                  cambioDNI(in, empleadoBuscado);
                 break;
             case 4: // Fecha de nacimiento
+                vaciarScanner(in);
                 cambioFechaNacimiento(in, empleadoBuscado);
                 break;
 
             case 5: // Nacionalidad
+                vaciarScanner(in);
                 cambioNacionalidad(in, empleadoBuscado);
                 break;
 
             case 6: // Estado
+                vaciarScanner(in);
                  cambioEstado(in, empleadoBuscado);
                 break;
             case 7: // Dirección
+                vaciarScanner(in);
                  cambioDireccion(in, empleadoBuscado);
                 break;
 
             case 8: // Todos
+                vaciarScanner(in);
                 modificado = cambioNombre(in, empleadoBuscado);
                 modificado = cambioApellidos(in, modificado);
                 modificado = cambioDNI(in, modificado);
@@ -314,46 +365,33 @@ public class Servicios {
 
 
     private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
-        vaciarScanner(in);
         empleadoBuscado.setNombre(leerNombre(in));
         return empleadoBuscado;
     }
-    private static String leerNombre(Scanner in){
-        Prints.separadorConTexto("Nombre");
-        String nombre = in.nextLine();
-        return nombre;
-    }
-
 
     private static Empleado cambioApellidos(Scanner in, Empleado empleadoBuscado){
 
-        empleadoBuscado.setApellido(leerApellido(in));
+        empleadoBuscado.setPrimerApellido(leerApellido(in, "Primer apellido"));
+        empleadoBuscado.setSegundoApellido(leerApellido(in,"Segundo apellido"));
+
         return empleadoBuscado;
     }
-    private static String leerApellido(Scanner in){
-        Prints.separadorConTexto("Apellido");
-        String apellido = in.nextLine();
-        return apellido;
-    }
-
 
     private static Empleado cambioDNI(Scanner in, Empleado empleadoBuscado){
-
         empleadoBuscado.setDNI(leerDNI(in));
         return empleadoBuscado;
     }
-    private static String leerDNI(Scanner in){
-        Prints.separadorConTexto("DNI");
-        return in.nextLine();
-    }
-
 
     private static Empleado cambioFechaNacimiento(Scanner in, Empleado empleadoBuscado) {
         boolean salida = false;
         do {
             try {
-                Date fechaNacimiento = leerFecha(in);
+                Prints.separadorConTexto("Fecha de Nacimiento");
+                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                String fecha = leerFecha(in);
+                Date fechaNacimiento = format.parse(fecha); // TODO Aqui da fallo
                 empleadoBuscado.setFechaNacimiento(fechaNacimiento);
+
                 salida = true;
             } catch (Exception e){
                 System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
@@ -362,39 +400,17 @@ public class Servicios {
         } while (!salida);
         return empleadoBuscado;
     }
-    private static Date leerFecha(Scanner in) throws ParseException {
-        Prints.separadorConTexto("Fecha de nacimiento");
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = in.nextLine();
-        return format.parse(fecha);
-    }
-
 
     private static Empleado cambioNacionalidad(Scanner in, Empleado empleadoBuscado){
-
         empleadoBuscado.setNacionalidad(leerNacionalidad(in));
         return empleadoBuscado;
     }
-    private static String leerNacionalidad(Scanner in){
-        Prints.separadorConTexto("Nacionalidad");
-        return in.nextLine();
-    }
-
 
     public static Empleado cambioEstado(Scanner in, Empleado empleadoBuscado){
-
         int eleccion = leerEstado(in);
         empleadoBuscado.setEstado(Estado.values()[eleccion - 1]);
         return empleadoBuscado;
     }
-    private static int leerEstado(Scanner in){
-        Prints.estados();
-        Prints.separadorConTexto("Estado");
-        int eleccion = in.nextInt();
-        vaciarScanner(in);
-        return eleccion;
-    }
-
 
     private static void cambioDireccion(Scanner in, Empleado empleadoBuscado){
         vaciarScanner(in);
@@ -409,14 +425,5 @@ public class Servicios {
         empleadoBuscado.getDireccion().setLocalidad(leerStringDirección(in, "Localidad"));
         empleadoBuscado.getDireccion().setProvincia(leerStringDirección(in, "Provincia"));
 
-    }
-    private static String leerStringDirección(Scanner in, String palabra){
-        Prints.separadorConTexto(palabra);
-        String string = in.nextLine();
-        return string;
-    }
-    private static int leerIntDirección(Scanner in, String palabra){
-        Prints.separadorConTexto(palabra);
-        return in.nextInt();
     }
 }

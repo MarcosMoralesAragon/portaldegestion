@@ -1,60 +1,33 @@
 package test;
-import modelos.Empleado;
-import java.util.ArrayList;
 
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Prueba {
 
     public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
 
-        ArrayList<Producto> productos = new ArrayList<>();
-        // Le agregamos datos
-        productos.add(new Producto("123", "Gansito", 20f));
-        productos.add(new Producto("456", "Galletas Chokis", 12f));
-        productos.add(new Producto("7879876456", "Doritos", 5.5f));
+        try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\Administrador\\Desktop\\empleados.txt"))) {
 
-        Producto busqueda = new Producto("123", "Gansito", 20f);
+            list = stream
+            .filter(line -> !line.endsWith(" "))
+            .flatMap(string -> Stream.of(string.split("#")))
+            .collect(Collectors.toList());
+            System.out.println(list);
 
-        Producto variablePrueba = new Producto();
-        // Voy a buscar únicamente comparando el código
-
-        for (int x = 0; x < productos.size(); x++) {
-            Producto p = productos.get(x);
-            if (p.getCodigo().equals(busqueda.getCodigo())) {
-                variablePrueba = p;
-                break; // Terminar ciclo, pues ya lo encontramos
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        // Al terminar el ciclo comprobamos si se movió la variable
 
-        System.out.println(variablePrueba);
-
-    }
-}
-
-class Producto {
-    private String codigo, nombre;
-    private float precio;
-
-    public Producto() {
-    }
-
-    public Producto(String codigo, String nombre, float precio) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.precio = precio;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "codigo='" + codigo + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-                '}';
+        list.forEach(System.out::println);
     }
 }

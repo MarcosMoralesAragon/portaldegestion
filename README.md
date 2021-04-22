@@ -53,3 +53,11 @@ Ya he terminado los cambios a la funcion modificar y voy a empezar la papelera d
 con Maps( 13:27 ) <br>
 Ya he terminado con la papelera de HashMaps, voy a hacer un poco de limpieza de codigo, comentar y reestructurar estos ultimos
 30 min ( 14:30 )
+
+<b>_→ 22/04/2021 :_</b> Estoy haciendo algunos cambios en la funcion de modificar y borrar para que sean mas efectivas y
+aparte estoy parchenado errores que se producen en ciertas ocasiones ( 9:35 )<br>
+Llevo toda la mañana con los ficheros y no estoy siendo capaz de conseguir que funcione como debe, seguiré intentandolo una 
+hora mas y la ultima hora la dedicare a limpieza de código y comentar un poco todo ( 13:00 ) <br>
+Ya he sido capaz de hacer que sepa separar las palabras, ahora necesito que pare en cada linea ( 13:12 ) <br>
+
+![img.png](img.png)

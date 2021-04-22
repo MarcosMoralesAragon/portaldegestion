@@ -7,15 +7,16 @@ public class Empleado {
 
     private String codigo;
     private String nombre;
-    private String apellido;
+    private String primerApellido;
+    private String segundoApellido;
     private String DNI;
     private Date fechaNacimiento;
     private String nacionalidad;
     private Direccion direccion;
     private Estado estado;
 
-    public Empleado(String n) {
-        this.nombre = n;
+    public Empleado(String nombre) {
+        this.nombre = nombre;
     }
 
     public void setNombre(String n){
@@ -30,11 +31,18 @@ public class Empleado {
         return codigo;
     }
 
-    public void setApellido(String a){
-        this.apellido = a;
+    public void setPrimerApellido(String a){
+        this.primerApellido = a;
     }
-    public String getApellido(){
-        return apellido;
+    public String getPrimerApellido(){
+        return primerApellido;
+    }
+
+    public void setSegundoApellido(String a){
+        this.segundoApellido = a;
+    }
+    public String getSegundoApellido(){
+        return segundoApellido;
     }
 
     public void setDNI (String d){ this.DNI = d; }
@@ -70,7 +78,7 @@ public class Empleado {
 
         return  " Código --> " + codigo + " / " +
                 " Nombre --> " + nombre + " / " +
-                " Apellido --> " + apellido + " / " +
+                " Apellidos --> " + primerApellido + " " + segundoApellido + " / " +
                 " DNI --> " + DNI + " / " +
                 " Fecha de Nacimiento --> " + fechaNacimientoFormateada + " / " +
                 " Nacionalidad --> " + nacionalidad + " / " +
