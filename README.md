@@ -64,3 +64,4 @@ Ya he sido capaz de hacer que sepa separar las palabras, ahora necesito que pare
 
 Sigo teniendo problemas para que se pare en cada linea pero voy a dedicar el tiempo que me queda a hacer algunos TODO para
 no perder el hilo y la semana que viene poder seguir ( 14:00 ) <br>
+Voy a ir cerrando en breves ya que hoy he llegado un poco antes a la oficina ( sobre las 8:20 )
