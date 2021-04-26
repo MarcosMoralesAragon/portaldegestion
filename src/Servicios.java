@@ -2,39 +2,46 @@ import modelos.Direccion;
 import modelos.Empleado;
 import modelos.Estado;
 import utilidades.Alfanumerico;
+import utilidades.GestionFicheros;
 import utilidades.Prints;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Servicios {
 
-    private static final int ESPACIOS = 5;
+    private static final int ESPACIOS = 3;
     public static final ArrayList<Empleado> empleados = new ArrayList<>();
     public static final HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
-    // TODO Crear la implementacion de archivos txt y pasar los datos mediante
-    //  ellos, ademas tendre que añadir que se les asigne un alfanumerico de manera automatica al
-    //  crearse como pasa en la creacion por consola ( necesito esto para el borrado y modificado )
-
-
     public static void crear(Scanner in) {
 
-        Empleado variableEmpleado = new Empleado(null);
+        System.out.println("1. Crear");
+        int camposRellenados = 0;
 
-        // Entrada de datos de los empleados
-        datosEmpleados(in, variableEmpleado);
+        do {
+            Empleado variableEmpleado = new Empleado(null);
 
-        // Entrada de datos de los campos de direccion
-        variableEmpleado.setDireccion(datosDireccion(in));
+            // Entrada de datos de los empleados
+            // devuelve un int para que se sepa la cantidad de campos que se han rellenado en este apartado
+            // que en este caso son 7 pero es mejor dejarlo asi para que si se pide una expansion de la entrada
+            // de datos este adaptado
 
-        Prints.separadorConTexto("Codigo");
-        variableEmpleado.setCodigo(Alfanumerico.generar());
-        System.out.println(variableEmpleado.getCodigo());
+            camposRellenados = datosEmpleados(in, variableEmpleado, camposRellenados);
 
-        empleados.add(variableEmpleado);
+            // Entrada de datos de los campos de direccion
+            variableEmpleado.setDireccion(datosDireccion(in, camposRellenados));
+
+            Prints.separadorConTexto("Codigo");
+            variableEmpleado.setCodigo(Alfanumerico.generar());
+            System.out.println(variableEmpleado.getCodigo());
+
+            camposRellenados += 8;
+            System.out.println();
+            empleados.add(variableEmpleado);
+
+        } while (camposRellenados < GestionFicheros.leerFichero("empleados.txt").size());
+
         Prints.saltoLinea();
         Prints.terminadaAccion();
         Prints.limpiar(ESPACIOS);
@@ -136,39 +143,90 @@ public class Servicios {
 
     // ######## --------> FUNCIONES LEER <-------------------- #########
 
-    private static String leerNombre(Scanner in){
-            Prints.separadorConTexto("Nombre");
-        return in.nextLine();
+    private static String leerNombre(int posicionLista){
+        //Prints.separadorConTexto("Nombre");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static String leerApellido(Scanner in, String palabra){
-        Prints.separadorConTexto(palabra);
-        return in.nextLine();
+    private static String leerPrimerApellido(int posicionLista){
+        // Prints.separadorConTexto("Primer Apellido");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static String leerDNI(Scanner in){
-        Prints.separadorConTexto("DNI");
-        return in.nextLine();
+    private static String leerSegundoApellido(int posicionLista){
+        // Prints.separadorConTexto("Segundo Apellido");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static String leerFecha(Scanner in) {
-        return in.nextLine();
+    private static String leerDNI(int posicionLista){
+        // Prints.separadorConTexto("DNI");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static String leerNacionalidad(Scanner in){
-        Prints.separadorConTexto("Nacionalidad");
-        return in.nextLine();
+    private static String leerFecha(int posicionLista) {
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static int leerEstado(Scanner in){
-        Prints.estados();
-        Prints.separadorConTexto("Estado");
-        int eleccion = in.nextInt();
-        vaciarScanner(in);
+    private static String leerNacionalidad(int posicionLista){
+        // Prints.separadorConTexto("Nacionalidad");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static int leerEstado(int posicionLista){
+        // Prints.separadorConTexto("Estado");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        String palabra = (String) fichero.get(posicionLista);
+        palabra = palabra.toUpperCase();
+        int eleccion;
+
+        if (palabra.equals("ALTA")) {
+            eleccion = 0;
+        } else if (palabra.equals("BAJA")) {
+            eleccion = 1;
+        } else {
+            eleccion = 2;
+        }
         return eleccion;
     }
-    private static String leerStringDirección(Scanner in, String palabra){
-        Prints.separadorConTexto(palabra);
-        return in.nextLine();
+    private static String leerCalle(int posicionLista){
+        // Prints.separadorConTexto("Calle");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
-    private static int leerIntDirección(Scanner in, String palabra){
-        Prints.separadorConTexto(palabra);
-        return in.nextInt();
+    private static String leerNumero(int posicionLista){
+        // Prints.separadorConTexto("Numero");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerBLoque(int posicionLista){
+        // Prints.separadorConTexto("Bloque");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerPiso(int posicionLista){
+        // Prints.separadorConTexto("Piso");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerPuerta(int posicionLista){
+        // Prints.separadorConTexto("Puerta");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerCodigoPostal(int posicionLista){
+        // Prints.separadorConTexto("Codigo Postal");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerLocalidad(int posicionLista){
+        // Prints.separadorConTexto("Localidad");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+    private static String leerProvincia(int posicionLista){
+        // Prints.separadorConTexto("Provincia");
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
     }
         // ------------------------> FUNCIONES <-----------------------------
 
@@ -225,27 +283,28 @@ public class Servicios {
 
 
 
-   private static void datosEmpleados(Scanner in, Empleado variableEmpleado) {
+   private static int datosEmpleados(Scanner in, Empleado variableEmpleado, int camposRellenados) {
 
         // Almacena y guarda los datos del empleado.
 
-       System.out.println("1. Crear");
 
-       vaciarScanner(in);
-       variableEmpleado.setNombre(leerNombre(in));
+       variableEmpleado.setNombre(leerNombre(camposRellenados));
+       camposRellenados++;
 
-       variableEmpleado.setPrimerApellido(leerApellido(in,"Primer apellido"));
+       variableEmpleado.setPrimerApellido(leerPrimerApellido(camposRellenados));
+       camposRellenados++;
+       variableEmpleado.setSegundoApellido(leerSegundoApellido(camposRellenados));
+       camposRellenados++;
 
-       variableEmpleado.setSegundoApellido(leerApellido(in,"Segundo apellido"));
-
-       variableEmpleado.setDNI(leerDNI(in));
+       variableEmpleado.setDNI(leerDNI(camposRellenados));
+       camposRellenados++;
 
        boolean salida;
        do {
            try{
-               Prints.separadorConTexto("Fecha de Nacimiento");
+               // Prints.separadorConTexto("Fecha de Nacimiento");
                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-               String fecha = in.nextLine();
+               String fecha = leerFecha(camposRellenados);
                Date fechaNacimiento = format.parse(fecha);
                variableEmpleado.setFechaNacimiento(fechaNacimiento);
                salida = true;
@@ -254,38 +313,45 @@ public class Servicios {
                salida = false;
            }
        } while (!salida);
+       camposRellenados++;
 
-       variableEmpleado.setNacionalidad(leerNacionalidad(in));
+       variableEmpleado.setNacionalidad(leerNacionalidad(camposRellenados));
+       camposRellenados++;
 
-       variableEmpleado.setEstado(Estado.values()[leerEstado(in) - 1]);
+       variableEmpleado.setEstado(Estado.values()[leerEstado(camposRellenados)]);
+       camposRellenados++;
+
+       return camposRellenados;
    }
 
-    private static Direccion datosDireccion(Scanner in){
+    private static Direccion datosDireccion(Scanner in, int camposRellenados){
 
         // Almacena y guarda los datos sobre la direccion
 
         Direccion variableDireccion = new Direccion();
 
+        variableDireccion.setCalle(leerCalle(camposRellenados));
+        camposRellenados++;
 
-        variableDireccion.setCalle(leerStringDirección(in, "Calle"));
+        variableDireccion.setNumero(leerNumero(camposRellenados));
+        camposRellenados++;
 
-        variableDireccion.setNumero(leerIntDirección(in, "Numero"));
+        variableDireccion.setBloque(leerBLoque(camposRellenados));
+        camposRellenados++;
 
-        vaciarScanner(in);
-        variableDireccion.setBloque(leerStringDirección(in, "Bloque"));
+        variableDireccion.setPiso(leerPiso(camposRellenados));
+        camposRellenados++;
 
+        variableDireccion.setPuerta(leerPuerta(camposRellenados));
+        camposRellenados++;
 
-        variableDireccion.setPiso(leerStringDirección(in, "Piso"));
+        variableDireccion.setCodigoPostal(leerCodigoPostal(camposRellenados));
+        camposRellenados++;
 
+        variableDireccion.setLocalidad(leerLocalidad(camposRellenados));
+        camposRellenados++;
 
-        variableDireccion.setPuerta(leerStringDirección(in, "Puerta"));
-
-        variableDireccion.setCodigoPostal(leerIntDirección(in, "Codigo Postal"));
-
-        vaciarScanner(in);
-        variableDireccion.setLocalidad(leerStringDirección(in, "Localidad"));
-
-        variableDireccion.setProvincia(leerStringDirección(in, "Provincia"));
+        variableDireccion.setProvincia(leerProvincia(camposRellenados));
 
         return variableDireccion;
     }
@@ -313,6 +379,9 @@ public class Servicios {
         cambioDeCampo(in , empleadoBuscado );
     }
 
+    // TODO Siguente cosa a trabajar, la modificacion de los datos mediante el fichero.
+    //  Supongo que lo que tendremos que hacer sera que en esa posicion reescrbia el campo del fichero y tambien
+    //  lo cambie en el objeto empleado
 
     private static void cambioDeCampo(Scanner in, Empleado empleadoBuscado) {
 
@@ -322,7 +391,7 @@ public class Servicios {
         System.out.println("Elija que campo quiere cambiar");
         int decision = in.nextInt();
 
-        switch (decision){
+        switch (decision){ //TODO cambiar a datos de la persona, direccion y estado
             case 1: // Nombre
                 vaciarScanner(in);
                 cambioNombre(in, empleadoBuscado);
@@ -369,20 +438,20 @@ public class Servicios {
 
 
     private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
-        empleadoBuscado.setNombre(leerNombre(in));
+        empleadoBuscado.setNombre(leerNombre());
         return empleadoBuscado;
     }
 
     private static Empleado cambioApellidos(Scanner in, Empleado empleadoBuscado){
 
-        empleadoBuscado.setPrimerApellido(leerApellido(in, "Primer apellido"));
-        empleadoBuscado.setSegundoApellido(leerApellido(in,"Segundo apellido"));
+        empleadoBuscado.setPrimerApellido(leerPrimerApellido());
+        empleadoBuscado.setSegundoApellido(leerSegundoApellido());
 
         return empleadoBuscado;
     }
 
     private static Empleado cambioDNI(Scanner in, Empleado empleadoBuscado){
-        empleadoBuscado.setDNI(leerDNI(in));
+        empleadoBuscado.setDNI(leerDNI());
         return empleadoBuscado;
     }
 
@@ -390,10 +459,10 @@ public class Servicios {
         boolean salida = false;
         do {
             try {
-                Prints.separadorConTexto("Fecha de Nacimiento");
+                // Prints.separadorConTexto("Fecha de Nacimiento");
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                String fecha = leerFecha(in);
-                Date fechaNacimiento = format.parse(fecha); // TODO Aqui da fallo
+                String fecha = leerFecha();
+                Date fechaNacimiento = format.parse(fecha);
                 empleadoBuscado.setFechaNacimiento(fechaNacimiento);
 
                 salida = true;
@@ -406,28 +475,28 @@ public class Servicios {
     }
 
     private static Empleado cambioNacionalidad(Scanner in, Empleado empleadoBuscado){
-        empleadoBuscado.setNacionalidad(leerNacionalidad(in));
+        empleadoBuscado.setNacionalidad(leerNacionalidad());
         return empleadoBuscado;
     }
 
     public static Empleado cambioEstado(Scanner in, Empleado empleadoBuscado){
-        int eleccion = leerEstado(in);
-        empleadoBuscado.setEstado(Estado.values()[eleccion - 1]);
+        int eleccion = leerEstado();
+        empleadoBuscado.setEstado(Estado.values()[eleccion]);
         return empleadoBuscado;
     }
 
     private static void cambioDireccion(Scanner in, Empleado empleadoBuscado){
         vaciarScanner(in);
-        empleadoBuscado.getDireccion().setCalle(leerStringDirección(in, "Calle"));
-        empleadoBuscado.getDireccion().setNumero(leerIntDirección(in, "Numero"));
+        empleadoBuscado.getDireccion().setCalle(leerCalle());
+        empleadoBuscado.getDireccion().setNumero(leerNumero());
         vaciarScanner(in);
-        empleadoBuscado.getDireccion().setBloque(leerStringDirección(in, "Bloque"));
-        empleadoBuscado.getDireccion().setPiso(leerStringDirección(in, "Piso"));
-        empleadoBuscado.getDireccion().setPuerta(leerStringDirección(in, "Puerta"));
-        empleadoBuscado.getDireccion().setCodigoPostal(leerIntDirección(in, "Codigo Postal"));
+        empleadoBuscado.getDireccion().setBloque(leerBLoque());
+        empleadoBuscado.getDireccion().setPiso(leerPiso());
+        empleadoBuscado.getDireccion().setPuerta(leerPuerta());
+        empleadoBuscado.getDireccion().setCodigoPostal(leerCodigoPostal());
         vaciarScanner(in);
-        empleadoBuscado.getDireccion().setLocalidad(leerStringDirección(in, "Localidad"));
-        empleadoBuscado.getDireccion().setProvincia(leerStringDirección(in, "Provincia"));
+        empleadoBuscado.getDireccion().setLocalidad(leerLocalidad());
+        empleadoBuscado.getDireccion().setProvincia(leerProvincia());
 
     }
 }

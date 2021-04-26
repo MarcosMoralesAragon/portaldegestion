@@ -3,11 +3,11 @@ package modelos;
 public class Direccion {
 
     private String calle;
-    private int numero;
+    private String numero;
     private String bloque;
     private String piso;
     private String puerta;
-    private int codigoPostal;
+    private String codigoPostal;
     private String localidad;
     private String provincia;
 
@@ -21,10 +21,10 @@ public class Direccion {
         return calle;
     }
 
-    public void setNumero (int n){
+    public void setNumero (String n){
         this.numero = n;
     }
-    public int getNumero (){
+    public String getNumero (){
         return numero;
     }
 
@@ -63,10 +63,10 @@ public class Direccion {
         return provincia;
     }
 
-    public void setCodigoPostal (int cp){
+    public void setCodigoPostal (String  cp){
         this.codigoPostal = cp;
     }
-    public int getCodigoPostal (){
+    public String getCodigoPostal (){
         return codigoPostal;
     }
 

@@ -1,6 +1,10 @@
 package test;
 
-
+import modelos.Empleado;
+import modelos.Estado;
+import utilidades.Alfanumerico;
+import utilidades.GestionFicheros;
+import utilidades.Prints;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,20 +16,21 @@ import java.util.stream.Stream;
 public class Prueba {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
 
-        try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\Administrador\\Desktop\\empleados.txt"))) {
+        int camposRellenadosTotales = 0;
 
-            list = stream
-            .filter(line -> !line.endsWith(" "))
-            .flatMap(string -> Stream.of(string.split("#")))
-            .collect(Collectors.toList());
-            System.out.println(list);
+        System.out.println(GestionFicheros.leerFichero("empleados.txt").size());
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        do {
+            int camposRellenados;
+            camposRellenados = 7;
+            camposRellenados += 8;
+            camposRellenadosTotales += camposRellenados;
 
-        list.forEach(System.out::println);
+            System.out.println(camposRellenadosTotales);
+
+        } while (camposRellenadosTotales < GestionFicheros.leerFichero("empleados.txt").size());
+
+
     }
 }

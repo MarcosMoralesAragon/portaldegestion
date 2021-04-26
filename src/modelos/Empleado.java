@@ -45,8 +45,12 @@ public class Empleado {
         return segundoApellido;
     }
 
-    public void setDNI (String d){ this.DNI = d; }
-    public String getDNI(){ return DNI; }
+    public void setDNI (String d){
+        this.DNI = d;
+    }
+    public String getDNI(){
+        return DNI;
+    }
 
     public void setFechaNacimiento (Date fecha){
         this.fechaNacimiento = fecha;
@@ -55,8 +59,12 @@ public class Empleado {
         return fechaNacimiento;
     }
 
-    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }
-    public String getNacionalidad() { return nacionalidad; }
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
 
     public void setDireccion (Direccion d){
         this.direccion = d;
@@ -65,8 +73,12 @@ public class Empleado {
         return direccion;
     }
 
-    public void setEstado (Estado e){ this.estado = e; }
-    public Estado getEstado(){ return estado;  }
+    public void setEstado (Estado e){
+        this.estado = e;
+    }
+    public Estado getEstado(){
+        return estado;
+    }
 
 
 
