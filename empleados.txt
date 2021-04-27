@@ -1,3 +1,3 @@
-Pepe#Castro#Reina#123456L#11-11-1111#España#Alta#C/Solo#Nª11#23#1º#B#29004#Málaga#España
-María de los Ángeles#López#Aguilera#123456L#11-11-1111#España#baja#C/Solo#Nª11#23#1º#B#29004#Málaga#España
-Carlos#Ríos#García#123456L#11-11-1111#España#en TramiTe#C/Solo#Nª11#23#1º#B#29004#Málaga#España
+Pepe#Castro#Reina#123456L#11-11-1111#España#Alta#C/Solo#11#23#1º#B#29004#Málaga#España
+María de los Ángeles#López#Aguilera#123456L#11-11-1111#España#baja#C/Solo#11#23#1º#B#29004#Málaga#España
+Carlos#Ríos#García#123456L#11-11-1111#España#en TramiTe#C/Solo#11#23#1º#B#29004#Málaga#España

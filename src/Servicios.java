@@ -2,8 +2,10 @@ import modelos.Direccion;
 import modelos.Empleado;
 import modelos.Estado;
 import utilidades.Alfanumerico;
+import utilidades.Fecha;
 import utilidades.GestionFicheros;
 import utilidades.Prints;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,49 +16,45 @@ public class Servicios {
     public static final ArrayList<Empleado> empleados = new ArrayList<>();
     public static final HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
-    public static void crear(Scanner in) {
+    public static void crear(Scanner in, String palabra) {
 
-        System.out.println("1. Crear");
-        int camposRellenados = 0;
+        if (palabra.equals("cargar")){
+            cargarLista(in);
+        } else {
+            System.out.println("1. Crear");
 
-        do {
             Empleado variableEmpleado = new Empleado(null);
 
-            // Entrada de datos de los empleados
-            // devuelve un int para que se sepa la cantidad de campos que se han rellenado en este apartado
-            // que en este caso son 7 pero es mejor dejarlo asi para que si se pide una expansion de la entrada
-            // de datos este adaptado
+            datosEmpleadosPorTeclado( in, variableEmpleado);
+            variableEmpleado.setDireccion(datosDireccionPorTeclado(in));
 
-            camposRellenados = datosEmpleados(in, variableEmpleado, camposRellenados);
+            try {
+                GestionFicheros.escribirFichero("empleados.txt", ("\n" + variableEmpleado.cadenaConAlmoadilla()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            // Entrada de datos de los campos de direccion
-            variableEmpleado.setDireccion(datosDireccion(in, camposRellenados));
+            generarCodigo(variableEmpleado);
 
-            Prints.separadorConTexto("Codigo");
-            variableEmpleado.setCodigo(Alfanumerico.generar());
-            System.out.println(variableEmpleado.getCodigo());
-
-            camposRellenados += 8;
-            System.out.println();
-            empleados.add(variableEmpleado);
-
-        } while (camposRellenados < GestionFicheros.leerFichero("empleados.txt").size());
-
-        Prints.saltoLinea();
-        Prints.terminadaAccion();
-        Prints.limpiar(ESPACIOS);
+            Prints.saltoLinea();
+            Prints.terminadaAccion();
+            Prints.limpiar(ESPACIOS);
+        }
     }
-    public static void listado() {
 
-        System.out.println("2. Listado");
+    public static void listado(String numero) {
+
+        System.out.println(numero + "Listado");
         Prints.separador();
         Prints.saltoLinea();
         for ( int i = 0; i < empleados.size(); i++){
             System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i));
         }
         Prints.saltoLinea();
-        Prints.terminadaAccion();
-        Prints.limpiar(ESPACIOS);
+        if (!numero.equals("")){
+            Prints.terminadaAccion();
+            Prints.limpiar(ESPACIOS);
+        }
     }
 
     public static void borrado(Scanner in) {
@@ -82,7 +80,7 @@ public class Servicios {
             salida = sigueOSale(eleccion);
 
             if (salida){
-                accionBorradoEmpleado(empleados, codigo, empleadosBorrados);
+                accionBorradoEmpleado(empleados, codigo);
             } else {
                 salida = otroOSalir(in, "borrado");
             }
@@ -100,7 +98,7 @@ public class Servicios {
         int i = 0;
         for (Map.Entry borrados:empleadosBorrados.entrySet()) {
             System.out.print("Empleado en papelera Nª" + (i + 1));
-            System.out.println(borrados.getValue());
+            System.out.println(borrados.getValue().toString());
             i++;
         }
         Prints.saltoLinea();
@@ -141,94 +139,8 @@ public class Servicios {
         Prints.limpiar(ESPACIOS);
     }
 
-    // ######## --------> FUNCIONES LEER <-------------------- #########
 
-    private static String leerNombre(int posicionLista){
-        //Prints.separadorConTexto("Nombre");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerPrimerApellido(int posicionLista){
-        // Prints.separadorConTexto("Primer Apellido");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerSegundoApellido(int posicionLista){
-        // Prints.separadorConTexto("Segundo Apellido");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerDNI(int posicionLista){
-        // Prints.separadorConTexto("DNI");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerFecha(int posicionLista) {
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerNacionalidad(int posicionLista){
-        // Prints.separadorConTexto("Nacionalidad");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static int leerEstado(int posicionLista){
-        // Prints.separadorConTexto("Estado");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        String palabra = (String) fichero.get(posicionLista);
-        palabra = palabra.toUpperCase();
-        int eleccion;
-
-        if (palabra.equals("ALTA")) {
-            eleccion = 0;
-        } else if (palabra.equals("BAJA")) {
-            eleccion = 1;
-        } else {
-            eleccion = 2;
-        }
-        return eleccion;
-    }
-    private static String leerCalle(int posicionLista){
-        // Prints.separadorConTexto("Calle");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerNumero(int posicionLista){
-        // Prints.separadorConTexto("Numero");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerBLoque(int posicionLista){
-        // Prints.separadorConTexto("Bloque");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerPiso(int posicionLista){
-        // Prints.separadorConTexto("Piso");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerPuerta(int posicionLista){
-        // Prints.separadorConTexto("Puerta");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerCodigoPostal(int posicionLista){
-        // Prints.separadorConTexto("Codigo Postal");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerLocalidad(int posicionLista){
-        // Prints.separadorConTexto("Localidad");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-    private static String leerProvincia(int posicionLista){
-        // Prints.separadorConTexto("Provincia");
-        List fichero = GestionFicheros.leerFichero("empleados.txt");
-        return (String) fichero.get(posicionLista);
-    }
-        // ------------------------> FUNCIONES <-----------------------------
+    // ------------------------> FUNCIONES <-----------------------------
 
 
     static void vaciarScanner(Scanner in){
@@ -264,7 +176,7 @@ public class Servicios {
         return salida;
     }
 
-   private static Empleado buscaEmpleado(ArrayList<Empleado> empleados, String codigo){
+    private static Empleado buscaEmpleado(ArrayList<Empleado> empleados, String codigo){
 
         Empleado empleadoResultado = new Empleado(null);
 
@@ -278,97 +190,353 @@ public class Servicios {
         return empleadoResultado;
     }
 
+    private static void generarCodigo(Empleado variableEmpleado){
+        Prints.separadorConTexto("Codigo");
+        variableEmpleado.setCodigo(Alfanumerico.generar());
+        System.out.println(variableEmpleado.getCodigo());
+        empleados.add(variableEmpleado);
+    }
+
+
+    // ######## --------> FUNCIONES LEER <-------------------- #########
+
+    // TODO Optimizacion ( uso lo mismo todo el rato podria sacarlo fuera como una funcion externa )
+
+    private static String leerNombre(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Nombre");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerPrimerApellido(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Primer Apellido");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerSegundoApellido(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Segundo Apellido");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerDNI(int posicionLista, String palabra, Scanner in) {
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("DNI");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerFecha(int posicionLista, String palabra, Scanner in) {
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Fecha de Nacimiento");
+            resultado = in.nextLine();
+        }
+        List fichero = GestionFicheros.leerFichero("empleados.txt");
+        return (String) fichero.get(posicionLista);
+    }
+
+    private static String leerNacionalidad(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Nacionalidad");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static int leerEstado(int posicionLista, String palabra, Scanner in){
+        String palabraIntroducida = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            palabraIntroducida = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Estado");
+            palabraIntroducida = in.nextLine();
+        }
+
+        palabraIntroducida.toUpperCase();
+        int eleccion;
+
+        if (palabra.equals("ALTA")) {
+            eleccion = 0;
+        } else if (palabra.equals("BAJA")) {
+            eleccion = 1;
+        } else {
+            eleccion = 2;
+        }
+        return eleccion;
+    }
+
+    private static String leerCalle(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Calle");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static int leerNumero(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        int resultadoInt = 0 ;
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Numero");
+            resultado = in.nextLine();
+        }
+        resultadoInt = Integer.parseInt(resultado);
+
+        return resultadoInt;
+    }
+
+    private static String leerBLoque(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Bloque");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerPiso(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Piso");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerPuerta(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Puerta");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static int leerCodigoPostal(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        int resultadoInt = 0;
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Codigo Postal");
+            resultado = in.nextLine();
+        }
+        resultadoInt = Integer.parseInt(resultado);
+        return resultadoInt;
+    }
+
+    private static String leerLocalidad(int posicionLista, String palabra, Scanner in){
+        String resultado = "";
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Localidad");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
+
+    private static String leerProvincia(int posicionLista, String palabra, Scanner in){
+        String resultado;
+        if (palabra.equals("Fichero")){
+            List fichero = GestionFicheros.leerFichero("empleados.txt");
+            resultado = (String) fichero.get(posicionLista);
+        } else {
+            Prints.separadorConTexto("Provincia");
+            resultado = in.nextLine();
+        }
+        return resultado;
+    }
 
     // -------------------->  FUNCIONES CREAR  <------------------------
 
+    public static void cargarLista(Scanner in) {
 
+        System.out.println("Cargando lista de empleados");
+        int camposRellenados = 0;
+        int contador = 1;
+        Prints.saltoLinea();
 
-   private static int datosEmpleados(Scanner in, Empleado variableEmpleado, int camposRellenados) {
+        do {
+            Empleado variableEmpleado = new Empleado(null);
+
+            camposRellenados = datosEmpleados( variableEmpleado, camposRellenados, in);
+            variableEmpleado.setDireccion(datosDireccion(camposRellenados, in));
+
+            System.out.println("Empleado Nº " + contador);
+            contador ++;
+            generarCodigo(variableEmpleado);
+            camposRellenados += 8;
+            empleados.add(variableEmpleado);
+        } while (camposRellenados < GestionFicheros.leerFichero("empleados.txt").size());
+
+        Prints.saltoLinea();
+    }
+
+   private static int datosEmpleados( Empleado variableEmpleado, int camposRellenados, Scanner in) {
 
         // Almacena y guarda los datos del empleado.
 
-
-       variableEmpleado.setNombre(leerNombre(camposRellenados));
+       variableEmpleado.setNombre(leerNombre(camposRellenados, "Fichero", in));
        camposRellenados++;
 
-       variableEmpleado.setPrimerApellido(leerPrimerApellido(camposRellenados));
+       variableEmpleado.setPrimerApellido(leerPrimerApellido(camposRellenados, "Fichero", in));
        camposRellenados++;
-       variableEmpleado.setSegundoApellido(leerSegundoApellido(camposRellenados));
-       camposRellenados++;
-
-       variableEmpleado.setDNI(leerDNI(camposRellenados));
+       variableEmpleado.setSegundoApellido(leerSegundoApellido(camposRellenados, "Fichero", in));
        camposRellenados++;
 
-       boolean salida;
-       do {
-           try{
-               // Prints.separadorConTexto("Fecha de Nacimiento");
-               DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-               String fecha = leerFecha(camposRellenados);
-               Date fechaNacimiento = format.parse(fecha);
-               variableEmpleado.setFechaNacimiento(fechaNacimiento);
-               salida = true;
-           } catch (Exception e){
-               System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");
-               salida = false;
-           }
-       } while (!salida);
+       variableEmpleado.setDNI(leerDNI(camposRellenados, "Fichero", in));
        camposRellenados++;
 
-       variableEmpleado.setNacionalidad(leerNacionalidad(camposRellenados));
+       Fecha.fecha(leerFecha(camposRellenados, "Fichero", in));
        camposRellenados++;
 
-       variableEmpleado.setEstado(Estado.values()[leerEstado(camposRellenados)]);
+       variableEmpleado.setNacionalidad(leerNacionalidad(camposRellenados, "Fichero", in));
+       camposRellenados++;
+
+       variableEmpleado.setEstado(Estado.values()[leerEstado(camposRellenados, "Fichero", in)]);
        camposRellenados++;
 
        return camposRellenados;
    }
 
-    private static Direccion datosDireccion(Scanner in, int camposRellenados){
+    private static Direccion datosDireccion( int camposRellenados, Scanner in){
 
         // Almacena y guarda los datos sobre la direccion
-
         Direccion variableDireccion = new Direccion();
 
-        variableDireccion.setCalle(leerCalle(camposRellenados));
+        variableDireccion.setCalle(leerCalle(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setNumero(leerNumero(camposRellenados));
+        variableDireccion.setNumero(leerNumero(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setBloque(leerBLoque(camposRellenados));
+        variableDireccion.setBloque(leerBLoque(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setPiso(leerPiso(camposRellenados));
+        variableDireccion.setPiso(leerPiso(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setPuerta(leerPuerta(camposRellenados));
+        variableDireccion.setPuerta(leerPuerta(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setCodigoPostal(leerCodigoPostal(camposRellenados));
+        variableDireccion.setCodigoPostal(leerCodigoPostal(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setLocalidad(leerLocalidad(camposRellenados));
+        variableDireccion.setLocalidad(leerLocalidad(camposRellenados, "Fichero", in));
         camposRellenados++;
 
-        variableDireccion.setProvincia(leerProvincia(camposRellenados));
+        variableDireccion.setProvincia(leerProvincia(camposRellenados, "Fichero", in));
+
+        return variableDireccion;
+    }
+
+    private static void datosEmpleadosPorTeclado( Scanner in , Empleado variableEmpleado) {
+
+        vaciarScanner(in);
+        variableEmpleado.setNombre(leerNombre(0, "", in));
+
+        variableEmpleado.setPrimerApellido(leerPrimerApellido(0, "",in));
+
+        variableEmpleado.setSegundoApellido(leerSegundoApellido(0, "",in));
+
+        variableEmpleado.setDNI(leerDNI(0, "",in));
+
+        Prints.separadorConTexto("Fecha de Nacimiento");
+        Fecha.fecha(leerFecha(0, "",in));
+
+        variableEmpleado.setNacionalidad(leerNacionalidad(0, "",in));
+
+        variableEmpleado.setEstado(Estado.values()[leerEstado(0, "",in)]);
+    }
+
+    private static Direccion datosDireccionPorTeclado(Scanner in) {
+
+        Direccion variableDireccion = new Direccion();
+        variableDireccion.setCalle(leerCalle(0, "",in));               // Calle
+        variableDireccion.setNumero(leerNumero(0, "",in));             // Numero
+        variableDireccion.setBloque(leerBLoque(0, "",in));             // Bloque
+        variableDireccion.setPiso(leerPiso(0, "",in));                 // Piso
+        variableDireccion.setPuerta(leerPuerta(0, "",in));             // Puerta
+        variableDireccion.setCodigoPostal(leerCodigoPostal(0, "",in)); // Codigo postal
+        variableDireccion.setLocalidad(leerLocalidad(0, "",in));       // Localidad
+        variableDireccion.setProvincia(leerProvincia(0, "",in));       // Provincia
 
         return variableDireccion;
     }
 
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
-    private static void accionBorradoEmpleado(ArrayList<Empleado> empleados, String codigo,HashMap empleadosBorrados){
+    private static void accionBorradoEmpleado(ArrayList<Empleado> empleados, String codigo){
 
         // Busca el empleado por el codigo y una vez seleccionado lo guarda en un mapa y luego lo borra del arrray
 
         Empleado empleadoBuscado = buscaEmpleado(empleados, codigo);
-        empleadosBorrados.put(codigo, empleadoBuscado);
+        ((HashMap) Servicios.empleadosBorrados).put(codigo, empleadoBuscado.cadenaConAlmoadilla());
+
+        try {
+            GestionFicheros.escribirFichero("copiaDeSeguridad.txt", (empleadoBuscado.cadenaConAlmoadilla() + "\n"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         empleados.remove(empleadoBuscado);
     }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
+    //TODO Seguir por aqui con modificar con respecto al archivo ( modificar el archivo original y luego cambiar
+    // el array )
 
     private static void accionModificadoEmpleado(ArrayList<Empleado> empleados, String codigo, Scanner in) {
 
@@ -386,7 +554,7 @@ public class Servicios {
     private static void cambioDeCampo(Scanner in, Empleado empleadoBuscado) {
 
 
-        Empleado modificado;
+        /* Empleado modificado;
         Prints.eleccionModificar();
         System.out.println("Elija que campo quiere cambiar");
         int decision = in.nextInt();
@@ -433,11 +601,11 @@ public class Servicios {
                 modificado = cambioEstado(in, modificado);
                 cambioDireccion(in, modificado);
                 break;
-        }
+        } */
     }
 
 
-    private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
+    /* private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.setNombre(leerNombre());
         return empleadoBuscado;
     }
@@ -498,5 +666,5 @@ public class Servicios {
         empleadoBuscado.getDireccion().setLocalidad(leerLocalidad());
         empleadoBuscado.getDireccion().setProvincia(leerProvincia());
 
-    }
+    } */
 }

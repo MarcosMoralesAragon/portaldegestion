@@ -80,7 +80,14 @@ public class Empleado {
         return estado;
     }
 
+    public String cadenaConAlmoadilla (){
 
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+
+        return nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
+                fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" + direccion.cadenaConAlmohadillaDireccion();
+    }
 
     @Override
     public String toString() {

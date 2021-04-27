@@ -19,8 +19,11 @@ Separar las funciones de la clase Servicio o dejarlo dentro
 Preguntar sobre como vamos a introducir los datos a los tecnicos ( nueva seleccion de elija cual es su puesto en la empresa ) (¿?) <br>
 Como hago para que el fichero sepa separar los datos cuando le digo que corte en los # <br>
 Y como implementarlo de manera eficiente en el proyecto
-
-Dejamos la funcion crear o la quitamos??
+---
+- Como hacer para que reescriba el archivo de los empleados
+- Que es mas correcto o efectivo : ¿listar desde el array o del fichero?
+- Me gustaria revisar mis funciones leer
+  <br>
 
 `Registro diario :`
 
@@ -64,20 +67,26 @@ Llevo toda la mañana con los ficheros y no estoy siendo capaz de conseguir que 
 hora mas y la ultima hora la dedicare a limpieza de código y comentar un poco todo ( 13:00 ) <br>
 Ya he sido capaz de hacer que sepa separar las palabras, ahora necesito que pare en cada linea ( 13:12 ) <br>
 
-![img.png](img.png)
+![img.png](src/capturas/img.png)
 
 Sigo teniendo problemas para que se pare en cada linea pero voy a dedicar el tiempo que me queda a hacer algunos TODO para
 no perder el hilo y la semana que viene poder seguir ( 14:00 ) <br>
 Voy a ir cerrando en breves ya que hoy he llegado un poco antes a la oficina, sobre las 8:20 ( 14:45 )
 
-<b>_→ 22/04/2021 :_</b> He estado toda la mañana haciendo la implementación de la lectura de archivos ( no recuerdo la hora ) <br>
+ <b>_→ 26/04/2021 :_</b>He estado toda la mañana haciendo la implementación de la lectura de archivos ( no recuerdo la hora ) <br>
 He conseguido terminar la implementacion de la creacion de usuarios mediante fichero ( 14:00 ) <br>
 
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
+![img_1.png](src/capturas/img_1.png)
+![img_2.png](src/capturas/img_2.png)
 
 Ademas he cambiado la entrada de dato del estado, haciendo que ahora sea mediante escrito y no con un número, de hecho, 
 no importa si no importa la forma en que lo escribas ( mayusculas o minusculas ) mientras que mantengas la sintaxis
 sabra detectar cual es ( 14:09 ) <br>
 He estado un rato sentado con Sergio explicandole como he hecho yo el tema de los ficheros ( 14:30 )
 Voy a estar realizando limpiezde de codigo, comentarios y updates a los TODO que tengo por el codigo ( 14:42 )
+
+<b>_→ 27/04/2021 :_</b> Hoy he dejado hecho ya que para cuando arranque el programa cargue a los usuarios que se encuentran
+en el fichero de manera automatica y los liste. Ya esta creado el backup y se guardan en el archivo, me falta que ahora
+elimine a los usuarios de el documento empleados.txt <br>
+Ahora estoy haciendo limpieza y mejora del codigo. <br>
+Estoy haciendo algunas reestructuraciones del codigo, mejorando la infraestructura y la estructura

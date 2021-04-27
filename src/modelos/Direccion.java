@@ -3,17 +3,18 @@ package modelos;
 public class Direccion {
 
     private String calle;
-    private String numero;
+    private int numero;
     private String bloque;
     private String piso;
     private String puerta;
-    private String codigoPostal;
+    private int codigoPostal;
     private String localidad;
     private String provincia;
 
     public Direccion (){
 
     }
+
     public void setCalle (String c){
         this.calle = c;
     }
@@ -21,10 +22,10 @@ public class Direccion {
         return calle;
     }
 
-    public void setNumero (String n){
+    public void setNumero (int n){
         this.numero = n;
     }
-    public String getNumero (){
+    public int getNumero (){
         return numero;
     }
 
@@ -63,11 +64,17 @@ public class Direccion {
         return provincia;
     }
 
-    public void setCodigoPostal (String  cp){
+    public void setCodigoPostal (int  cp){
         this.codigoPostal = cp;
     }
-    public String getCodigoPostal (){
+    public int getCodigoPostal (){
         return codigoPostal;
+    }
+
+    public String cadenaConAlmohadillaDireccion(){
+
+        return calle + "#" + numero + "#" + bloque + "#" + piso + "#" + puerta + "#" + localidad + "#" + provincia
+                + "#" + codigoPostal;
     }
 
     @Override

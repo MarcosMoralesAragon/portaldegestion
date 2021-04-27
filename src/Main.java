@@ -12,6 +12,9 @@ public class Main {
 
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
 
+        Servicios.crear(in, "cargar");
+        Servicios.listado("");
+
         while (!salida){
             System.out.println("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
 
@@ -20,10 +23,10 @@ public class Main {
 
             switch (eleccion){
                 case 1:
-                        Servicios.crear(in);
+                        Servicios.crear(in, "");
                     break;
                 case 2:
-                        Servicios.listado();
+                        Servicios.listado("2. ");
                     break;
 
                 case 3:
@@ -40,6 +43,8 @@ public class Main {
                 case 6:
                         System.out.println("  → Cerrando programa, gracias por su uso ←");
                         salida = true;
+                    break;
+                default:
                     break;
             }
         }
