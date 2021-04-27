@@ -16,9 +16,6 @@ los mismos.
 ¿He aplicado bien el principio divide y venceras? <br>
 Separar las funciones de la clase Servicio o dejarlo dentro
 
-Preguntar sobre como vamos a introducir los datos a los tecnicos ( nueva seleccion de elija cual es su puesto en la empresa ) (¿?) <br>
-Como hago para que el fichero sepa separar los datos cuando le digo que corte en los # <br>
-Y como implementarlo de manera eficiente en el proyecto
 ---
 - Como hacer para que reescriba el archivo de los empleados
 - Que es mas correcto o efectivo : ¿listar desde el array o del fichero?
