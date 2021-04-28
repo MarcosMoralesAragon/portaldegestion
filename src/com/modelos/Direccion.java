@@ -1,4 +1,4 @@
-package modelos;
+package com.modelos;
 
 public class Direccion {
 

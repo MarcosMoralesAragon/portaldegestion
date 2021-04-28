@@ -1,4 +1,4 @@
-package modelos;
+package com.modelos;
 
 public enum Estado {
     ALTA("Alta"),

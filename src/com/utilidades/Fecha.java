@@ -1,6 +1,5 @@
-package utilidades;
+package com.utilidades;
 
-import modelos.Empleado;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,8 +13,7 @@ public class Fecha {
         do {
             try{
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                String fecha = fechaIntroducida;
-                fechaNacimiento = format.parse(fecha);
+                fechaNacimiento = format.parse(fechaIntroducida);
                 salida = true;
             } catch (Exception e){
                 System.out.println("Por favor repita la fecha asegurandose de que sigue bien el formato (dd-mm-yyyy)");

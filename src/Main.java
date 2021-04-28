@@ -1,18 +1,22 @@
-import utilidades.Prints;
+import com.ficheros.GestionFicheros;
+import com.ficheros.Servicios;
+import com.utilidades.Prints;
+
+import java.io.IOException;
 import java.util.*;
 
 /**
  * @author MarcosMoralesAragon
  **/
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Scanner in = new Scanner(System.in);
         boolean salida = false;
 
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
 
-        Servicios.crear(in, "cargar");
+        GestionFicheros.leerFichero("empleados.txt", in);
         Servicios.listado("");
 
         while (!salida){
@@ -41,7 +45,14 @@ public class Main {
                         Servicios.modificar(in);
                     break;
                 case 6:
-                        System.out.println("  → Cerrando programa, gracias por su uso ←");
+                    Servicios.guardarPapelera();
+                    break;
+
+                case 7:
+                    Servicios.guardarEmpleados();
+                    break;
+                case 8:
+                        System.out.println("→ Cerrando programa, gracias por su uso ←");
                         salida = true;
                     break;
                 default:

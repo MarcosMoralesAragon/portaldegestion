@@ -1,4 +1,4 @@
-package utilidades;
+package com.utilidades;
 
 public class Prints {
 
@@ -50,7 +50,9 @@ public class Prints {
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 3. Borrar -_-_-_-_-_-_-_-_-_-_-_-_-_-_-╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 4. Papelera -_-_-_-_-_-_-_-_-_-_-_-_-_-╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 5. Modificar _-_-_-_-_-_-_-_-_-_-_-_-_-╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 6. Salir -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 6. Guardar Papelera -_-_-_-_-_-_-_-_-_-_-_-╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Guardar Empleados -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_-_-_- 8. Salir -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }
@@ -58,14 +60,10 @@ public class Prints {
     public static void eleccionModificar() {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("|                     |");
-        System.out.println("| 1. Nombre           |");
-        System.out.println("| 2. Apellidos        |");
-        System.out.println("| 3. DNI              |");
-        System.out.println("| 4. Fecha nacimiento |");
-        System.out.println("| 5. Nacionalidad     |");
-        System.out.println("| 6. Estado           |");
-        System.out.println("| 7. Dirección        |");
-        System.out.println("| 8. Todos            |");
+        System.out.println("| 1. Datos personales |");
+        System.out.println("| 2. Dirreción        |");
+        System.out.println("| 3. Estado           |");
+        System.out.println("| 4. Todo             |");
         System.out.println("|                     |");
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━");
     }

@@ -87,3 +87,12 @@ en el fichero de manera automatica y los liste. Ya esta creado el backup y se gu
 elimine a los usuarios de el documento empleados.txt <br>
 Ahora estoy haciendo limpieza y mejora del codigo. <br>
 Estoy haciendo algunas reestructuraciones del codigo, mejorando la infraestructura y la estructura
+
+<b>_→ 28/04/2021 :_</b> Lo que llevo de mañana he estado preparando el codigo para la implementacion del modificiar. Tenemos
+ahora una reunion donde nos lo van a explicar porque lo necesito tanto para Borrar como para Modificar. Creo que aun teniendo
+en cuenta la complejidad del proyecto estoy siendo capaz de mantener una buena estructura sin engordar demasiado el codigo
+principal y delegando funciones. Aun así todavía creo que existan mejoras. He tenido algunos problemas con la fecha esta mañana
+pero ya los he arreglado, he desplazado la creacion de fechas a un nuevo class donde tratare con las fechas (porque tenemos que
+hacer todavia algunas cosas mas ) ( 10:35 ) <br>
+
+![img.png](src/capturas/img_3.png)

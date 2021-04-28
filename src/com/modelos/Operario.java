@@ -1,16 +1,13 @@
-package modelos;
+package com.modelos;
 
-public class Oficial  extends Operario{
+public class Operario extends Empleado{
 
-
-    public Oficial(String n) {
+    public Operario(String n) {
         super(n);
     }
-
 
     @Override
     public String toString() {
         return super.toString();
     }
-
 }

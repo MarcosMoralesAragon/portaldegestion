@@ -1,4 +1,4 @@
-package utilidades;
+package com.utilidades;
 
 public class Alfanumerico {
 
