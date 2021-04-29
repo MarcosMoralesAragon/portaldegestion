@@ -73,8 +73,8 @@ public class Direccion {
 
     public String cadenaConAlmohadillaDireccion(){
 
-        return calle + "#" + numero + "#" + bloque + "#" + piso + "#" + puerta + "#" + localidad + "#" + provincia
-                + "#" + codigoPostal;
+        return calle + "#" + numero + "#" + bloque + "#" + piso + "#" + puerta + "#" + codigoPostal + "#" + localidad +
+                "#" + provincia;
     }
 
     @Override

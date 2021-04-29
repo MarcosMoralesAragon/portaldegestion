@@ -1,12 +1,14 @@
 package com.pruebas;
 
 
-import com.ficheros.GestionFicheros;
 import com.modelos.Empleado;
 
-import java.io.File;
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.*;
+
 
 public class Prueba {
 
@@ -14,20 +16,10 @@ public class Prueba {
 
 
 
-    public static void main(String[] args) throws IOException {
-        /** File fichero = new File("asdfsadf");
-        try {
-            // A partir del objeto File creamos el fichero físicamente
-            if (fichero.createNewFile())
-                System.out.println("El fichero se ha creado correctamente");
-            else
-                System.out.println("No ha podido ser creado el fichero");
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }*/
-
-        GestionFicheros.borrarFichero("asdfsadf");
-
-
+    public static void main(String[] args) throws ParseException {
+        Date fecha1 = new Date();
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaNacimiento = format.parse(String.valueOf(fecha1));
+        System.out.println(fechaNacimiento);
     }
 }

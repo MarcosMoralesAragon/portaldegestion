@@ -16,7 +16,8 @@ public class Main {
 
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
 
-        GestionFicheros.leerFichero("empleados.txt", in);
+        GestionFicheros.leerFichero("empleados.txt", "empleados");
+        GestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
         Servicios.listado("");
 
         while (!salida){
@@ -52,6 +53,9 @@ public class Main {
                     Servicios.guardarEmpleados();
                     break;
                 case 8:
+                    Servicios.guardarTodo();
+                    break;
+                case 9:
                         System.out.println("→ Cerrando programa, gracias por su uso ←");
                         salida = true;
                     break;

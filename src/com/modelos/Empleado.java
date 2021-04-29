@@ -14,6 +14,7 @@ public class Empleado {
     private String nacionalidad;
     private Direccion direccion;
     private Estado estado;
+    private Date fechaBorrado;
 
     public Empleado(String nombre) {
         this.nombre = nombre;
@@ -80,17 +81,14 @@ public class Empleado {
         return estado;
     }
 
-    public String cadenaConAlmoadilla (){
-
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
-
-        return nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
-                fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" + direccion.cadenaConAlmohadillaDireccion();
+    public void setFechaBorrado (Date fecha){
+        this.fechaBorrado = fecha;
+    }
+    public Date getFechaBorrado (){
+        return fechaBorrado;
     }
 
-    @Override
-    public String toString() {
+    public String cadenaFormateadaParaMostrarPorPantalla (){
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
@@ -106,6 +104,16 @@ public class Empleado {
 
     }
 
+    @Override
+    public String toString() {
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+
+        return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
+                fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" +
+                direccion.cadenaConAlmohadillaDireccion() + "#" + fechaBorrado + "\n";
+    }
 }
 
 

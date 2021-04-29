@@ -96,3 +96,7 @@ pero ya los he arreglado, he desplazado la creacion de fechas a un nuevo class d
 hacer todavia algunas cosas mas ) ( 10:35 ) <br>
 
 ![img.png](src/capturas/img_3.png)
+
+<b>_→ 29/04/2021 :_</b> Hoy he creado el guardado de la papelera y el guardado de los empleados, ambos desde memoria.
+He estudiado los try catch y documentación sobre el control de excepciones.He resuelto errores con respecto al código.
+También he hecho limpieza y reestructuración ( 14:29 )
