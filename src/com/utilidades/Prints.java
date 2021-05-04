@@ -1,14 +1,14 @@
 package com.utilidades;
 
+import com.ficheros.Servicios;
+import com.modelos.Empleado;
+
+import java.util.Scanner;
+
 public class Prints {
 
     private static final int ESPACIOS = 1;
 
-    public static void asegurar() {
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println(" --> Asegurese de que el número introducido coincide con los parámetros <--");
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    }
     public static void siNo (){
         System.out.println("━━━━━━━━━━");
         System.out.println("|         |");
@@ -69,18 +69,23 @@ public class Prints {
             System.out.println();
         }
     }
-    public static void estados() {
-        System.out.println("━━━━━━━━━━━━━━━━━━");
-        System.out.println("|                |");
-        System.out.println("| 1. Alta        |");
-        System.out.println("| 2. Baja        |");
-        System.out.println("| 3. En tramite  |");
-        System.out.println("|                |");
-        System.out.println("━━━━━━━━━━━━━━━━━━");
-    }
+
     public static void finalFuncion(){
         limpiar(1);
         terminadaAccion();
         limpiar(ESPACIOS);
+    }
+    public static void introduzcaDatos(Scanner in){
+        Servicios.vaciarScanner(in);
+        Prints.separador();
+        System.out.println("Introduzca el codigo del empleado");
+        System.out.print("> ");
+    }
+    public static void nombreDelEmpleadoElección(Empleado empleadoBuscado){
+        System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
+        Prints.siNo();
+    }
+    public static void error (){
+        System.out.println("Error introduciendo datos, vuelva a intentarlo");
     }
 }

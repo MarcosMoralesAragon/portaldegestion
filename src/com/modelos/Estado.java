@@ -11,14 +11,6 @@ public enum Estado {
         this.estado = estado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
     @Override
     public String toString() {
         return estado;

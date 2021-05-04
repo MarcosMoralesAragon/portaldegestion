@@ -8,28 +8,28 @@ import com.utilidades.Fecha;
 import com.utilidades.Prints;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.*;
 
 public class Servicios {
 
-    public static final ArrayList<Empleado> empleados = new ArrayList<>();
-    public static final HashMap<String, Empleado> empleadosBorrados = new HashMap<String, Empleado>();
+    public static ArrayList<Empleado> empleados = new ArrayList<>();
+    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
-    public static void crear(Scanner in, String palabra) {
+    public static void crear(Scanner in) {
 
 
         System.out.println("1. Crear");
 
         Empleado variableEmpleado = new Empleado(null);
-
-        datosEmpleadosPorTeclado( in, variableEmpleado);
-        variableEmpleado.setDireccion(datosDireccionPorTeclado(in));
-
-        generarCodigo(variableEmpleado);
-        empleados.add(variableEmpleado);
-
+        try {
+            datosEmpleadosPorTeclado(in, variableEmpleado);
+            variableEmpleado.setDireccion(datosDireccionPorTeclado(in));
+            generarCodigo(empleados, variableEmpleado);
+            empleados.add(variableEmpleado);
+        } catch (Exception e) {
+            Prints.error();
+        }
         Prints.finalFuncion();
     }
 
@@ -52,21 +52,21 @@ public class Servicios {
         System.out.println("3. Borrado");
 
         do {
-            vaciarScanner(in);
-            Prints.separador();
-            System.out.println("Introduzca el codigo del empleado que desea borrar");
-            System.out.print("> ");
+            Prints.introduzcaDatos(in);
             String codigo;
-            Empleado empleadoBuscado = buscaEmpleadoDevolviendoElEmpleado(empleados, codigo = in.nextLine());
-            System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea cambiar a este empleado?");
-            Prints.asegurar();
-            Prints.siNo();
-            int eleccion = in.nextInt();
-            salida = sigueOSale(eleccion);
-            if (salida){
-                accionBorradoEmpleado(empleados, codigo, empleadoBuscado);
+            Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, codigo = in.nextLine());
+            if (empleadoBuscado != null){
+                Prints.nombreDelEmpleadoElección(empleadoBuscado);
+                int eleccion = in.nextInt();
+                salida = sigueOSale(eleccion);
+                if (salida){
+                    accionBorradoEmpleado(empleados, codigo, empleadoBuscado);
+                } else {
+                    salida = otroOSalir(in, "borrado");
+                }
             } else {
-                salida = otroOSalir(in, "borrado");
+                System.out.println("Código erroneo, cerrando acción");
+                salida = true;
             }
         } while (!salida);
         Prints.finalFuncion();
@@ -91,21 +91,21 @@ public class Servicios {
         System.out.println("5. Modificar");
 
         do {
-            vaciarScanner(in);
-            Prints.separador();
-            System.out.println("Introduzca el numero del empleado del que desea cambiar algun dato");
-            System.out.print(" > ");
-            String codigo = in.nextLine();
-            Empleado empleadoBuscado =buscaEmpleadoDevolviendoElEmpleado(empleados, codigo);
-            System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea cambiar a este empleado?");
-            Prints.siNo();
-            int eleccion = in.nextInt();
-            salida = sigueOSale(eleccion);
+            Prints.introduzcaDatos(in);
+            Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
+            if (empleadoBuscado != null){
+                Prints.nombreDelEmpleadoElección(empleadoBuscado);
+                int eleccion = in.nextInt();
+                salida = sigueOSale(eleccion);
 
-            if (salida){
-                cambioDeCampo(in, empleadoBuscado);
-            }else {
-                salida = otroOSalir(in, "cambiar");
+                if (salida){
+                    elecciónDeGrupoQueQuiereCambiar(in, empleadoBuscado);
+                }else {
+                    salida = otroOSalir(in, "cambiar");
+                }
+            } else {
+                System.out.println("Codigo erroneo, volviendo a menú principal");
+                salida = true;
             }
         } while (!salida);
         Prints.finalFuncion();
@@ -124,7 +124,7 @@ public class Servicios {
                 try {
                     GestionFicheros.escribirFichero("copiaDeSeguridad.txt", entry.getValue().toString());
                 } catch (IOException e) {
-                    System.out.println("Fallo guardando la lista");
+                    System.out.println("Fallo guardando la papelera");
                 }
             }
 
@@ -145,8 +145,10 @@ public class Servicios {
             for (Empleado empleado : empleados) {
                 try {
                     GestionFicheros.escribirFichero("empleados.txt", empleado.toString());
+                    // Cuando lo guarda le genera una fecha de borrado con la hora actual en el archivo txt, esta fecha
+                    // no importa porque no la carga despues es para que no de fallo por campo nulo
                 } catch (IOException e) {
-                    System.out.println("Fallo guardando la lista");
+                    System.out.println("Fallo guardando la lista de empleados");
                 }
             }
         }
@@ -155,18 +157,16 @@ public class Servicios {
     }
 
     public static void guardarTodo() {
-        guardarPapelera();
         guardarEmpleados();
+        guardarPapelera();
     }
 
 
 
     // ------------------------> FUNCIONES <-----------------------------
 
-    static void vaciarScanner(Scanner in){
-        if (in.hasNextLine()){
-            in.skip("\n");
-        }
+    public static void vaciarScanner(Scanner in){
+        in.skip("\n");
     }
 
     private static boolean sigueOSale(int eleccion){
@@ -195,47 +195,76 @@ public class Servicios {
         return salida;
     }
 
-    private static Empleado buscaEmpleadoDevolviendoElEmpleado(ArrayList<Empleado> empleados, String codigo){
+    private static Empleado buscaEmpleadoPorCodigo(ArrayList<Empleado> empleados, String codigo){
+        Empleado empleadoResultado = null;
+        int contadorParaRecorrerElArray = 0;
+        if (codigoEstaAsignadoAAlguien(empleados, codigo)){
 
-        Empleado empleadoResultado = new Empleado(null);
-        for (Empleado empleadoBuscado : empleados) {
-            if (empleadoBuscado.getCodigo().equals(codigo)) {
-                empleadoResultado = empleadoBuscado;
-                break; // Terminar ciclo, pues ya lo encontramos
+            while (contadorParaRecorrerElArray < empleados.size()){
+                if (empleados.get(contadorParaRecorrerElArray).getCodigo().equals(codigo)){
+                    empleadoResultado = empleados.get(contadorParaRecorrerElArray);
+                }
+                contadorParaRecorrerElArray ++;
             }
         }
         return empleadoResultado;
     }
 
-    private static void generarCodigo(Empleado variableEmpleado){
+    private static void generarCodigo(ArrayList<Empleado> empleados, Empleado variableEmpleado){
         Prints.separadorConTexto("Codigo");
-        variableEmpleado.setCodigo(Alfanumerico.generar());
-        System.out.println(variableEmpleado.getCodigo());
-    }
+        String codigo;
+        do {
+            codigo = Alfanumerico.generar();
+        }while (codigoEstaAsignadoAAlguien(empleados, codigo));
+        variableEmpleado.setCodigo(codigo);
+        System.out.println(variableEmpleado.getCodigo()); }
 
     private static int estadoEleccion(String palabraIntroducida){
 
         String palabraIntroducidaMayusculas = palabraIntroducida.toUpperCase();
         int eleccion;
-        if (palabraIntroducidaMayusculas.equals("ALTA")) {
-            eleccion = 0;
-        } else if (palabraIntroducidaMayusculas.equals("BAJA")) {
-            eleccion = 1;
-        } else {
-            eleccion = 2;
+        switch (palabraIntroducidaMayusculas) {
+            case "ALTA":
+                eleccion = 0;
+                break;
+            case "BAJA":
+                eleccion = 1;
+                break;
+            case "EN TRAMITE":
+                eleccion = 2;
+                break;
+            default:
+                System.out.println("Palabra introducida erronea, se establecera ''Alta'' como predeterminado,porfavor cambie el dato con la acción modificar");
+                eleccion = 0;
+                break;
         }
         return eleccion;
     }
 
-    public static void cargarLista(Scanner in, String[] datoSeparado, String palabra) {
+    public static void cargarLista(String[] datoSeparado, String palabra) throws ParseException {
         Empleado variableEmpleado = new Empleado(null);
-        datosEmpleados(variableEmpleado,in, datoSeparado);
-        variableEmpleado.setDireccion(datosDireccion(datoSeparado, in));
+        datosEmpleados(variableEmpleado, datoSeparado);
+        variableEmpleado.setDireccion(datosDireccion(datoSeparado));
         if (palabra.equals("empleados")){
             empleados.add(variableEmpleado);
         } else if (palabra.equals("papelera")){
+            variableEmpleado.setFechaBaja(Fecha.leerFechaConFormato(datoSeparado[17]));
             empleadosBorrados.put(variableEmpleado.getCodigo(), variableEmpleado);
         }
+    }
+
+    public static boolean codigoEstaAsignadoAAlguien(ArrayList<Empleado> empleados, String codigo){
+        boolean resultado = false;
+
+        int contadorParaRecorrerElArray = 0;
+        while (contadorParaRecorrerElArray < empleados.size()){
+            if (empleados.get(contadorParaRecorrerElArray).getCodigo().equals(codigo)) {
+                resultado = true;
+                break;
+            }
+            contadorParaRecorrerElArray ++;
+        }
+        return resultado;
     }
 
     // ######## --------> FUNCIONES LEER <-------------------- #########
@@ -260,7 +289,7 @@ public class Servicios {
         return in.nextLine();
     }
 
-    private static String leerFecha(Scanner in) {
+    public static String leerFecha(Scanner in) {
         Prints.separadorConTexto("Fecha de Nacimiento");
         return in.nextLine();
     }
@@ -285,9 +314,15 @@ public class Servicios {
 
     private static int leerNumero(Scanner in){
         Prints.separadorConTexto("Numero");
-        String resultado = in.nextLine();
-        int resultadoInt = Integer.parseInt(resultado);
-        return resultadoInt;
+        int resultado = 0;
+            try {
+                resultado = in.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error, numero mal introducido. Se establecera 0 como predeterminado");
+            } finally {
+                in.nextLine();
+            }
+        return resultado;
     }
 
     private static String leerBLoque(Scanner in){
@@ -306,10 +341,17 @@ public class Servicios {
     }
 
     private static int leerCodigoPostal(Scanner in){
-        Prints.separadorConTexto("Codigo Postal");
-        String resultado = in.nextLine();
-        int resultadoInt = Integer.parseInt(resultado);
-        return resultadoInt;
+        Prints.separadorConTexto("Codigo postal");
+        int resultado = 0;
+        try {
+            resultado = in.nextInt();
+        } catch (Exception e){
+            System.out.println("Error al introducir el código postal. Se establecera 00000 como predetermiando");
+        } finally {
+            in.nextLine();
+        }
+
+        return resultado;
     }
 
     private static String leerLocalidad(Scanner in){
@@ -324,7 +366,7 @@ public class Servicios {
 
     // -------------------->  FUNCIONES CREAR  <------------------------
 
-    private static void datosEmpleados( Empleado variableEmpleado, Scanner in, String[] datoSeparado) {
+    private static void datosEmpleados( Empleado variableEmpleado, String[] datoSeparado) throws ParseException {
 
         // Almacena y guarda los datos del empleado.
         variableEmpleado.setCodigo(datoSeparado[0]);
@@ -335,9 +377,11 @@ public class Servicios {
         variableEmpleado.setFechaNacimiento(Fecha.fecha(datoSeparado[5]));
         variableEmpleado.setNacionalidad(datoSeparado[6]);
         variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoSeparado[7])]);
+        variableEmpleado.setFechaAlta(Fecha.leerFechaConFormato(datoSeparado[16]));
+        variableEmpleado.setFechaBaja(Fecha.creaciónFechaActual());
    }
 
-    private static Direccion datosDireccion( String[] datoSeparado, Scanner in){
+    private static Direccion datosDireccion( String[] datoSeparado){
 
         // Almacena y guarda los datos sobre la direccion
         Direccion variableDireccion = new Direccion();
@@ -352,7 +396,7 @@ public class Servicios {
         return variableDireccion;
     }
 
-    private static void datosEmpleadosPorTeclado( Scanner in , Empleado variableEmpleado) {
+    private static void datosEmpleadosPorTeclado( Scanner in , Empleado variableEmpleado) throws ParseException {
 
         vaciarScanner(in);
         variableEmpleado.setNombre(leerNombre(in));
@@ -362,9 +406,11 @@ public class Servicios {
         variableEmpleado.setFechaNacimiento(Fecha.fecha(leerFecha(in)));
         variableEmpleado.setNacionalidad(leerNacionalidad(in));
         variableEmpleado.setEstado(Estado.values()[leerEstado(in)]);
+        variableEmpleado.setFechaAlta(Fecha.creaciónFechaActual());
+        variableEmpleado.setFechaBaja(Fecha.creaciónFechaActual());
     }
 
-    private static Direccion datosDireccionPorTeclado(Scanner in) {
+    private static Direccion datosDireccionPorTeclado(Scanner in){
 
         Direccion variableDireccion = new Direccion();
         variableDireccion.setCalle(leerCalle(in));               // Calle
@@ -381,67 +427,72 @@ public class Servicios {
 
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
-    private static void accionBorradoEmpleado(ArrayList<Empleado> empleados, String codigo, Empleado empleadoBuscado){
+    private static void accionBorradoEmpleado(ArrayList<Empleado> empleados , String codigo, Empleado empleadoBuscado){
 
-        // Busca el empleado por el codigo y una vez seleccionado lo guarda en un mapa y luego lo borra del arrraylist
-        Date fecha = new Date();
-        empleadoBuscado.setFechaBorrado(fecha);
-        Servicios.empleadosBorrados.put(codigo,empleadoBuscado);
+        // Al empleado buscado, le asigna una fecha de borrado, lo guarda en un mapa y lo borra del array
+        empleadoBuscado.setFechaBaja(Fecha.creaciónFechaActual());
+        empleadosBorrados.put(codigo,empleadoBuscado);
         empleados.remove(empleadoBuscado);
     }
 
     // -------------------------------> FUNCIONES MODIFICAR   <------------------------
 
+    private static void elecciónDeGrupoQueQuiereCambiar(Scanner in, Empleado empleadoBuscado) {
 
-    // TODO Siguente cosa a trabajar, la modificacion de los datos mediante el fichero.
-    //  Supongo que lo que tendremos que hacer sera que en esa posicion reescrbia el campo del fichero y tambien
-    //  lo cambie en el objeto empleado
-
-    private static void cambioDeCampo(Scanner in, Empleado empleadoBuscado) {
-
-        Empleado modificado;
         Prints.eleccionModificar();
         System.out.println("Elija que campo quiere cambiar");
         int decision = in.nextInt();
+        boolean salida = true;
+        do {
+            try {
+                if (decision == 1) { // Campos informacion personal
 
-        if (decision == 1) { // Campos informacion personal
-            vaciarScanner(in);
-            cambioCamposPersonales(in, empleadoBuscado);
-        } else if (decision == 2) { // Campos de direccion
-            vaciarScanner(in);
-            cambioCamposDireccion(in, empleadoBuscado);
-        } else if (decision == 3) { // Estado
-            vaciarScanner(in);
-            cambioEstado(empleadoBuscado, in);
-        } else if (decision == 4) { // En caso de poner mal el numero
-            empleadoBuscado = cambioCamposPersonales(in, empleadoBuscado);
-            empleadoBuscado = cambioCamposDireccion(in, empleadoBuscado);
-            cambioEstado(empleadoBuscado, in);
-        } else {
-            System.out.println("Error. Numero introducido por teclado erroneo");
-        }
+                    vaciarScanner(in);
+                    cambioCamposPersonales(in, empleadoBuscado);
+
+                } else if (decision == 2) { // Campos de direccion
+
+                    vaciarScanner(in);
+                    cambioCamposDireccion(in, empleadoBuscado);
+
+                } else if (decision == 3) { // Estado
+
+                    vaciarScanner(in);
+                    cambioEstado(empleadoBuscado, in);
+
+                } else if (decision == 4) { // Todos los campos
+
+                    cambioCamposPersonales(in, empleadoBuscado);
+                    cambioCamposDireccion(in, empleadoBuscado);
+                    cambioEstado(empleadoBuscado, in);
+                } else {
+                    System.out.println("Error. Numero introducido por teclado erroneo");
+                }
+            } catch (Exception e){
+                System.out.println("Error introduciendo datos, vuelva a intentarlo");
+                salida = false;
+            }
+        }while (!salida);
     }
 
-    private static Empleado cambioCamposDireccion(Scanner in, Empleado empleadoBuscado) {
-        empleadoBuscado = cambioCalle(in ,empleadoBuscado);
-        empleadoBuscado = cambioNumero(in ,empleadoBuscado);
-        empleadoBuscado = cambioBloque(in ,empleadoBuscado);
-        empleadoBuscado = cambioPiso(in ,empleadoBuscado);
-        empleadoBuscado = cambioPuerta(in ,empleadoBuscado);
-        empleadoBuscado = cambioCodigoPostal(in ,empleadoBuscado);
-        empleadoBuscado = cambioLocalidad(in ,empleadoBuscado);
-        empleadoBuscado = cambioProvincia(in ,empleadoBuscado);
+    private static void cambioCamposDireccion(Scanner in, Empleado empleadoBuscado){
 
-        return empleadoBuscado;
+        cambioCalle(in, empleadoBuscado);
+        cambioNumero(in, empleadoBuscado);
+        cambioBloque(in, empleadoBuscado);
+        cambioPiso(in, empleadoBuscado);
+        cambioPuerta(in, empleadoBuscado);
+        cambioCodigoPostal(in, empleadoBuscado);
+        cambioLocalidad(in, empleadoBuscado);
+        cambioProvincia(in, empleadoBuscado);
     }
 
-    private static Empleado cambioCamposPersonales(Scanner in, Empleado empleadoBuscado) {
-        empleadoBuscado = cambioNombre(in ,empleadoBuscado);
-        empleadoBuscado = cambioApellidos(in ,empleadoBuscado);
-        empleadoBuscado = cambioDNI(in ,empleadoBuscado);
-        empleadoBuscado = cambioFechaNacimiento(in ,empleadoBuscado);
-        empleadoBuscado = cambioNacionalidad(in , empleadoBuscado);
-        return empleadoBuscado;
+    private static void cambioCamposPersonales(Scanner in, Empleado empleadoBuscado) throws ParseException {
+        cambioNombre(in ,empleadoBuscado);
+        cambioApellidos(in ,empleadoBuscado);
+        cambioDNI(in ,empleadoBuscado);
+        cambioFechaNacimiento(in ,empleadoBuscado);
+        cambioNacionalidad(in , empleadoBuscado);
     }
 
     public static void cambioEstado(Empleado empleadoBuscado, Scanner in){
@@ -450,71 +501,58 @@ public class Servicios {
 
     // --------------------------------------------------------------------------
 
-    private static Empleado cambioNombre(Scanner in, Empleado empleadoBuscado){
+    private static void cambioNombre(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.setNombre(leerNombre(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioApellidos(Scanner in, Empleado empleadoBuscado){
+    private static void cambioApellidos(Scanner in, Empleado empleadoBuscado){
 
         empleadoBuscado.setPrimerApellido(leerPrimerApellido(in));
         empleadoBuscado.setSegundoApellido(leerSegundoApellido(in));
 
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioDNI(Scanner in, Empleado empleadoBuscado){
+    private static void cambioDNI(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.setDNI(leerDNI(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioFechaNacimiento(Scanner in, Empleado empleadoBuscado) {
+    private static void cambioFechaNacimiento(Scanner in, Empleado empleadoBuscado) throws ParseException {
         empleadoBuscado.setFechaNacimiento(Fecha.fecha(leerFecha(in)));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioNacionalidad(Scanner in, Empleado empleadoBuscado){
+    private static void cambioNacionalidad(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.setNacionalidad(leerNacionalidad(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioCalle(Scanner in, Empleado empleadoBuscado){
+    private static void cambioCalle(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setCalle(leerCalle(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioNumero(Scanner in, Empleado empleadoBuscado){
+    private static void cambioNumero(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setNumero(leerNumero(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioBloque(Scanner in, Empleado empleadoBuscado){
+    private static void cambioBloque(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setBloque(leerBLoque(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioPiso(Scanner in, Empleado empleadoBuscado){
+    private static void cambioPiso(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setPiso(leerPiso(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioPuerta(Scanner in, Empleado empleadoBuscado){
+    private static void cambioPuerta(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setPuerta(leerPuerta(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioCodigoPostal(Scanner in, Empleado empleadoBuscado){
+    private static void cambioCodigoPostal(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setCodigoPostal(leerCodigoPostal(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioLocalidad(Scanner in, Empleado empleadoBuscado){
+    private static void cambioLocalidad(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setLocalidad(leerLocalidad(in));
-        return empleadoBuscado;
     }
 
-    private static Empleado cambioProvincia(Scanner in, Empleado empleadoBuscado){
+    private static void cambioProvincia(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setProvincia(leerProvincia(in));
-        return empleadoBuscado;
     }
 }

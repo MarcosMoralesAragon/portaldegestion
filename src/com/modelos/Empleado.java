@@ -1,5 +1,7 @@
 package com.modelos;
 
+import com.utilidades.Fecha;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,7 +16,8 @@ public class Empleado {
     private String nacionalidad;
     private Direccion direccion;
     private Estado estado;
-    private Date fechaBorrado;
+    private Date fechaBaja;
+    private Date fechaAlta;
 
     public Empleado(String nombre) {
         this.nombre = nombre;
@@ -81,11 +84,18 @@ public class Empleado {
         return estado;
     }
 
-    public void setFechaBorrado (Date fecha){
-        this.fechaBorrado = fecha;
+    public void setFechaBaja(Date fecha){
+        this.fechaBaja = fecha;
     }
-    public Date getFechaBorrado (){
-        return fechaBorrado;
+    public Date getFechaBaja(){
+        return fechaBaja;
+    }
+
+    public void setFechaAlta(Date fecha){
+        this.fechaAlta = fecha;
+    }
+    public Date getFechaAlta(){
+        return fechaAlta;
     }
 
     public String cadenaFormateadaParaMostrarPorPantalla (){
@@ -110,9 +120,13 @@ public class Empleado {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
 
+        String fechaAltaFormateada = Fecha.formatoFechaCreacionYBorrado(fechaAlta);
+        String fechaBajaFormateada = Fecha.formatoFechaCreacionYBorrado(fechaBaja);
+
+
         return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
                 fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" +
-                direccion.cadenaConAlmohadillaDireccion() + "#" + fechaBorrado + "\n";
+                direccion.cadenaConAlmohadillaDireccion() + "#" + fechaAltaFormateada + "#" + fechaBajaFormateada + "\n";
     }
 }
 

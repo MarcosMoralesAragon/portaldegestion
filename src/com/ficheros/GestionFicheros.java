@@ -13,10 +13,9 @@ import java.util.Scanner;
 public class GestionFicheros {
 
 
-    public static void leerFichero (String nombreFichero,String palabra){ //TODO cambiar
-
-        String[] datoSeparado = null;
-
+    public static void leerFichero (String nombreFichero,String palabra){
+        String[] datoSeparado;
+        boolean frase = true;
         Scanner in = null;
         try {
             in = new Scanner(Paths.get(nombreFichero));
@@ -25,10 +24,15 @@ public class GestionFicheros {
 
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
-                if (palabra.equals("empleados")){
-                    Servicios.cargarLista(in, datoSeparado,palabra);
-                } else if (palabra.equals("papelera")){
-                    Servicios.cargarLista(in,datoSeparado,palabra);
+                try {
+                    if (palabra.equals("empleados")){
+                        Servicios.cargarLista(datoSeparado,palabra);
+                    } else if (palabra.equals("papelera")){
+                        Servicios.cargarLista(datoSeparado,palabra);
+                    }
+                } catch (Exception e){
+                    System.out.println("Fallo cargando los archivos, revise los datos en el interior");
+                    frase = false;
                 }
             }
         } catch (IOException e) {
@@ -37,15 +41,15 @@ public class GestionFicheros {
             assert in != null;
             in.close();
         }
-
-        System.out.println("Archivo " + nombreFichero + " cargado");
-        Prints.limpiar(1);
+        if (frase){
+            System.out.println("Archivo " + nombreFichero + " cargado");
+            Prints.limpiar(1);
+        }
     }
 
     public static boolean borrarFichero(String nombreFichero){
         File fichero = new File(nombreFichero);
-        boolean borrado = fichero.delete();
-        return borrado;
+        return fichero.delete();
     }
 
     public static boolean creadorFicheros(String nombreFichero){
