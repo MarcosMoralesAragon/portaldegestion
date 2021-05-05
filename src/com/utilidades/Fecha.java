@@ -19,16 +19,25 @@ public class Fecha {
         return new Date();
     }
 
-    public static String formatoFechaCreacionYBorrado (Date fecha){
+    public static String formateoDeFechaParaFechaCreadoYBorrado(Date fecha){
         DateFormat format = new SimpleDateFormat("hh : mm : ss a // dd-MM-yyyy");
-        return format.format(fecha);
+        String fechaResulado;
+        if (fecha != null){
+            fechaResulado = format.format(fecha);
+        } else {
+            fechaResulado = null;
+        }
+        return fechaResulado;
     }
 
-    public static Date leerFechaConFormato(String fechaFormateada) throws ParseException {
-        Date fecha;
+    public static Date leerStringDevolviendoFechaFormateada(String fechaFormateada) throws ParseException {
+        Date fechaResultado;
         DateFormat format = new SimpleDateFormat("hh : mm : ss a // dd-MM-yyyy");
-        fecha = format.parse(fechaFormateada);
-        return fecha;
+        if (fechaFormateada != null) {
+            fechaResultado = format.parse(fechaFormateada);
+        } else {
+            fechaResultado = null;
+        }
+        return fechaResultado;
     }
-
 }

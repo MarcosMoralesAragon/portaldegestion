@@ -100,3 +100,19 @@ hacer todavia algunas cosas mas ) ( 10:35 ) <br>
 <b>_→ 29/04/2021 :_</b> Hoy he creado el guardado de la papelera y el guardado de los empleados, ambos desde memoria.
 He estudiado los try catch y documentación sobre el control de excepciones.He resuelto errores con respecto al código.
 También he hecho limpieza y reestructuración ( 14:29 )
+
+<b>_→ 04/05/2021 :_</b> Esta entrada la hago un día despues porque ayer querian ver que teniamos del proyecto y fue un día
+muy ocupado. Sobre todo implemente funciones nuevas, más control para evitar errores y limpieza
+
+<b>_→ 05/05/2021 :_</b> Hemos tenido por la mañana una revision de lo que habíamos hecho hasta ahora y por ahora voy bien
+necesito hacer un poco más. Hoy dejare varios todo planteados para ir haciendolos a lo largo de la mañana y mañana quizas.
+Necesito mejorar el control de excepciones, repasar lo de las fechas y revisar todo el codigo en busca de fallos (10:02) <br>
+Hemos tenido otra reunion a las 2 mas o menos donde hemos expuesto que vamos a hacer y el tiempo que estimamos para tener todo
+listo. Yo he estimado que para el Lunes tendre listo el control de excepciones, las ulitmas funciones de la papelera y repasar
+el control de excepciones. Tras la revisión de hoy sobre nuestros programas me siento mucho mas confiado sobre mis habilidades, 
+obviamente sigo teniendo algunos fallos leves pero no tengo que ignorarlos. Mi prevision para estos dias es mañana terminar las
+fechas, y las excepciones y el lunes rematar la papelera aunque ya tengo terminado lo de las fechas. Tambien deberia de 
+ir haciendo lo del informe. Ahora voy a dejar unos cuantos TODO para mañana y asi saber por donde tengo que seguir, que deje 
+a mitad o regular y tal, de paso voy a dejar hecha la estructura del informe ( 14:43 ) <br>
+Acabo de dejar planteado la estructura y como resolverlo en el futuro para ahorrarme tiempo 
+![img.png](src/capturas/img4.png)

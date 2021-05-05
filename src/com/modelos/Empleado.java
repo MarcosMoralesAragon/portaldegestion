@@ -120,8 +120,8 @@ public class Empleado {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
 
-        String fechaAltaFormateada = Fecha.formatoFechaCreacionYBorrado(fechaAlta);
-        String fechaBajaFormateada = Fecha.formatoFechaCreacionYBorrado(fechaBaja);
+        String fechaAltaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaAlta);
+        String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaBaja);
 
 
         return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +

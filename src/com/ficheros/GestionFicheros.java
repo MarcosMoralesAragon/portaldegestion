@@ -12,16 +12,17 @@ import java.util.Scanner;
 
 public class GestionFicheros {
 
-
-    public static void leerFichero (String nombreFichero,String palabra){
+    public static boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;
-        boolean frase = true;
+        boolean fraseConfirmaciconDeLectura = false;
         Scanner in = null;
+        boolean archivoLeido = false;
         try {
             in = new Scanner(Paths.get(nombreFichero));
-
+            if (!in.hasNextLine()){
+                System.out.println("El archivo ''" + nombreFichero + "'' esta vacio. Revise el contenido y reintente");
+            }
             while (in.hasNextLine()){
-
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
                 try {
@@ -30,21 +31,25 @@ public class GestionFicheros {
                     } else if (palabra.equals("papelera")){
                         Servicios.cargarLista(datoSeparado,palabra);
                     }
+                    fraseConfirmaciconDeLectura = true;
+                    archivoLeido = true;
                 } catch (Exception e){
-                    System.out.println("Fallo cargando los archivos, revise los datos en el interior");
-                    frase = false;
+                   System.out.println("Fallo cargando el archivo ''" + nombreFichero + "''. Los datos del interior tienen defectos");
+                   fraseConfirmaciconDeLectura = false;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Fallo con el archivo "+ nombreFichero+" , revise que existe y que este dentro de la carpeta del proyecto");
         } finally {
-            assert in != null;
-            in.close();
+            if (in != null){
+                in.close();
+            }
         }
-        if (frase){
+        if (fraseConfirmaciconDeLectura){
             System.out.println("Archivo " + nombreFichero + " cargado");
             Prints.limpiar(1);
         }
+        return archivoLeido;
     }
 
     public static boolean borrarFichero(String nombreFichero){
