@@ -34,23 +34,11 @@ las funciones de la aplicacion
 - El archivo donde se guardaran los datos de los empleados eliminados se debe llamar copiaDeSeguridad.txt.
 - En caso de querer introducirlos escribiendo en el fichero deberás seguir el siguiente formato
 
-title: Cuadros de texto y formas en informes de Power BI
-description: Agregue y cree cuadros de texto y formas en un informe mediante el servicio Microsoft Power BI.
-author: maggiesMSFT
-ms.author: maggies
-ms.reviewer: ''
-featuredvideoid: _3q6VEBhGew
-ms.service: powerbi
-ms.subservice: pbi-reports-dashboards
-ms.topic: how-to
-ms.date: 05/29/2019
-LocalizationGroup: Visualizations
-ms.openlocfilehash: 90c7489ad047be47a2a1f9ac9e814a9da5724f32
-ms.sourcegitcommit: 653e18d7041d3dd1cf7a38010372366975a98eae
-ms.translationtype: HT
-ms.contentlocale: es-ES
-ms.lasthandoff: 12/01/2020
-ms.locfileid: "96393563"
+Todos estos datos los separaremos con #
+
+| Código | Nombre | Primer Apellido | Segundo Apellido | DNI | Fecha nacimiento | Nacionalidad | Estado | Calle | Numero | Bloque | Piso | Puerta | Codigo postal | Localidad | Provincia | Fecha Creacion | Fecha Borrado |
+| :---:  | :---:  |     :---:       |      :---:       |:---:|       :---:      |    :---:     |  :---: | :---: | :---:  | :---:  |:---: |  :---: |      :---:    |   :---:   |   :---:   |     :---:      |     :---:     |
+| Admite NULL |   |                 |                  |     |                  |              |        |       |        |        |      |        |               |           |           | Puede ser NULL (se le asignara la fecha del momento del ordenador) | Debe ser NULL (Se le asigna una al mandarlo a la papelera) |
 
 `Registro diario :`
 

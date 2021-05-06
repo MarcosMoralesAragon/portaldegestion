@@ -399,8 +399,16 @@ public class Servicios {
         variableEmpleado.setFechaNacimiento(Fecha.fecha(datoSeparado[5]));
         variableEmpleado.setNacionalidad(datoSeparado[6]);
         variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoSeparado[7])]);
-        variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[16]));
-        variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
+        if ( datoSeparado[16] == null){
+            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(null));
+        } else {
+            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[16]));
+        }
+        if (datoSeparado[17] == null){
+            variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
+        } else {
+            variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
+        }
    }
 
     private static Direccion datosDireccion( String[] datoSeparado){
