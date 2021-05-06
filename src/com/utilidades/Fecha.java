@@ -6,10 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+@SuppressWarnings("NonAsciiCharacters")
 public class Fecha {
 
     public static Date fecha(String fechaIntroducida) throws ParseException {
-        Date fechaNacimiento = null;
+        Date fechaNacimiento;
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
         fechaNacimiento = format.parse(fechaIntroducida);

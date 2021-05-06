@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import static java.util.Map.*;
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "NonAsciiCharacters"})
 
 public class Servicios {
 
@@ -67,27 +67,9 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
-    public static void listarPapelera() {
-        System.out.println("4. Papelera");
-        Prints.separador();
-        Prints.limpiar(1);
-        int i = 0;
-        if (empleadosBorrados.isEmpty()){
-            System.out.println("La papelera esta vacía");
-        } else {
-            for (Entry borrados:empleadosBorrados.entrySet()) {
-                System.out.print("Empleado en papelera Nª" + (i + 1) + " --> ");
-                System.out.println(borrados.getValue().toString());
-                i++;
-            }
-        }
-        System.out.println(empleadosBorrados);
-        Prints.finalFuncion();
-    }
-
     public static void modificar(Scanner in){
         boolean salida;
-        System.out.println("5. Modificar");
+        System.out.println("4. Modificar");
         do {
             Prints.introduzcaDatos(in);
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
@@ -107,7 +89,62 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
+    public static void guardarEmpleados(String nombreFichero) {
+        System.out.println("5. Guardar empleados");
+        Prints.separador();
+        Prints.limpiar(1);
+
+        boolean creado = false;
+        boolean borrado = GestionFicheros.borrarFichero(nombreFichero);
+        if (borrado){
+            creado = GestionFicheros.creadorFicheros(nombreFichero);
+        }
+        if (creado){
+            for (Empleado empleado : empleados) {
+                try {
+                    GestionFicheros.escribirFichero(nombreFichero, empleado.toString());
+                    // Lo guarda con una fecha de baja estandar (12 : 00 : 00 AM // 30-11-0002) para evitar
+                    // problemas con los nulos
+                } catch (IOException e) { // TODO
+                    System.out.println("Fallo guardando el fichero : " + nombreFichero );
+                }
+            }
+            System.out.println("Empleados guardados con exito");
+        }
+        Prints.finalFuncion();
+    }
+
+    public static void guardarTodo() {
+        System.out.println("6. Guardar todo");
+        Prints.separador();
+        Prints.limpiar(1);
+
+        guardarEmpleados("empleados.txt");
+        guardarPapelera("copiaDeSeguridad.txt");
+    }
+
+    public static void listarPapelera() {
+        System.out.println("7. Listar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
+        int i = 0;
+        if (empleadosBorrados.isEmpty()){
+            System.out.println("La papelera esta vacía");
+        } else {
+            for (Entry borrados:empleadosBorrados.entrySet()) {
+                System.out.print("Empleado en papelera Nª" + (i + 1) + " --> ");
+                System.out.println(borrados.getValue().toString());
+                i++;
+            }
+        }
+        System.out.println(empleadosBorrados);
+        Prints.finalFuncion();
+    }
+
     public static void guardarPapelera(String nombreFichero) {
+        System.out.println("8. Guardar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
 
         boolean creado = true;
         if (!nombreFichero.equals("empleados.txt")) {
@@ -130,39 +167,21 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
-    public static void guardarEmpleados(String nombreFichero) {
-        boolean creado = false;
-        boolean borrado = GestionFicheros.borrarFichero(nombreFichero);
-        if (borrado){
-            creado = GestionFicheros.creadorFicheros(nombreFichero);
-        }
-        if (creado){
-            for (Empleado empleado : empleados) {
-                try {
-                    GestionFicheros.escribirFichero(nombreFichero, empleado.toString());
-                    // Lo guarda con una fecha de baja estandar (12 : 00 : 00 AM // 30-11-0002) para evitar
-                    // problemas con los nulos
-                } catch (IOException e) { // TODO
-                    System.out.println("Fallo guardando el fichero : " + nombreFichero );
-                }
-            }
-            System.out.println("Empleados guardados con exito");
-        }
-        Prints.finalFuncion();
-    }
-
-    public static void guardarTodo() {
-        guardarEmpleados("empleados.txt");
-        guardarPapelera("copiaDeSeguridad.txt");
-    }
-
     public static void recuperarPapelera(){
+        System.out.println("9. Recuperar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
+
         Prints.limpiar(1);
         GestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
         Prints.finalFuncion();
     }
 
     public static void vaciarPapelera(){
+        System.out.println("11. Vaciar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
+
         empleadosBorrados.clear();
         Prints.limpiar(1);
         System.out.println("Papelera vaciada con exito");
@@ -170,6 +189,9 @@ public class Servicios {
     }
 
     public static void restaurarPapelera(){
+        System.out.println("10. Restaurar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
 
         if (!empleadosBorrados.isEmpty()){
             for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
@@ -203,7 +225,10 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
-    public static void informe(Scanner in){
+    public static void informe(){
+        System.out.println("12. Informe");
+        Prints.separador();
+        Prints.limpiar(1);
 
         System.out.println("→ ¿Cuál es el empleado actual de mayor edad?");
         empleadoMasMayor(empleados);
@@ -362,7 +387,11 @@ public class Servicios {
     private static void datosEmpleados( Empleado variableEmpleado, String[] datoSeparado) throws ParseException {
 
         // Almacena y guarda los datos del empleado.
-        variableEmpleado.setCodigo(datoSeparado[0]);
+        if (datoSeparado[0] == null){
+            variableEmpleado.setCodigo(Alfanumerico.generar());
+        } else {
+            variableEmpleado.setCodigo(datoSeparado[0]);
+        }
         variableEmpleado.setNombre(datoSeparado[1]);
         variableEmpleado.setPrimerApellido(datoSeparado[2]);
         variableEmpleado.setSegundoApellido(datoSeparado[3]);
@@ -561,10 +590,10 @@ public class Servicios {
     private static Empleado empleadoConMasEdad(ArrayList<Empleado> empleados){
         Date fechaMasBaja = Fecha.creaciónFechaActual();
         Empleado empleadoMasMayor = new Empleado();
-        for (int i = 0; i < empleados.size(); i++){
-            if (empleados.get(i).getFechaNacimiento().before(fechaMasBaja)){
-                empleadoMasMayor = empleados.get(i);
-                fechaMasBaja = empleados.get(i).getFechaNacimiento();
+        for (Empleado empleadoSepardoDelArrayList : empleados) {
+            if (empleadoSepardoDelArrayList.getFechaNacimiento().before(fechaMasBaja)) {
+                empleadoMasMayor = empleadoSepardoDelArrayList;
+                fechaMasBaja = empleadoSepardoDelArrayList.getFechaNacimiento();
             }
         }
         return empleadoMasMayor;
@@ -592,16 +621,14 @@ public class Servicios {
             System.out.println("Error en la fecha base");
         }
         Empleado empleadoMasMayor = new Empleado();
-        for (int i = 0; i < empleados.size(); i++){
-            if (empleados.get(i).getFechaNacimiento().after(fechaMasBaja)){
-                empleadoMasMayor = empleados.get(i);
-                fechaMasBaja = empleados.get(i).getFechaNacimiento();
+        for (Empleado empleadoSepardoDelArrayList : empleados) {
+            if (empleadoSepardoDelArrayList.getFechaNacimiento().after(fechaMasBaja)) {
+                empleadoMasMayor = empleadoSepardoDelArrayList;
+                fechaMasBaja = empleadoSepardoDelArrayList.getFechaNacimiento();
             }
         }
         return empleadoMasMayor;
     }
-
-    // ¿Cuántos empleados tiene la empresa actualmente?
 
     // ¿Cuántos empleados se han dado de baja el año actual?
     // TODO Extraer el año mediante alguna función del Date.Una vez con esa fecha hacer un array con los empleados que
@@ -613,9 +640,9 @@ public class Servicios {
         Date añoActual = Fecha.creaciónFechaActual();
         ArrayList<Empleado> empleadosBorradosEsteAño = new ArrayList<> ();
 
-        for (int i = 0; i < empleados.size(); i++){
-            if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleados.get(i).getFechaBaja()))){
-                empleadosBorradosEsteAño.add(empleados.get(i));
+        for (Empleado empleadoSepardoDelArrayList : empleados) {
+            if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleadoSepardoDelArrayList.getFechaBaja()))) {
+                empleadosBorradosEsteAño.add(empleadoSepardoDelArrayList);
             }
         }
     }

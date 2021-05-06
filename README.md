@@ -22,6 +22,36 @@ Separar las funciones de la clase Servicio o dejarlo dentro
 - Me gustaria revisar mis funciones leer
   <br>
 
+`Explicacion de funcionamiento de los archivos :`
+
+###Este aparto es importante
+
+Es importante que se sigan estos parametros sino te dara error al cargar tu archivo, el programa esta preparado para aunque
+de fallo al cargar el archivo puedas trabajar en el pero es recomendable que trabajes con el archivo bien cargado para poder usar todas
+las funciones de la aplicacion
+
+- El archivo donde se guardaran a los empleados se debe llamar empleados.txt.
+- El archivo donde se guardaran los datos de los empleados eliminados se debe llamar copiaDeSeguridad.txt.
+- En caso de querer introducirlos escribiendo en el fichero deberás seguir el siguiente formato
+
+title: Cuadros de texto y formas en informes de Power BI
+description: Agregue y cree cuadros de texto y formas en un informe mediante el servicio Microsoft Power BI.
+author: maggiesMSFT
+ms.author: maggies
+ms.reviewer: ''
+featuredvideoid: _3q6VEBhGew
+ms.service: powerbi
+ms.subservice: pbi-reports-dashboards
+ms.topic: how-to
+ms.date: 05/29/2019
+LocalizationGroup: Visualizations
+ms.openlocfilehash: 90c7489ad047be47a2a1f9ac9e814a9da5724f32
+ms.sourcegitcommit: 653e18d7041d3dd1cf7a38010372366975a98eae
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 12/01/2020
+ms.locfileid: "96393563"
+
 `Registro diario :`
 
 <b>_→ 19/04/2021 :_ </b>Primer día en la empresa, por ahora casi toda la mañana se ha basado en pasarme los archivos desde un 

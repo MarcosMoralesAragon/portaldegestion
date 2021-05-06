@@ -11,7 +11,7 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
         boolean salida = false;
-        boolean ficheroEstaCorrectoParaListar = false;
+        boolean ficheroEstaCorrectoParaListar;
 
         System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
 
@@ -69,11 +69,11 @@ public class Main {
                         Servicios.vaciarPapelera();
                     break;
                 case 12:
-                        Servicios.informe(in);
+                        Servicios.informe();
                     break;
                 case 13:
                     Prints.limpiar(1);
-                        System.out.println("             → Cerrando programa, gracias por su uso ←");
+                        Prints.finDeLaAplicacion();
                         salida = true;
                     break;
                 default:

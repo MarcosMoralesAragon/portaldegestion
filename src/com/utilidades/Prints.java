@@ -28,6 +28,11 @@ public class Prints {
         System.out.println(" → Acción terminada, volviendo a la selección principal ← ");
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
     }
+    public static void finDeLaAplicacion(){
+        System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+        System.out.println("░░             → Cerrando programa, gracias por su uso ←            ░░");
+        System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+    }
     public static void separadorConTexto(String campo){
         Prints.separador();
         System.out.println(campo);
