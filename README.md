@@ -116,3 +116,17 @@ ir haciendo lo del informe. Ahora voy a dejar unos cuantos TODO para mañana y a
 a mitad o regular y tal, de paso voy a dejar hecha la estructura del informe ( 14:43 ) <br>
 Acabo de dejar planteado la estructura y como resolverlo en el futuro para ahorrarme tiempo 
 ![img.png](src/capturas/img4.png)
+
+<b>_→ 06/05/2021 :_</b> El plan de hoy esta marcado desde ayer. Hacer los TODO que deje planteados y revisar los try catch.
+
+TODO Tengo que hacer el metodo restaurar papelera ( Meter los datos del mapa en el arraylist )  <-- Terminado a las 9:21
+
+TODO Una función como la de buscar empleado que recorra la función y se vaya quedando con el empleado que tenga la fecha más baja <-- 10:04
+
+TODO Lo mismo que el anterior pero a quedandote con la fecha mas alta. Se pueden poner en la misma función <--  10:55
+
+TODO Un size al arraylist <-- 11:15
+
+Estoy teniendo un problema ahora con el siguiente TODO porque no se que entender por dar de baja, el borrado o cambiar el estado
+a baja ( 12:21 )
+

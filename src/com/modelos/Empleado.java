@@ -19,6 +19,8 @@ public class Empleado {
     private Date fechaBaja;
     private Date fechaAlta;
 
+    public Empleado(){}
+
     public Empleado(String nombre) {
         this.nombre = nombre;
     }

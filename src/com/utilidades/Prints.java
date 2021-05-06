@@ -48,8 +48,10 @@ public class Prints {
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Listar Papelera -_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 8. Guardar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 9. Recuperar papelera  -_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Restaurar papelera -_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }

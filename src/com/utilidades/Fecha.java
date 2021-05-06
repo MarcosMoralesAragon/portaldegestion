@@ -9,9 +9,11 @@ import java.util.Date;
 public class Fecha {
 
     public static Date fecha(String fechaIntroducida) throws ParseException {
-        Date fechaNacimiento;
+        Date fechaNacimiento = null;
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
         fechaNacimiento = format.parse(fechaIntroducida);
+
         return fechaNacimiento;
     }
 

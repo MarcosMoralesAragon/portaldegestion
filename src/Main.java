@@ -63,9 +63,16 @@ public class Main {
                         Servicios.recuperarPapelera();
                     break;
                 case 10:
-                        Servicios.vaciarPapelera();
+                        Servicios.restaurarPapelera();
                     break;
                 case 11:
+                        Servicios.vaciarPapelera();
+                    break;
+                case 12:
+                        Servicios.informe(in);
+                    break;
+                case 13:
+                    Prints.limpiar(1);
                         System.out.println("→ Cerrando programa, gracias por su uso ←");
                         salida = true;
                     break;

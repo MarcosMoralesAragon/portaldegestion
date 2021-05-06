@@ -8,6 +8,7 @@ import com.utilidades.Fecha;
 import com.utilidades.Prints;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import static java.util.Map.*;
 @SuppressWarnings("rawtypes")
@@ -19,7 +20,7 @@ public class Servicios {
 
     public static void crear(Scanner in) {
         System.out.println("1. Crear");
-        Empleado variableEmpleado = new Empleado(null);
+        Empleado variableEmpleado = new Empleado();
         try {
             datosEmpleadosPorTeclado(in, variableEmpleado);
             variableEmpleado.setDireccion(datosDireccionPorTeclado(in));
@@ -80,7 +81,7 @@ public class Servicios {
                 i++;
             }
         }
-
+        System.out.println(empleadosBorrados);
         Prints.finalFuncion();
     }
 
@@ -168,26 +169,56 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
-    //TODO Tengo que hacer el metodo restaurar papelera ( Meter los datos del mapa en el arraylist )
+    public static void restaurarPapelera(){
 
-    // ¿Cuál es el empleado actual de mayor edad?
-    //TODO Una función como la de buscar empleado que recorra la función y se vaya quedando con el empleado que tenga la
-    // fecha más baja
+        if (!empleadosBorrados.isEmpty()){
+            for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
+                Empleado variableEmpleado = new Empleado();
+                variableEmpleado.setCodigo(entry.getValue().getCodigo());
+                variableEmpleado.setNombre(entry.getValue().getNombre());
+                variableEmpleado.setPrimerApellido(entry.getValue().getPrimerApellido());
+                variableEmpleado.setSegundoApellido(entry.getValue().getSegundoApellido());
+                variableEmpleado.setDNI(entry.getValue().getDNI());
+                variableEmpleado.setFechaNacimiento(entry.getValue().getFechaNacimiento());
+                variableEmpleado.setNacionalidad(entry.getValue().getCodigo());
+                variableEmpleado.setEstado(entry.getValue().getEstado());
+                variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
+                variableEmpleado.setFechaBaja(entry.getValue().getFechaBaja());
+                Direccion variableDireccion = new Direccion();
+                variableDireccion.setCalle(entry.getValue().getDireccion().getCalle());
+                variableDireccion.setNumero(entry.getValue().getDireccion().getNumero());
+                variableDireccion.setBloque(entry.getValue().getDireccion().getBloque());
+                variableDireccion.setPiso(entry.getValue().getDireccion().getPiso());
+                variableDireccion.setPuerta(entry.getValue().getDireccion().getPuerta());
+                variableDireccion.setCodigoPostal(entry.getValue().getDireccion().getCodigoPostal());
+                variableDireccion.setLocalidad(entry.getValue().getDireccion().getLocalidad());
+                variableDireccion.setProvincia(entry.getValue().getDireccion().getProvincia());
+                variableEmpleado.setDireccion(variableDireccion);
+                empleados.add(variableEmpleado);
+            }
+            System.out.println("Los empleados borrados han sido restaurados con exito. Recuerda que mientras no guardes los cambios no surtiran efecto");
+        } else {
+            System.out.println("Papelera vacía. Borre empleados o recupere la papelera");
+        }
+        Prints.finalFuncion();
+    }
 
-    // ¿Cuál es el empleado actual de menor edad?
-    // TODO Lo mismo que el anterior pero a quedandote con la fecha mas alta. Se pueden poner en la misma función
+    public static void informe(Scanner in){
 
-    // ¿Cuántos empleados tiene la empresa actualmente?
-    // TODO Un size al arraylist
+        System.out.println("→ ¿Cuál es el empleado actual de mayor edad?");
+        empleadoMasMayor(empleados);
+        Prints.limpiar(1);
 
-    // ¿Cuántos empleados se han dado de baja el año actual?
-    // TODO Extraer el año mediante alguna función del Date.Una vez con esa fecha hacer un array con los empleados que
-    //  estan baja y luego seleccionar de esos que el año sea el mismo
+        System.out.println("→ ¿Cuál es el empleado actual de menor edad?");
+        empleadoMasJoven(empleados);
+        Prints.limpiar(1);
 
-    // ¿Qué directivo es responsable de más departamentos?
-    // ¿Cuál es el directivo responsable del departamento X?
-    // ¿Qué empleado tiene más titulaciones en especialidades?
-    // ¿Cuál es la titulación de la especialidad más reciente y a quién pertenece?
+        System.out.println("→ ¿Cuántos empleados tiene la empresa actualmente?");
+        Prints.limpiar(1);
+        System.out.println("La empresa cuenta actualmente con : " + empleados.size() + " empleados en plantilla");
+
+        Prints.finalFuncion();
+    }
 
     // ------------------------> FUNCIONES <-----------------------------
 
@@ -323,7 +354,6 @@ public class Servicios {
         } finally {
             in.nextLine();
         }
-
         return resultado;
     }
 
@@ -384,7 +414,6 @@ public class Servicios {
         variableDireccion.setCodigoPostal(leerCodigoPostal(in));                    // Codigo postal
         variableDireccion.setLocalidad(leerStringTeclado(in,"Localidad"));   // Localidad
         variableDireccion.setProvincia(leerStringTeclado(in,"Provinicia"));  // Provincia
-
         return variableDireccion;
     }
 
@@ -467,10 +496,8 @@ public class Servicios {
     }
 
     private static void cambioApellidos(Scanner in, Empleado empleadoBuscado){
-
         empleadoBuscado.setPrimerApellido(leerStringTeclado(in,"Primer apellido"));
         empleadoBuscado.setSegundoApellido(leerStringTeclado(in,"Segundo apellido"));
-
     }
 
     private static void cambioDNI(Scanner in, Empleado empleadoBuscado){
@@ -516,4 +543,86 @@ public class Servicios {
     private static void cambioProvincia(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setProvincia(leerStringTeclado(in,"Provincia"));
     }
+
+    // ---------------------------------------- FUNCIONES INFORME ------------------------------------------------
+
+    // ¿Cuál es el empleado actual de mayor edad?
+
+    private static void empleadoMasMayor(ArrayList<Empleado> empleados){
+        Prints.limpiar(1);
+        try {
+            System.out.println("Empleado más mayor  ↓");
+            System.out.println(empleadoConMasEdad(empleados).cadenaFormateadaParaMostrarPorPantalla());
+        }catch (NullPointerException e){
+            System.out.println("Al compararse las fechas se ha encontrado que ningun empleado es mas viejo que la fecha actual del equipo");
+        }
+    }
+
+    private static Empleado empleadoConMasEdad(ArrayList<Empleado> empleados){
+        Date fechaMasBaja = Fecha.creaciónFechaActual();
+        Empleado empleadoMasMayor = new Empleado();
+        for (int i = 0; i < empleados.size(); i++){
+            if (empleados.get(i).getFechaNacimiento().before(fechaMasBaja)){
+                empleadoMasMayor = empleados.get(i);
+                fechaMasBaja = empleados.get(i).getFechaNacimiento();
+            }
+        }
+        return empleadoMasMayor;
+    }
+
+    // ¿Cuál es el empleado actual de menor edad?
+
+    private static void empleadoMasJoven(ArrayList<Empleado> empleados){
+        Prints.limpiar(1);
+        try {
+            System.out.println("Empleado más joven  ↓");
+            System.out.println(empleadoConMenosEdad(empleados).cadenaFormateadaParaMostrarPorPantalla());
+
+        } catch (NullPointerException e) {
+            System.out.println("Al compararse las fechas se ha encontrado que ningun empleado es mas joven que la fecha : 30-11-0002");
+        }
+    }
+
+    private static Empleado empleadoConMenosEdad(ArrayList<Empleado> empleados){
+        Date fechaMasBaja = null;
+        String fecha = "30-11-0002";
+        try {
+            fechaMasBaja = Fecha.fecha(fecha);
+        } catch (ParseException e){
+            System.out.println("Error en la fecha base");
+        }
+        Empleado empleadoMasMayor = new Empleado();
+        for (int i = 0; i < empleados.size(); i++){
+            if (empleados.get(i).getFechaNacimiento().after(fechaMasBaja)){
+                empleadoMasMayor = empleados.get(i);
+                fechaMasBaja = empleados.get(i).getFechaNacimiento();
+            }
+        }
+        return empleadoMasMayor;
+    }
+
+    // ¿Cuántos empleados tiene la empresa actualmente?
+
+    // ¿Cuántos empleados se han dado de baja el año actual?
+    // TODO Extraer el año mediante alguna función del Date.Una vez con esa fecha hacer un array con los empleados que
+    //  estan baja y luego seleccionar de esos que el año sea el mismo
+
+    private static void dadoDeBajaEsteAño(ArrayList<Empleado> empleados){
+
+        SimpleDateFormat sacarElAñoDeLaFecha = new SimpleDateFormat("yyyy");
+        Date añoActual = Fecha.creaciónFechaActual();
+        ArrayList<Empleado> empleadosBorradosEsteAño;
+
+        for (int i = 0; i < empleados.size(); i++){
+            if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleados.get(i).getFechaBaja()))){
+
+            }
+        }
+    }
+
+    // ¿Qué directivo es responsable de más departamentos?
+    // ¿Cuál es el directivo responsable del departamento X?
+    // ¿Qué empleado tiene más titulaciones en especialidades?
+    // ¿Cuál es la titulación de la especialidad más reciente y a quién pertenece?
+
 }
