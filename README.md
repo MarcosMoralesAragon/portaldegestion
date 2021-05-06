@@ -9,21 +9,21 @@ los mismos.
 
 `Cuestiones a resolver :`
 
-¿Esta bien como he utilizado los enum? <br> <--
-¿Esta bien mi salida formateadad de datos para reformar los datos de alta? <br>
-¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso? <br>
+- [x] ¿Esta bien como he utilizado los enum? 
+- [x] ¿Esta bien mi salida formateadad de datos para reformar los datos de alta? 
+- [x] ¿Puedo cambiar o mejorar la manera en la que utilizo el enum para optimizar el proceso? 
+- [x] ¿He aplicado bien el principio divide y venceras? 
+- [x] Separar las funciones de la clase Servicio o dejarlo dentro
+- [x] Como hacer para que reescriba el archivo de los empleados
+- [x] Que es mas correcto o efectivo : ¿listar desde el array o del fichero?
+- [x] Me gustaria revisar mis funciones leer
+- [ ] No entiendo a que hace referencia en esta frase la palabra "baja" -- ¿Cuántos empleados se han dado de baja el año actual? <br>
 
-¿He aplicado bien el principio divide y venceras? <br>
-Separar las funciones de la clase Servicio o dejarlo dentro
-
-- Como hacer para que reescriba el archivo de los empleados
-- Que es mas correcto o efectivo : ¿listar desde el array o del fichero?
-- Me gustaria revisar mis funciones leer
-  <br>
-
-`Explicacion de funcionamiento de los archivos :`
+---
 
 ## Este aparto es importante
+
+`Explicacion de funcionamiento de los archivos :`
 
 Es importante que se sigan estos parametros sino te dara error al cargar tu archivo, el programa esta preparado para aunque
 de fallo al cargar el archivo puedas trabajar en el pero es recomendable que trabajes con el archivo bien cargado para poder usar todas
