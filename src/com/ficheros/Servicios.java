@@ -615,7 +615,7 @@ public class Servicios {
 
         for (int i = 0; i < empleados.size(); i++){
             if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleados.get(i).getFechaBaja()))){
-
+                System.out.println(añoActual);
             }
         }
     }
