@@ -611,11 +611,11 @@ public class Servicios {
 
         SimpleDateFormat sacarElAñoDeLaFecha = new SimpleDateFormat("yyyy");
         Date añoActual = Fecha.creaciónFechaActual();
-        ArrayList<Empleado> empleadosBorradosEsteAño;
+        ArrayList<Empleado> empleadosBorradosEsteAño = new ArrayList<> ();
 
         for (int i = 0; i < empleados.size(); i++){
             if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleados.get(i).getFechaBaja()))){
-                System.out.println(añoActual);
+                empleadosBorradosEsteAño.add(empleados.get(i));
             }
         }
     }
