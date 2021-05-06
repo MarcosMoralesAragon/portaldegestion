@@ -16,7 +16,6 @@ los mismos.
 ¿He aplicado bien el principio divide y venceras? <br>
 Separar las funciones de la clase Servicio o dejarlo dentro
 
----
 - Como hacer para que reescriba el archivo de los empleados
 - Que es mas correcto o efectivo : ¿listar desde el array o del fichero?
 - Me gustaria revisar mis funciones leer
@@ -24,7 +23,7 @@ Separar las funciones de la clase Servicio o dejarlo dentro
 
 `Explicacion de funcionamiento de los archivos :`
 
-###Este aparto es importante
+##Este aparto es importante
 
 Es importante que se sigan estos parametros sino te dara error al cargar tu archivo, el programa esta preparado para aunque
 de fallo al cargar el archivo puedas trabajar en el pero es recomendable que trabajes con el archivo bien cargado para poder usar todas
