@@ -588,7 +588,7 @@ public class Servicios {
         String fecha = "30-11-0002";
         try {
             fechaMasBaja = Fecha.fecha(fecha);
-        } catch (ParseException e){
+        } catch (ParseException e){ // Nunca deberia de darse este caso porque la fecha esta introducida como una variable y no como un Scanner
             System.out.println("Error en la fecha base");
         }
         Empleado empleadoMasMayor = new Empleado();

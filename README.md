@@ -130,3 +130,7 @@ TODO Un size al arraylist <-- 11:15
 Estoy teniendo un problema ahora con el siguiente TODO porque no se que entender por dar de baja, el borrado o cambiar el estado
 a baja ( 12:21 )
 
+Llevo toda la mañana intentando conectarme a la llamada de Teams pero nadie me acepta, no tengo manera de seguir avanzando 
+porque no se como tengo que terminar el ultimo TODO ( 13:16 ) Supongo que me pondre a revisar un poco el codigo y tal.
+
+

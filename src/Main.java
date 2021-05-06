@@ -73,7 +73,7 @@ public class Main {
                     break;
                 case 13:
                     Prints.limpiar(1);
-                        System.out.println("→ Cerrando programa, gracias por su uso ←");
+                        System.out.println("             → Cerrando programa, gracias por su uso ←");
                         salida = true;
                     break;
                 default:
