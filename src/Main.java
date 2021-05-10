@@ -35,43 +35,46 @@ public class Main {
                         Servicios.crear(in);
                     break;
                 case 2:
-                        Servicios.listarEmpleados("2. ");
+                        Servicios.crearContrato(in);
                     break;
-
                 case 3:
-                        Servicios.borrado(in);
+                        Servicios.listarEmpleados("3. ");
                     break;
 
                 case 4:
-                        Servicios.modificar(in);
+                        Servicios.borrado(in);
                     break;
 
                 case 5:
+                        Servicios.modificar(in);
+                    break;
+
+                case 6:
                         Servicios.guardarEmpleados("empleados.txt");
                     break;
-                case 6:
+                case 7:
                         Servicios.guardarTodo();
                     break;
 
-                case 7:
+                case 8:
                         Servicios.listarPapelera();
                     break;
-                case 8:
+                case 9:
                         Servicios.guardarPapelera("copiaDeSeguridad");
                     break;
-                case 9:
+                case 10:
                         Servicios.recuperarPapelera();
                     break;
-                case 10:
+                case 11:
                         Servicios.restaurarPapelera();
                     break;
-                case 11:
+                case 12:
                         Servicios.vaciarPapelera();
                     break;
-                case 12:
+                case 13:
                         Servicios.informe();
                     break;
-                case 13:
+                case 14:
                     Prints.limpiar(1);
                         Prints.finDeLaAplicacion();
                         salida = true;

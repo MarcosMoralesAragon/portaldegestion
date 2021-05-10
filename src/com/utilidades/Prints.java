@@ -23,6 +23,9 @@ public class Prints {
         System.out.println("|            |");
         System.out.println("━━━━━━━━━━━━━━");
     }
+    public static void eleccionContrato(){
+
+    }
     public static void terminadaAccion(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         System.out.println(" → Acción terminada, volviendo a la selección principal ← ");
@@ -90,5 +93,12 @@ public class Prints {
 
     public static void error (){
         System.out.println("Error introduciendo datos, vuelva a intentarlo");
+    }
+
+    public static void generarContrato(){
+        System.out.println("Se establecera como fecha final al contrato de manera predefinida la fecha actual ( "
+                + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()) + " )");
+        System.out.println("Quiere introducir una fecha distinta");
+        Prints.siNo();
     }
 }

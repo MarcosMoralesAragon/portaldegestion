@@ -12,9 +12,7 @@ public class Fecha {
     public static Date fecha(String fechaIntroducida) throws ParseException {
         Date fechaNacimiento;
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
         fechaNacimiento = format.parse(fechaIntroducida);
-
         return fechaNacimiento;
     }
 

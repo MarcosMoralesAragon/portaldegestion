@@ -3,6 +3,7 @@ package com.modelos;
 import com.utilidades.Fecha;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Empleado {
@@ -16,8 +17,9 @@ public class Empleado {
     private String nacionalidad;
     private Direccion direccion;
     private Estado estado;
-    private Date fechaBaja;
     private Date fechaAlta;
+    private Date fechaBaja;
+    private ArrayList<Contrato> contratos = new ArrayList<>();
 
     public Empleado(){}
 
@@ -86,18 +88,25 @@ public class Empleado {
         return estado;
     }
 
-    public void setFechaBaja(Date fecha){
-        this.fechaBaja = fecha;
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
     }
-    public Date getFechaBaja(){
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+    public Date getFechaBaja() {
         return fechaBaja;
     }
 
-    public void setFechaAlta(Date fecha){
-        this.fechaAlta = fecha;
+    public void setContratos(ArrayList<Contrato> contratos) {
+        this.contratos = contratos;
     }
-    public Date getFechaAlta(){
-        return fechaAlta;
+    public ArrayList<Contrato> getContratos() {
+        return contratos;
     }
 
     public String cadenaFormateadaParaMostrarPorPantalla (){
@@ -122,13 +131,9 @@ public class Empleado {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
 
-        String fechaAltaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaAlta);
-        String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaBaja);
-
-
         return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
                 fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" +
-                direccion.cadenaConAlmohadillaDireccion() + "#" + fechaAltaFormateada + "#" + fechaBajaFormateada + "\n";
+                direccion.cadenaConAlmohadillaDireccion() + contratos + "\n";
     }
 }
 

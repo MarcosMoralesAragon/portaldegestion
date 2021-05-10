@@ -151,3 +151,8 @@ Llevo toda la mañana intentando conectarme a la llamada de Teams pero nadie me 
 porque no se como tengo que terminar el ultimo TODO ( 13:16 ) Supongo que me pondre a revisar un poco el codigo y tal.
 
 
+<b>_→ 10/05/2021 :_</b> He corregido un error que genere el jueves al mejorar la entrada de datos mediante fichero. El
+programa admitia campos a null y el se encargaba de asignarle algun tipo de valor pero ya esta resuelto.
+
+Ahora los días son mas productivos y siempre encuentro cosas que hacer por eso documento menos, estoy mas liado y con las
+fechas que nos hemos propuesto no tengo tiempo que perder ( 14:56 )

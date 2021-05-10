@@ -1,8 +1,6 @@
 package com.ficheros;
 
-import com.modelos.Direccion;
-import com.modelos.Empleado;
-import com.modelos.Estado;
+import com.modelos.*;
 import com.utilidades.Alfanumerico;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
@@ -17,6 +15,7 @@ public class Servicios {
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
+    public static ArrayList<Contrato> contratos = new ArrayList<>();
 
     public static void crear(Scanner in) {
         System.out.println("1. Crear");
@@ -29,6 +28,28 @@ public class Servicios {
         } catch (Exception e) {
             Prints.error();
         }
+        Prints.finalFuncion();
+    }
+
+    public static void crearContrato (Scanner in){
+        System.out.println("2. Crear contrato");
+        boolean salida;
+        do {
+            Prints.introduzcaDatos(in);
+            Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados,in.nextLine());
+            if (empleadoBuscado != null){
+                System.out.println("Ha seleccionado a "+ empleadoBuscado.getNombre() +" ¿Seguro que desea continuar con este empleado?");
+                salida = eleccionSiNoYSalirOOtro(in,"sino");
+                if (salida){
+                    generarContrato(contratos,empleadoBuscado,in);
+                } else {
+                    salida = eleccionSiNoYSalirOOtro(in, "crear un contrato");
+                }
+            } else {
+                System.out.println("Código erroneo, cerrando acción");
+                salida = true;
+            }
+        }while (!salida);
         Prints.finalFuncion();
     }
 
@@ -46,18 +67,18 @@ public class Servicios {
 
     public static void borrado(Scanner in) {
         boolean salida;
-        System.out.println("3. Borrado");
+        System.out.println("4. Borrado");
         do {
             Prints.introduzcaDatos(in);
             String codigo;
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, codigo = in.nextLine());
             if (empleadoBuscado != null){
                 System.out.println("Ha seleccionado a "+ empleadoBuscado.getNombre() +" ¿Seguro que desea continuar con este empleado?");
-                salida = eleccionSeguirConEsteEmpleadoOOtro(in,"");
+                salida = eleccionSiNoYSalirOOtro(in,"sino");
                 if (salida){
                     accionBorradoEmpleado(empleados, codigo, empleadoBuscado);
                 } else {
-                    salida = eleccionSeguirConEsteEmpleadoOOtro(in, "borrado");
+                    salida = eleccionSiNoYSalirOOtro(in, "borrado");
                 }
             } else {
                 System.out.println("Código erroneo, cerrando acción");
@@ -69,17 +90,17 @@ public class Servicios {
 
     public static void modificar(Scanner in){
         boolean salida;
-        System.out.println("4. Modificar");
+        System.out.println("5. Modificar");
         do {
             Prints.introduzcaDatos(in);
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null){
                 System.out.println("Ha seleccionado a "+ empleadoBuscado.getNombre() +" ¿Seguro que desea continuar con este empleado?");
-                salida = eleccionSeguirConEsteEmpleadoOOtro(in,"");
+                salida = eleccionSiNoYSalirOOtro(in,"sino");
                 if (salida){
                     elecciónDeGrupoQueQuiereCambiar(in, empleadoBuscado);
                 }else {
-                    salida = eleccionSeguirConEsteEmpleadoOOtro(in, "cambiar");
+                    salida = eleccionSiNoYSalirOOtro(in, "cambiar");
                 }
             } else {
                 System.out.println("Codigo erroneo, volviendo a menú principal");
@@ -90,7 +111,7 @@ public class Servicios {
     }
 
     public static void guardarEmpleados(String nombreFichero) {
-        System.out.println("5. Guardar empleados");
+        System.out.println("6. Guardar empleados");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -115,7 +136,7 @@ public class Servicios {
     }
 
     public static void guardarTodo() {
-        System.out.println("6. Guardar todo");
+        System.out.println("7. Guardar todo");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -124,7 +145,7 @@ public class Servicios {
     }
 
     public static void listarPapelera() {
-        System.out.println("7. Listar papelera");
+        System.out.println("8. Listar papelera");
         Prints.separador();
         Prints.limpiar(1);
         int i = 0;
@@ -142,7 +163,7 @@ public class Servicios {
     }
 
     public static void guardarPapelera(String nombreFichero) {
-        System.out.println("8. Guardar papelera");
+        System.out.println("9. Guardar papelera");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -168,7 +189,7 @@ public class Servicios {
     }
 
     public static void recuperarPapelera(){
-        System.out.println("9. Recuperar papelera");
+        System.out.println("10. Recuperar papelera");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -177,19 +198,8 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
-    public static void vaciarPapelera(){
-        System.out.println("11. Vaciar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
-
-        empleadosBorrados.clear();
-        Prints.limpiar(1);
-        System.out.println("Papelera vaciada con exito");
-        Prints.finalFuncion();
-    }
-
     public static void restaurarPapelera(){
-        System.out.println("10. Restaurar papelera");
+        System.out.println("11. Restaurar papelera");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -202,10 +212,10 @@ public class Servicios {
                 variableEmpleado.setSegundoApellido(entry.getValue().getSegundoApellido());
                 variableEmpleado.setDNI(entry.getValue().getDNI());
                 variableEmpleado.setFechaNacimiento(entry.getValue().getFechaNacimiento());
-                variableEmpleado.setNacionalidad(entry.getValue().getCodigo());
+                variableEmpleado.setNacionalidad(entry.getValue().getNacionalidad());
                 variableEmpleado.setEstado(entry.getValue().getEstado());
-                variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
-                variableEmpleado.setFechaBaja(entry.getValue().getFechaBaja());
+                // variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta()); TODO
+                // variableEmpleado.setFechaBaja(entry.getValue().getFechaBaja()); TODO
                 Direccion variableDireccion = new Direccion();
                 variableDireccion.setCalle(entry.getValue().getDireccion().getCalle());
                 variableDireccion.setNumero(entry.getValue().getDireccion().getNumero());
@@ -225,8 +235,19 @@ public class Servicios {
         Prints.finalFuncion();
     }
 
+    public static void vaciarPapelera(){
+        System.out.println("12. Vaciar papelera");
+        Prints.separador();
+        Prints.limpiar(1);
+
+        empleadosBorrados.clear();
+        Prints.limpiar(1);
+        System.out.println("Papelera vaciada con exito");
+        Prints.finalFuncion();
+    }
+
     public static void informe(){
-        System.out.println("12. Informe");
+        System.out.println("13. Informe");
         Prints.separador();
         Prints.limpiar(1);
 
@@ -251,9 +272,9 @@ public class Servicios {
         in.skip("\n");
     }
 
-    private static boolean eleccionSeguirConEsteEmpleadoOOtro(Scanner in, String palabra){
+    private static boolean eleccionSiNoYSalirOOtro(Scanner in, String palabra){
         boolean salida = false;
-        if ("".equals(palabra)){
+        if ("sino".equals(palabra)){
             Prints.siNo();
         } else {
             System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
@@ -309,8 +330,34 @@ public class Servicios {
                 eleccion = 2;
                 break;
             default:
-                System.out.println("Palabra introducida erronea, se establecera ''Alta'' como predeterminado,porfavor cambie el dato con la acción modificar");
+                System.out.println("Palabra introducida erronea, se establecera ''Alta'' como predeterminado," +
+                        "porfavor cambie el dato con la acción modificar");
                 eleccion = 0;
+                break;
+        }
+        return eleccion;
+    }
+
+    private static int puestoEleccion(String palabraIntroducida){
+        String palabraIntroducidaMayusculas = palabraIntroducida.toUpperCase();
+        int eleccion;
+        switch (palabraIntroducidaMayusculas) {
+            case "DIRECTIVO":
+                eleccion = 0;
+                break;
+            case "OFICIAL":
+                eleccion = 1;
+                break;
+            case "OPERARIO":
+                eleccion = 2;
+                break;
+            case "TECNICO":
+                eleccion = 3;
+                break;
+            default:
+                System.out.println("Palabra introducida erronea, se establecera ''Operario'' como predeterminado," +
+                        "porfavor cambie el dato con la acción modificar");
+                eleccion = 2;
                 break;
         }
         return eleccion;
@@ -323,7 +370,7 @@ public class Servicios {
         if ("empleados".equals(palabra)){
             empleados.add(variableEmpleado);
         } else if ("papelera".equals(palabra)){
-            variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
+            // variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17])); TODO
             empleadosBorrados.put(variableEmpleado.getCodigo(), variableEmpleado);
         }
     }
@@ -354,6 +401,14 @@ public class Servicios {
         palabraIntroducida = in.nextLine();
 
         return estadoEleccion(palabraIntroducida);
+    }
+
+    private static int leerPuesto(Scanner in){
+        Prints.separadorConTexto("Puesto");
+        String palabraIntroducida;
+        palabraIntroducida = in.nextLine();
+
+        return puestoEleccion(palabraIntroducida);
     }
 
     private static int leerNumero(Scanner in){
@@ -387,7 +442,8 @@ public class Servicios {
     private static void datosEmpleados( Empleado variableEmpleado, String[] datoSeparado) throws ParseException {
 
         // Almacena y guarda los datos del empleado.
-        if (datoSeparado[0] == null){
+
+        if (datoSeparado[0].equals("null")){
             variableEmpleado.setCodigo(Alfanumerico.generar());
         } else {
             variableEmpleado.setCodigo(datoSeparado[0]);
@@ -399,15 +455,15 @@ public class Servicios {
         variableEmpleado.setFechaNacimiento(Fecha.fecha(datoSeparado[5]));
         variableEmpleado.setNacionalidad(datoSeparado[6]);
         variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoSeparado[7])]);
-        if ( datoSeparado[16] == null){
+        if ( datoSeparado[16].equals("null")){
             variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(null));
         } else {
             variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[16]));
         }
-        if (datoSeparado[17] == null){
-            variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
+        if (datoSeparado[17].equals("null")){
+            // variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
         } else {
-            variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
+            // variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
         }
    }
 
@@ -437,7 +493,7 @@ public class Servicios {
         variableEmpleado.setNacionalidad(leerStringTeclado(in,"Nacionalidad"));
         variableEmpleado.setEstado(Estado.values()[leerEstado(in)]);
         variableEmpleado.setFechaAlta(Fecha.creaciónFechaActual());
-        variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
+        // variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(null));
     }
 
     private static Direccion datosDireccionPorTeclado(Scanner in){
@@ -454,12 +510,113 @@ public class Servicios {
         return variableDireccion;
     }
 
+    // -------------------------------> FUNCIONES CONTRATOS <---------------------------
+
+    private static void generarContrato(ArrayList<Contrato> contratoArrayList, Empleado empleadoBuscado, Scanner in){
+        boolean seguir;
+        Contrato contrato = new Contrato();
+
+        seguir = establecerFechasParaContrato(empleadoBuscado,in, contrato);
+        if (seguir){
+            seguir = establecerSalarioParaContrato(in,contrato);
+            if (seguir) {
+                establecerPuesto(in, contrato);
+            }
+        }
+        if(!seguir) {
+            contratoArrayList.add(contrato);
+            empleadoBuscado.setContratos(contratoArrayList);
+        }
+    }
+
+    private static boolean establecerFechasParaContrato( Empleado empleadoBuscado, Scanner in , Contrato contrato){
+        Prints.generarContrato();
+        int eleccion = in.nextInt();
+
+        int contador = 0;
+        boolean resultado = true;
+
+        contrato.setFechaInicioContrato(empleadoBuscado.getFechaAlta());
+        if (eleccion == 1) {
+            vaciarScanner(in);
+            establecerFechaSalidaDesdeTeclado(in, contador,contrato);
+        } else if (eleccion == 2){
+            contrato.setFechaFinalContrato(Fecha.creaciónFechaActual());
+        } else {
+            System.out.println("Elección errónea. Volviendo al menu principal");
+            resultado = false;
+        }
+        return resultado;
+    }
+
+    private static void establecerFechaSalidaDesdeTeclado(Scanner in, int contador, Contrato contrato){
+        boolean salida;
+        String fecha = null;
+        do{
+            System.out.println("Introduzca una fecha con el siguiente formato -> hh : mm : ss AM/PM // dd-MM-yyyy");
+            System.out.println("Es importante que respete los espacios y ponga AM o PM");
+            System.out.print("> ");
+            try {
+                fecha = in.nextLine();
+                contrato.setFechaFinalContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
+                salida = true;
+                if (contrato.getFechaFinalContrato().before(contrato.getFechaInicioContrato())){
+                    System.out.println("La fecha introducida es antes de la fecha de alta del empleado");
+                    salida = false;
+                }
+            } catch (ParseException e) {
+                System.out.println("Ha cometido un error de formato con la fecha");
+                salida = false;
+            }
+            if (!salida){
+                System.out.println("Quedan " + (3-contador) + " intentos" + "\n");
+                contador ++;
+            }
+            if (contador == 3){
+                System.out.println("Ha fallado 3 veces, se establecera por defecto la fecha actual");
+                contrato.setFechaFinalContrato(Fecha.creaciónFechaActual());
+                salida = true;
+            }
+        }while (!salida );
+
+    }
+
+    private static boolean establecerSalarioParaContrato(Scanner in, Contrato contrato){
+        boolean resultado;
+        int contador = 0;
+
+        do {
+            System.out.println("Introduzca el salario");
+            try{
+                contrato.setSalario(in.nextDouble());
+                resultado = true;
+            } catch (InputMismatchException e){
+                contador ++;
+                System.out.println("Ha cometido un error, recuerde introducir solo números ( con dos decimales ) " +
+                        "vuelva a intentarlo te quedan " + ( 3 - contador) + "\n");
+                resultado = false;
+            }
+            if (contador == 3){
+                double salarioPorDefecto = 1108.3;
+                System.out.println("Ha fallado 3 veces, se establecera por defecto el salario minimo interprofesional");
+                contrato.setSalario(salarioPorDefecto);
+                resultado = true;
+            }
+        }while( !resultado );
+
+        return resultado;
+    }
+
+    private static void establecerPuesto (Scanner in, Contrato contrato){
+        contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
+    }
+
     // -------------------------------> FUNCION BORRADO <-----------------------------
 
     private static void accionBorradoEmpleado(ArrayList<Empleado> empleados , String codigo, Empleado empleadoBuscado){
 
         // Al empleado buscado, le asigna una fecha de borrado, lo guarda en un mapa y lo borra del array
-        empleadoBuscado.setFechaBaja(Fecha.creaciónFechaActual());
+        // empleadoBuscado.setFechaBaja(Fecha.creaciónFechaActual()); TODO
         empleadosBorrados.put(codigo,empleadoBuscado);
         empleados.remove(empleadoBuscado);
     }
@@ -628,14 +785,14 @@ public class Servicios {
         } catch (ParseException e){ // Nunca deberia de darse este caso porque la fecha esta introducida como una variable y no como un Scanner
             System.out.println("Error en la fecha base");
         }
-        Empleado empleadoMasMayor = new Empleado();
+        Empleado empleadoMasJoven = new Empleado();
         for (Empleado empleadoSepardoDelArrayList : empleados) {
             if (empleadoSepardoDelArrayList.getFechaNacimiento().after(fechaMasBaja)) {
-                empleadoMasMayor = empleadoSepardoDelArrayList;
+                empleadoMasJoven = empleadoSepardoDelArrayList;
                 fechaMasBaja = empleadoSepardoDelArrayList.getFechaNacimiento();
             }
         }
-        return empleadoMasMayor;
+        return empleadoMasJoven;
     }
 
     // ¿Cuántos empleados se han dado de baja el año actual?
@@ -649,9 +806,9 @@ public class Servicios {
         ArrayList<Empleado> empleadosBorradosEsteAño = new ArrayList<> ();
 
         for (Empleado empleadoSepardoDelArrayList : empleados) {
-            if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleadoSepardoDelArrayList.getFechaBaja()))) {
+           /** if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleadoSepardoDelArrayList.getFechaBaja()))) {
                 empleadosBorradosEsteAño.add(empleadoSepardoDelArrayList);
-            }
+            } */ // TODO
         }
     }
 
