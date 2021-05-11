@@ -29,7 +29,7 @@ public class Main {
         while (!salida){
             System.out.println("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
             Prints.main();
-            int eleccion = in.nextInt();
+            int eleccion = Servicios.transformaStringAIntDevuelveInt(in);
             switch (eleccion){
                 case 1:
                         Servicios.crear(in);

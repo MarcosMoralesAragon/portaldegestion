@@ -1,7 +1,5 @@
 package com.modelos;
 
-import com.utilidades.Fecha;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +17,7 @@ public class Empleado {
     private Estado estado;
     private Date fechaAlta;
     private Date fechaBaja;
-    private ArrayList<Contrato> contratos = new ArrayList<>();
+    private ArrayList<Contrato> contratos; // TODO
 
     public Empleado(){}
 
@@ -121,8 +119,8 @@ public class Empleado {
                 " Fecha de Nacimiento --> " + fechaNacimientoFormateada + " / " +
                 " Nacionalidad --> " + nacionalidad + " / " +
                 " Estado --> " + estado + "\n" +
-                " Dirección completa --> " + direccion + " / ";
-
+                " Dirección completa --> " + direccion + " / " + "\n" +
+                " Contratos --> " + contratos; // TODO Mostrar como es debido
     }
 
     @Override
@@ -136,5 +134,3 @@ public class Empleado {
                 direccion.cadenaConAlmohadillaDireccion() + contratos + "\n";
     }
 }
-
-

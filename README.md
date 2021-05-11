@@ -156,3 +156,8 @@ programa admitia campos a null y el se encargaba de asignarle algun tipo de valo
 
 Ahora los días son mas productivos y siempre encuentro cosas que hacer por eso documento menos, estoy mas liado y con las
 fechas que nos hemos propuesto no tengo tiempo que perder ( 14:56 )
+
+<b>_→ 11/05/2021 :_</b> Hoy sigo terminando la funcion de contratos. Tengo que encontrar como hacer para que cada uno tenga
+su lista y no usen todos la misma.
+
+He corregido varias cosas, quedan todo pendientes para hacer esta tarde

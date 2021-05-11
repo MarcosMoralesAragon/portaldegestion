@@ -48,18 +48,19 @@ public class Prints {
     public static void main(){
         System.out.println("╔━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╗");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 1. Crear -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 2. Listar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 3. Borrar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 4. Modificar _-_-_-_-_-_-_-_-_-_-_-_-_--_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 5. Guardar Empleados -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 6. Guardar Todo  -_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Listar Papelera -_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 8. Guardar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 9. Recuperar papelera  -_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Restaurar papelera -_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 2. Contrato  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 3. Listar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 4. Borrar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 5. Modificar _-_-_-_-_-_-_-_-_-_-_-_-_--_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 6. Guardar Empleados -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Guardar Todo  -_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 8. Listar Papelera -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 9. Guardar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Recuperar papelera -_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Restaurar papelera -_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }
@@ -85,20 +86,17 @@ public class Prints {
         limpiar(1);
     }
     public static void introduzcaDatos(Scanner in){
-        Servicios.vaciarScanner(in);
         Prints.separador();
         System.out.println("Introduzca el codigo del empleado");
         System.out.print("> ");
     }
 
     public static void error (){
-        System.out.println("Error introduciendo datos, vuelva a intentarlo");
+        System.out.println("Error introduciendo datos, volviendo a el menu principal");
     }
 
     public static void generarContrato(){
-        System.out.println("Se establecera como fecha final al contrato de manera predefinida la fecha actual ( "
-                + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()) + " )");
-        System.out.println("Quiere introducir una fecha distinta");
+        System.out.println("¿Quiere introducir una fecha de finalización estimada?");
         Prints.siNo();
     }
 }
