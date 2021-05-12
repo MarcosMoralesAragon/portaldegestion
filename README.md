@@ -161,3 +161,5 @@ fechas que nos hemos propuesto no tengo tiempo que perder ( 14:56 )
 su lista y no usen todos la misma.
 
 He corregido varias cosas, quedan todo pendientes para hacer esta tarde
+
+<b>_→ 12/05/2021 :_</b> 

@@ -16,7 +16,6 @@ public class Empleado {
     private Direccion direccion;
     private Estado estado;
     private Date fechaAlta;
-    private Date fechaBaja;
     private ArrayList<Contrato> contratos; // TODO
 
     public Empleado(){}
@@ -91,13 +90,6 @@ public class Empleado {
     }
     public Date getFechaAlta() {
         return fechaAlta;
-    }
-
-    public void setFechaBaja(Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-    public Date getFechaBaja() {
-        return fechaBaja;
     }
 
     public void setContratos(ArrayList<Contrato> contratos) {
