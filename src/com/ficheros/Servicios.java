@@ -22,8 +22,8 @@ public class Servicios {
         Prints.introduzcaDatos(in);
         String codigo;
         Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, codigo = in.nextLine());
+        System.out.println(empleadoBuscado.getContratos());
         System.out.println(contratos);
-        empleadoBuscado.getContratos().toString();
 
         Prints.finalFuncion();
     }
@@ -550,8 +550,10 @@ public class Servicios {
             seguir = establecerSalarioParaContrato(in,contrato);
             if (seguir) {
                 establecerPuesto(in, contrato);
-                empleadoBuscado.setContratos(contrato);
                 contrato.setCodigo(Alfanumerico.generar());
+                System.out.println(contrato);
+                System.out.println(empleadoBuscado.getContratos().size());
+                empleadoBuscado.getContratos().add(contrato);
                 contratoArrayList.add(contrato);
             }
         }

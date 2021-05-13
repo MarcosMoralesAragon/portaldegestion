@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -27,17 +27,17 @@
     <loaded-nodes>
       <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
         <schema name="APEX_180200" object-types="procedure, function, synonym" />
-        <schema name="PUBLIC" object-types="table, materialized view, package, function, sequence, view, type, synonym" />
-        <schema name="TD_CMDB_V1" object-types="table, dimension, procedure, materialized view, column, cluster, constraint, package function, package, function, database trigger, nested table, sequence, dataset trigger, dblink, package type, view, type, type function, synonym, index" />
+        <schema name="PUBLIC" object-types="materialized view, view, type, sequence, table, function, synonym, package" />
+        <schema name="TD_CMDB_V1" object-types="package function, materialized view, package type, view, type, sequence, table, function, synonym, column, type function, package" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-      <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_PRUEBA;
+      <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_PRUEBA order by ID 
 
-insert into FPM_PRUEBA values (1,'Marcos','Morales','Aragón','12345L')
-delete from FPM_PRUEBA where "ID" = 2]]></console>
+delete from FPM_PRUEBA
+where "ID" > 2;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

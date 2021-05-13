@@ -25,11 +25,12 @@ public class GestionBaseDeDatos {
         return conexion;
     }
     public static void pintarTablaBaseDeDatos(Connection connection, String tableName) {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
         if (connection != null) {
             try {
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from " + tableName);
-
+                stmt = connection.prepareStatement("select * from " + tableName);
+                rs = stmt.executeQuery("select * from " + tableName);
                 while (rs.next()) {
                     System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  "
                             + rs.getString(3) + " " + rs.getString(4)+ " " + rs.getString(5));
@@ -41,7 +42,8 @@ public class GestionBaseDeDatos {
         }
     }
 
-    public static void guardarDatosBaseDeDato(Connection connection, String tableName, int id, String nombre, String primerApellido, String segundoApellido, String DNI){
+    public static void guardarDatosBaseDeDato(Connection connection, String tableName){
+
         if (connection != null) {
             try {
                 PreparedStatement stmt = connection.prepareStatement("insert into FPM_PRUEBA values(?,?,?,?,?)");
@@ -54,7 +56,7 @@ public class GestionBaseDeDatos {
                 System.out.println("Guardado con exito");
                 connection.close();
             } catch (SQLException exception) {
-                System.out.println("Error escribiendo los datos nuevos en la tabla " + tableName);
+                exception.printStackTrace();
             }
         }
     }

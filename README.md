@@ -132,7 +132,7 @@ fechas, y las excepciones y el lunes rematar la papelera aunque ya tengo termina
 ir haciendo lo del informe. Ahora voy a dejar unos cuantos TODO para mañana y asi saber por donde tengo que seguir, que deje 
 a mitad o regular y tal, de paso voy a dejar hecha la estructura del informe ( 14:43 ) <br>
 Acabo de dejar planteado la estructura y como resolverlo en el futuro para ahorrarme tiempo 
-![img.png](src/capturas/img4.png)
+![img.png](src/capturas/img_4.png)
 
 <b>_→ 06/05/2021 :_</b> El plan de hoy esta marcado desde ayer. Hacer los TODO que deje planteados y revisar los try catch.
 
@@ -162,4 +162,18 @@ su lista y no usen todos la misma.
 
 He corregido varias cosas, quedan todo pendientes para hacer esta tarde
 
-<b>_→ 12/05/2021 :_</b> 
+<b>_→ 12/05/2021 :_</b> Hemos aprendido la implementacion de base de datos a java, a nivel basico. Como se llaman y se sacan datos de ellas
+pero por ahora yo no se guardar los datos
+
+<b>_→ 12/05/2021 :_</b> He creado las tablas necesarias con sus relaciones, dejo aqui el diagrama. Los objetivos a partir de ahora son :
+
+- [ ] Crear empleado y guardarlo en BBDD
+- [ ] Sustituir el fichero
+- [ ] Leer al principio todos los empleados de BBDD y almacenarlos en el arraylist
+- [ ] Métodos guardar
+- [ ] Mantener los ficheros pero para la papelera
+
+![img_1.png](src/capturas/img_5.png)
+
+La base de datos me esta dando problemas. No entiendo su funcionamiento ni se hacer bien las cosas en ella, necesito
+ver algunos tutoriales para poder arreglarla. Tengo que arreglar las funciones de gestion de base de datos.

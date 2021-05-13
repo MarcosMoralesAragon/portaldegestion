@@ -22,7 +22,9 @@ public class Prueba {
 
     public static void main(String[] args){
         Connection connection = GestionBaseDeDatos.cargarBaseDeDatos();
-        GestionBaseDeDatos.pintarTablaBaseDeDatos(connection,"FPM_Prueba");
-        GestionBaseDeDatos.guardarDatosBaseDeDato(connection,"FPM_PRUEBA", 2, "Sergio", "Garcia", "Nomelose", "12345L");
+        System.out.println(connection);
+        GestionBaseDeDatos.guardarDatosBaseDeDato(connection,"FPM_PRUEBA");
+
+        GestionBaseDeDatos.pintarTablaBaseDeDatos(connection,"FPM_PRUEBA");
     }
 }

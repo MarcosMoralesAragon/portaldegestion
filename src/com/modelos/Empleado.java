@@ -16,7 +16,7 @@ public class Empleado {
     private Direccion direccion;
     private Estado estado;
     private Date fechaAlta;
-    private ArrayList<Contrato> contratos; // TODO
+    private ArrayList<Contrato> contratos = new ArrayList<>(); // TODO
 
     public Empleado(){}
 
@@ -112,7 +112,7 @@ public class Empleado {
                 " Nacionalidad --> " + nacionalidad + " / " +
                 " Estado --> " + estado + "\n" +
                 " Dirección completa --> " + direccion + " / " + "\n" +
-                " Contratos --> " + contratos; // TODO Mostrar como es debido
+                " Contratos --> " + getContratos(); // TODO Mostrar como es debido
     }
 
     @Override
