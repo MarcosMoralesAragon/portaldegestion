@@ -46,7 +46,7 @@ public class Main {
                     break;
 
                 case 5:
-                        Servicios.lel(in);
+                        Servicios.modificar(in);
                     break;
 
                 case 6:

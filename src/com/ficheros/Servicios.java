@@ -17,7 +17,7 @@ public class Servicios {
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
 
-    public static void lel(Scanner in){
+    public static void listarContratos(Scanner in){
 
         Prints.introduzcaDatos(in);
         String codigo;
@@ -26,6 +26,12 @@ public class Servicios {
         System.out.println(contratos);
 
         Prints.finalFuncion();
+    }
+
+    public static void guardarMemoriaABaseDeDatos(){
+        for ( int i = 0; i < empleados.size(); i++){
+            GestionBaseDeDatos.guardarDatosBaseDeDato("FPM_PRUEBA", empleados.get(i));
+        }
     }
 
     public static void crear(Scanner in) {

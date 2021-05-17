@@ -177,3 +177,24 @@ pero por ahora yo no se guardar los datos
 
 La base de datos me esta dando problemas. No entiendo su funcionamiento ni se hacer bien las cosas en ella, necesito
 ver algunos tutoriales para poder arreglarla. Tengo que arreglar las funciones de gestion de base de datos.
+
+<b>_→ 17/05/2021 :_</b> Ya me funciona escribir y leer desde la base de datos asi que ahora pasaré a hacer lo mismo pero
+ya aplicado al proyecto ( 9:47 )
+
+Ya guardo los datos en las tablas de manera correcta pero todavía lo hago en las tablas pruebas porque no me quiero a poner
+datos en las tablas originales mientras que no lo tenga del todo consolidado.
+![img.png](src/capturas/img_6.png)
+
+A los empleados ya creado se les hace un update y a los nuevos creados si que los guarda.
+
+---
+
+PLAN PARA MAÑANA (18/05/2021)
+
+- [ ] Hacer la carga de los empleados a memoria
+- [ ] Hacer el update para los empleados modificados
+- [ ] Ser capaz de guardar los empleados de manera exitosa
+
+Es bastante complicado pero intentare hacer todos esos puntos mañana 
+
+---
