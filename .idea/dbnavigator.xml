@@ -26,9 +26,9 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-        <schema name="APEX_180200" object-types="function, procedure, synonym" />
-        <schema name="PUBLIC" object-types="view, function, table, sequence, synonym, materialized view, package, type" />
-        <schema name="TD_CMDB_V1" object-types="view, function, table, sequence, type function, package type, synonym, materialized view, package, column, type, package function" />
+        <schema name="APEX_180200" object-types="procedure, synonym, function" />
+        <schema name="PUBLIC" object-types="view, synonym, type, function, package, table, sequence, materialized view" />
+        <schema name="TD_CMDB_V1" object-types="view, package function, synonym, package type, type, function, package, type function, table, sequence, column, materialized view" />
       </connection>
     </loaded-nodes>
   </component>

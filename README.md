@@ -191,10 +191,15 @@ A los empleados ya creado se les hace un update y a los nuevos creados si que lo
 
 PLAN PARA MAÑANA (18/05/2021)
 
-- [ ] Hacer la carga de los empleados a memoria
+- [x] Hacer la carga de los empleados a memoria
 - [ ] Hacer el update para los empleados modificados
-- [ ] Ser capaz de guardar los empleados de manera exitosa
+- [x] Ser capaz de guardar los empleados de manera exitosa
 
 Es bastante complicado pero intentare hacer todos esos puntos mañana 
 
 ---
+
+<b>_→ 18/05/2021 :_</b> ¿Como se hace el set de direccion a una base de datos?. Por ahora estoy liado con aplicar el update
+al modificar los campos. Entiendo como se realiza la consulta y la estructura pero no del todo como aplicarla de manera efectiva
+
+![img.png](src/capturas/img_7.png)

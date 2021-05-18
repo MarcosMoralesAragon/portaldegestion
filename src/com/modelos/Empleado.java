@@ -102,7 +102,10 @@ public class Empleado {
     public String cadenaFormateadaParaMostrarPorPantalla (){
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+        String fechaNacimientoFormateada = null;
+        if (fechaNacimiento != null){
+            fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+        }
 
         return  " Código --> " + codigo + " / " +
                 " Nombre --> " + nombre + " / " +
@@ -119,7 +122,10 @@ public class Empleado {
     public String toString() {
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+        String fechaNacimientoFormateada = null;
+        if (fechaNacimiento != null){
+            fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+        }
 
         return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
                 fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" +

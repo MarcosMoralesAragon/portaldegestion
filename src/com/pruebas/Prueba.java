@@ -7,6 +7,7 @@ import com.modelos.Empleado;
 import com.utilidades.Alfanumerico;
 import com.utilidades.Prints;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Prueba {
@@ -14,16 +15,24 @@ public class Prueba {
     public static void main(String[] args){
 
         Scanner in = new Scanner(System.in);
-        System.out.println(Alfanumerico.generar());
+        ArrayList<Empleado> empleados = new ArrayList<>();
         Empleado variableEmpleado = new Empleado();
-        boolean salida = false;
-        boolean ficheroEstaCorrectoParaListar;
 
-        System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
+        /** System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
         Prints.limpiar(1);
-        ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
+        GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1);
+        Servicios.guardarMemoriaABaseDeDatos();*/
 
-        Servicios.guardarMemoriaABaseDeDatos();
+         GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
+
+        if(empleados.isEmpty()){
+            System.out.println("No hay todavia ningun empleado registrado");
+        } else {
+            for ( int i = 0; i < empleados.size(); i++){
+                System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i).cadenaFormateadaParaMostrarPorPantalla());
+            }
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class GestionBaseDeDatos {
+
     public static Connection cargarBaseDeDatos(){
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -27,23 +28,44 @@ public class GestionBaseDeDatos {
         return conexion;
     }
 
-    public static void pintarTablaBaseDeDatos(String nombreTabla) {
+    public static ArrayList<Empleado> cargarFilaBaseDeDatos(String nombreTabla, ArrayList<Empleado> empleados) {
+        Empleado variableEmpleado;
         Connection conexion = cargarBaseDeDatos();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         if (conexion != null) {
+            int cantidadAfectada = 0;
             try {
-                PreparedStatement stmt = conexion.prepareStatement("select * from " + nombreTabla);
-                ResultSet rs = stmt.executeQuery("select * from " + nombreTabla);
+                stmt = conexion.prepareStatement("select * from " + nombreTabla);
+                rs = stmt.executeQuery("select * from " + nombreTabla);
                 while (rs.next()) {
-                    System.out.println(rs.getInt(1) + " --> " + rs.getString(2) + " / "
-                            + rs.getString(3) + " / " + rs.getString(4)+ " / " + rs.getString(5));
+                    variableEmpleado = new Empleado();
+                    variableEmpleado.setCodigo(rs.getString(1));
+                    variableEmpleado.setNombre(rs.getString(2));
+                    variableEmpleado.setPrimerApellido(rs.getString(3));
+                    variableEmpleado.setSegundoApellido(rs.getString(4));
+                    variableEmpleado.setDNI(rs.getString(5));
+                    variableEmpleado.setFechaNacimiento( null /* rs.getDate(6) */);
+                    variableEmpleado.setNacionalidad(rs.getString(7));
+                    variableEmpleado.setDireccion( null /* rs.getString(8) */);
+                    variableEmpleado.setEstado( null /* rs.getString(9) */);
+                    variableEmpleado.setFechaAlta(rs.getDate(10));
+                    variableEmpleado.setContratos( null /* rs.getString(9) */);
+                    empleados.add(variableEmpleado);
                 }
-                rs.close();
-                stmt.close();
-                conexion.close();
             } catch (SQLException exception) {
-                System.out.println("Error pintando en la tabla " + nombreTabla);
+                System.out.println("Error cargando en la tabla " + nombreTabla);
+            } finally {
+                try {
+                    stmt.close();
+                    rs.close();
+                    conexion.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
+        return empleados;
     }
 
     public static void guardarDatosBaseDeDato(String nombreTabla, Empleado empleado){
@@ -57,7 +79,7 @@ public class GestionBaseDeDatos {
                 stmt.setString(1, empleado.getCodigo());                      // Codigo
                 stmt.setString(2, empleado.getNombre());                      // Nombre
                 stmt.setString(3, empleado.getPrimerApellido());              // Primer apellido
-                stmt.setString(4, empleado.getPrimerApellido());              // Segundo apellido
+                stmt.setString(4, empleado.getSegundoApellido());             // Segundo apellido
                 stmt.setString(5, empleado.getDNI());                         // DNI
                 stmt.setDate(6, null /* empleado.getFechaNacimiento() */); // Fecha nacimiento
                 stmt.setString(7, empleado.getNacionalidad());                // Nacionalidad
