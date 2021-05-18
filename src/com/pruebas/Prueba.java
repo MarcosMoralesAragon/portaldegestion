@@ -18,13 +18,13 @@ public class Prueba {
         ArrayList<Empleado> empleados = new ArrayList<>();
         Empleado variableEmpleado = new Empleado();
 
-        /** System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
+        System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
         Prints.limpiar(1);
         GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1);
-        Servicios.guardarMemoriaABaseDeDatos();*/
+        Servicios.guardarMemoriaABaseDeDatos();
 
-         GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
+         /* GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
 
         if(empleados.isEmpty()){
             System.out.println("No hay todavia ningun empleado registrado");
@@ -32,7 +32,7 @@ public class Prueba {
             for ( int i = 0; i < empleados.size(); i++){
                 System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i).cadenaFormateadaParaMostrarPorPantalla());
             }
-        }
+        }*/
 
     }
 }

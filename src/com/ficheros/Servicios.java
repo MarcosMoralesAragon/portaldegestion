@@ -246,7 +246,6 @@ public class Servicios {
                 variableEmpleado.setNacionalidad(entry.getValue().getNacionalidad());
                 variableEmpleado.setEstado(entry.getValue().getEstado());
                 variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
-                // variableEmpleado.setFechaBaja(entry.getValue().getFechaBaja()); TODO
                 Direccion variableDireccion = new Direccion();
                 variableDireccion.setCalle(entry.getValue().getDireccion().getCalle());
                 variableDireccion.setNumero(entry.getValue().getDireccion().getNumero());
@@ -391,7 +390,6 @@ public class Servicios {
         if ("empleados".equals(palabra)){
             empleados.add(variableEmpleado);
         } else if ("papelera".equals(palabra)){
-            // variableEmpleado.setFechaBaja(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17])); TODO
             empleadosBorrados.put(variableEmpleado.getCodigo(), variableEmpleado);
         }
     }
@@ -527,7 +525,7 @@ public class Servicios {
         variableEmpleado.setDNI(leerStringTeclado(in,"DNI"));
         variableEmpleado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in,"Fecha de nacimiento")));
         variableEmpleado.setNacionalidad(leerStringTeclado(in,"Nacionalidad"));
-        variableEmpleado.setEstado(Estado.values()[leerEstado(in)]);
+        variableEmpleado.setEstado(Estado.values()[leerEstado(in)]); // TODO Revisar
         variableEmpleado.setFechaAlta(Fecha.creaciónFechaActual());
     }
 

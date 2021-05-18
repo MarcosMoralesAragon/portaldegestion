@@ -36,7 +36,10 @@
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
       <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_PRUEBA order by ID 
 
-delete from FPM_PRUEBA]]></console>
+delete from FPM_PRUEBA
+
+update FPM_PRUEBA set NACIONALIDAD =?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?,
+        NACIONALIDAD = ? where "ID" = ?]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

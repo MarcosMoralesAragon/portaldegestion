@@ -202,4 +202,6 @@ Es bastante complicado pero intentare hacer todos esos puntos mañana
 <b>_→ 18/05/2021 :_</b> ¿Como se hace el set de direccion a una base de datos?. Por ahora estoy liado con aplicar el update
 al modificar los campos. Entiendo como se realiza la consulta y la estructura pero no del todo como aplicarla de manera efectiva
 
+- [ ] Hacerle un check (Estado ('Baja', 'Alta', 'En trámite')) en sql
+
 ![img.png](src/capturas/img_7.png)

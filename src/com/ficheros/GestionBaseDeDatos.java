@@ -84,7 +84,7 @@ public class GestionBaseDeDatos {
                 stmt.setDate(6, null /* empleado.getFechaNacimiento() */); // Fecha nacimiento
                 stmt.setString(7, empleado.getNacionalidad());                // Nacionalidad
                 stmt.setString(8, null);                                   // Direccion
-                stmt.setString(9, null /* empleado.getEstado() */);        // Estado
+                stmt.setString(9, empleado.getEstado().toString());        // Estado
                 stmt.setDate(10, null /* empleado.getFechaAlta() */);      // Fecha nacimiento
                 stmt.setString(11, null /* empleado.getContratos() */);    // Contratos
 
@@ -110,7 +110,31 @@ public class GestionBaseDeDatos {
         PreparedStatement stmt = null;
         try {
             stmt = conexion.prepareStatement("delete from " + nombreTabla + " where ID = ?" );
-            stmt.setInt(1,10);
+            int cantidadAfectada = stmt.executeUpdate();
+            System.out.println("Borrado con exito, " + cantidadAfectada + " fila/s afectada/s");
+        } catch (SQLException throwables) {
+            System.out.println("Error borrando una fila en la tabla " + nombreTabla);
+        } finally {
+            try {
+                stmt.close();
+                conexion.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public static void updateFilaBaseDeDatos(String nombreTabla, Empleado empleado){
+        Connection conexion = cargarBaseDeDatos();
+        PreparedStatement stmt = null;
+        try {
+            stmt = conexion.prepareStatement("update " + nombreTabla + " set NOMBRE = ?, PRIMER_APELLIDO = ?, " +
+                    "SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?, NACIONALIDAD = ? where ID = ?" );
+            stmt.setString(1, empleado.getNombre());           // Codigo
+            stmt.setString(2, empleado.getPrimerApellido());   // Nombre
+            stmt.setString(3, empleado.getSegundoApellido());  // Primer apellido
+            stmt.setString(4, empleado.getDNI());             // Segundo apellido
+            stmt.setString(5, empleado.getCodigo());          // DNI
             int cantidadAfectada = stmt.executeUpdate();
             stmt.close();
             conexion.close();
