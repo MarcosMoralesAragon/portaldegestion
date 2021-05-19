@@ -4,7 +4,7 @@ import com.ficheros.GestionBaseDeDatos;
 import com.ficheros.GestionFicheros;
 import com.ficheros.Servicios;
 import com.modelos.Empleado;
-import com.utilidades.Alfanumerico;
+import com.utilidades.GeneradorCodigos;
 import com.utilidades.Prints;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Prueba {
 
     public static void main(String[] args){
 
-        Scanner in = new Scanner(System.in);
+        /**Scanner in = new Scanner(System.in);
         ArrayList<Empleado> empleados = new ArrayList<>();
         Empleado variableEmpleado = new Empleado();
 
@@ -22,17 +22,10 @@ public class Prueba {
         Prints.limpiar(1);
         GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1);
-        Servicios.guardarMemoriaABaseDeDatos();
 
-         /* GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
+        Servicios.guardarMemoriaABaseDeDatos(); */
 
-        if(empleados.isEmpty()){
-            System.out.println("No hay todavia ningun empleado registrado");
-        } else {
-            for ( int i = 0; i < empleados.size(); i++){
-                System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i).cadenaFormateadaParaMostrarPorPantalla());
-            }
-        }*/
-
+        Servicios.cargarEmpleadosDesdeBaseDeDatos();
+        Servicios.listarEmpleados("");
     }
 }

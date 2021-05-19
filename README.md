@@ -202,6 +202,21 @@ Es bastante complicado pero intentare hacer todos esos puntos mañana
 <b>_→ 18/05/2021 :_</b> ¿Como se hace el set de direccion a una base de datos?. Por ahora estoy liado con aplicar el update
 al modificar los campos. Entiendo como se realiza la consulta y la estructura pero no del todo como aplicarla de manera efectiva
 
-- [ ] Hacerle un check (Estado ('Baja', 'Alta', 'En trámite')) en sql
+- [X] Hacerle un check (Estado ('Baja', 'Alta', 'En trámite')) en Java <br> → ALTER TABLE *nombre-tabla*
+  ADD CHECK (ESTADO = 'En trámite' OR ESTADO = 'Alta' OR ESTADO = 'Baja');
+
+¿Los cambios se deben de aplicar directamente a la base de datos o tenemos que darle nosotros?
 
 ![img.png](src/capturas/img_7.png)
+
+<b>_→ 19/05/2021 :_</b> Para los updates planeo utilizar una lista, es decir, cuando modifico un empleado guardo sus
+codigo en una lista para que luego el programa ejecute el update a sus campos. Esto es mas bien para optimización pero
+me gustaria hacer lo de todas maneras
+
+- [x] Campos tipo date
+
+Ahora mismo solo me queda crearle ahora las claves a dirección y a los contratos. Despues de eso en la tabla contratos pasarle el
+codigo del empleado y a la tabla empleados pasarle el codigo de direccion asignado a él
+
+- [ ] ¿Que tabla tendra la fk entre la relacion de empleados y direccion?
+

@@ -1,12 +1,11 @@
 package com.ficheros;
 
 import com.modelos.*;
-import com.utilidades.Alfanumerico;
+import com.utilidades.GeneradorCodigos;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import static java.util.Map.*;
 @SuppressWarnings({"rawtypes", "NonAsciiCharacters"})
@@ -14,8 +13,9 @@ import static java.util.Map.*;
 public class Servicios {
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
-    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
+    public static ArrayList empleadosModificados = new ArrayList<>();
+    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
     public static void listarContratos(Scanner in){
 
@@ -30,8 +30,12 @@ public class Servicios {
 
     public static void guardarMemoriaABaseDeDatos(){
         for ( int i = 0; i < empleados.size(); i++){
-            GestionBaseDeDatos.guardarDatosBaseDeDato("FPM_PRUEBA", empleados.get(i));
+            GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleados.get(i));
         }
+    }
+
+    public static void cargarEmpleadosDesdeBaseDeDatos(){
+        GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
     }
 
     public static void crear(Scanner in) {
@@ -330,12 +334,12 @@ public class Servicios {
         Prints.separadorConTexto("Codigo");
         String codigo;
         do {
-            codigo = Alfanumerico.generar();
+            codigo = GeneradorCodigos.generarCodigoEmpleados();
         }while (codigoEstaAsignadoAAlguien(empleados, codigo));
         variableEmpleado.setCodigo(codigo);
         System.out.println(variableEmpleado.getCodigo()); }
 
-    private static int estadoEleccion(String palabraIntroducida){
+    public static int estadoEleccion(String palabraIntroducida){
 
         String palabraIntroducidaMayusculas = palabraIntroducida.toUpperCase();
         int eleccion;
@@ -346,7 +350,7 @@ public class Servicios {
             case "BAJA":
                 eleccion = 1;
                 break;
-            case "EN TRAMITE":
+            case "EN TRÁMITE":
                 eleccion = 2;
                 break;
             default:
@@ -484,7 +488,7 @@ public class Servicios {
         // Almacena y guarda los datos del empleado.
 
         if (datoSeparado[0].equals("null")){
-            variableEmpleado.setCodigo(Alfanumerico.generar());
+            variableEmpleado.setCodigo(GeneradorCodigos.generarCodigoEmpleados());
         } else {
             variableEmpleado.setCodigo(datoSeparado[0]);
         }
@@ -498,7 +502,7 @@ public class Servicios {
         if ( datoSeparado[16].equals("null")){
             variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(null));
         } else {
-            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[16]));
+            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
         }
    }
 
@@ -506,14 +510,15 @@ public class Servicios {
 
         // Almacena y guarda los datos sobre la direccion
         Direccion variableDireccion = new Direccion();
-        variableDireccion.setCalle(datoSeparado[8]);
-        variableDireccion.setNumero(Integer.parseInt(datoSeparado[9]));
-        variableDireccion.setBloque(datoSeparado[10]);
-        variableDireccion.setPiso(datoSeparado[11]);
-        variableDireccion.setPuerta(datoSeparado[12]);
-        variableDireccion.setCodigoPostal(Integer.parseInt(datoSeparado[13]));
-        variableDireccion.setLocalidad(datoSeparado[14]);
-        variableDireccion.setProvincia(datoSeparado[15]);
+        variableDireccion.setCodigo(Integer.parseInt(datoSeparado[8]));
+        variableDireccion.setCalle(datoSeparado[9]);
+        variableDireccion.setNumero(Integer.parseInt(datoSeparado[10]));
+        variableDireccion.setBloque(datoSeparado[11]);
+        variableDireccion.setPiso(datoSeparado[12]);
+        variableDireccion.setPuerta(datoSeparado[13]);
+        variableDireccion.setCodigoPostal(Integer.parseInt(datoSeparado[14]));
+        variableDireccion.setLocalidad(datoSeparado[15]);
+        variableDireccion.setProvincia(datoSeparado[16]);
         return variableDireccion;
     }
 
@@ -532,6 +537,7 @@ public class Servicios {
     private static Direccion datosDireccionPorTeclado(Scanner in){
 
         Direccion variableDireccion = new Direccion();
+        variableDireccion.setCodigo(GeneradorCodigos.generarCodigoDirección());     // Codigo
         variableDireccion.setCalle(leerStringTeclado(in,"Calle"));           // Calle
         variableDireccion.setNumero(leerNumero(in));                                // Numero
         variableDireccion.setBloque(leerStringTeclado(in,"Bloque"));         // Bloque
@@ -554,9 +560,7 @@ public class Servicios {
             seguir = establecerSalarioParaContrato(in,contrato);
             if (seguir) {
                 establecerPuesto(in, contrato);
-                contrato.setCodigo(Alfanumerico.generar());
-                System.out.println(contrato);
-                System.out.println(empleadoBuscado.getContratos().size());
+                contrato.setId(empleadoBuscado.getContratos().size()); // TODO
                 empleadoBuscado.getContratos().add(contrato);
                 contratoArrayList.add(contrato);
             }

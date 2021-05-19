@@ -7,12 +7,13 @@ import java.util.Date;
 
 public class Contrato extends ArrayList<Contrato> {
 
+    private int id;   //PK
     private Date fechaInicioContrato;
     private Date fechaFinalContrato;
     private Date fechaFinalizacionEstimada;
     private double salario;
     private Puesto puesto;
-    private String codigo;
+    private String codigoEmpleadoAsignado;
 
     public Contrato(){}
 
@@ -51,15 +52,23 @@ public class Contrato extends ArrayList<Contrato> {
         return puesto;
     }
 
-    public void setCodigo(String codigo){ this.codigo = codigo; }
-    public String getCodigo(){ return codigo; }
+    public void setId(int id){ this.id = id; }
+    public int getId(){ return id; }
+
+    public void setCodigoEmpleadoAsignado(String codigoEmpleadoAsignado) {
+        this.codigoEmpleadoAsignado = codigoEmpleadoAsignado;
+    }
+    public String getCodigoEmpleadoAsignado() {
+        return codigoEmpleadoAsignado;
+    }
 
     public String cadenaFormateadaConAlmohadillas() {
 
         String fechaAltaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaInicioContrato);
         String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
 
-        return fechaAltaFormateada + " # " + fechaBajaFormateada + " # " + salario + " * " + puesto + " # " + codigo;
+        return id + "#" + fechaAltaFormateada + " # " + fechaBajaFormateada + " # " + salario
+                + " * " + puesto + " # " + codigoEmpleadoAsignado;
 
     }
 
@@ -70,7 +79,7 @@ public class Contrato extends ArrayList<Contrato> {
         String fechaFinalFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
         String fechaFinalizacionFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalizacionEstimada);
 
-        return fechaInicioFormateada + " / " + fechaFinalFormateada + " / " + fechaFinalizacionEstimada + " / " + salario
-                + " / " + puesto + " / " + codigo;
+        return id + "/" + fechaInicioFormateada + " / " + fechaFinalFormateada + " / "
+                + fechaFinalizacionEstimada + " / " + salario + " / " + puesto + "/" + codigoEmpleadoAsignado ;
     }
 }

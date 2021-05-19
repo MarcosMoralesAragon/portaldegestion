@@ -31,6 +31,11 @@ public class Fecha {
         return fechaResulado;
     }
 
+    public static java.sql.Date cambiarDateADateSQL(Date fecha){
+        java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
+        return fechaSQL;
+    }
+
     public static Date leerStringDevolviendoFechaFormateada(String fechaFormateada) throws ParseException {
         Date fechaResultado;
         DateFormat format = new SimpleDateFormat("hh : mm : ss a || dd-MM-yyyy");

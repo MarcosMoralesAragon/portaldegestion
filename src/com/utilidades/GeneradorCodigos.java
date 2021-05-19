@@ -2,10 +2,23 @@ package com.utilidades;
 
 import com.ficheros.Servicios;
 
-public class Alfanumerico {
+public class GeneradorCodigos {
 
 
-    public static String generar() {
+    public static int generarCodigoDirección(){
+
+        int resultado = 0;
+        String stringResultado = "";
+        int digitos = (int)(Math.random() * 9 + 1);
+        do {
+            stringResultado += numAleatorio();
+            digitos --;
+        }while (digitos > 0);
+        resultado = Integer.parseInt(stringResultado);
+     return resultado;
+    }
+
+    public static String generarCodigoEmpleados() {
 
         // Genera el codigo alfanumerico de manera aleatroia entre numeros y letras minusculas
 
@@ -14,10 +27,10 @@ public class Alfanumerico {
         do {
             switch ((int)(Math.random()*2)){
                 case 0:
-                    resultado.append(Alfanumerico.numAleatorio());
+                    resultado.append(numAleatorio());
                     break;
                 case 1:
-                    resultado.append(Alfanumerico.letraAleatoria());
+                    resultado.append(letraAleatoria());
                     break;
             }
             digitos ++;

@@ -26,19 +26,24 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-        <schema name="APEX_180200" object-types="procedure, synonym, function" />
-        <schema name="PUBLIC" object-types="view, synonym, type, function, package, table, sequence, materialized view" />
-        <schema name="TD_CMDB_V1" object-types="view, package function, synonym, package type, type, function, package, type function, table, sequence, column, materialized view" />
+        <schema name="APEX_180200" object-types="function, synonym, procedure" />
+        <schema name="PUBLIC" object-types="function, table, package, view, synonym, materialized view, sequence, type" />
+        <schema name="TD_CMDB_V1" object-types="function, table, package, column, view, synonym, materialized view, sequence, type" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-      <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_PRUEBA order by ID 
+      <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_PRUEBA order by ID
+select * from FPM_DIRECCION
+select * from FPM_CONTRATOS
 
 delete from FPM_PRUEBA
+delete from FPM_DIRECCION
 
-update FPM_PRUEBA set NACIONALIDAD =?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?,
+
+
+update FPM_PRUEBA set NOMBRE = ?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?,
         NACIONALIDAD = ? where "ID" = ?]]></console>
     </connection>
   </component>

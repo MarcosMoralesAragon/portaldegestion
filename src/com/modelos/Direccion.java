@@ -2,6 +2,7 @@ package com.modelos;
 
 public class Direccion {
 
+    private int codigo;
     private String calle;
     private int numero;
     private String bloque;
@@ -13,6 +14,13 @@ public class Direccion {
 
     public Direccion (){
 
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    public int getCodigo() {
+        return codigo;
     }
 
     public void setCalle (String c){
@@ -73,13 +81,14 @@ public class Direccion {
 
     public String cadenaConAlmohadillaDireccion(){
 
-        return calle + "#" + numero + "#" + bloque + "#" + piso + "#" + puerta + "#" + codigoPostal + "#" + localidad +
+        return codigo + "#" + calle + "#" + numero + "#" + bloque + "#" + piso + "#" + puerta + "#" + codigoPostal + "#" + localidad +
                 "#" + provincia;
     }
 
     @Override
     public String toString() {
-        return  " Calle --> " + calle + " / " +
+        return  " Código --> " + codigo + " / " +
+                " Calle --> " + calle + " / " +
                 " Numero --> " + numero + " / " +
                 " Bloque --> " + bloque + " / " +
                 " Piso --> " + piso + " / " +

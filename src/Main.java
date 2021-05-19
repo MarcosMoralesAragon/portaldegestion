@@ -17,8 +17,11 @@ public class Main {
 
         Prints.limpiar(1);
 
-        ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
-        Prints.limpiar(1);
+        /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
+        Prints.limpiar(1); */
+
+        ficheroEstaCorrectoParaListar = true;
+        Servicios.cargarEmpleadosDesdeBaseDeDatos();
 
         if (ficheroEstaCorrectoParaListar){
             Servicios.listarEmpleados("");
