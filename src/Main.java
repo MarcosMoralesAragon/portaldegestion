@@ -1,4 +1,3 @@
-import com.ficheros.GestionFicheros;
 import com.ficheros.Servicios;
 import com.utilidades.Prints;
 import java.util.*;
@@ -78,9 +77,18 @@ public class Main {
                         Servicios.informe();
                     break;
                 case 14:
+                    Servicios.guardarMemoriaABaseDeDatos();
+                    break;
+                case 15:
+                    Servicios.updateEmpleadosABaseDeDatos();
+                    break;
+                case 16:
+
+                    break;
+                case 17:
                     Prints.limpiar(1);
-                        Prints.finDeLaAplicacion();
-                        salida = true;
+                    Prints.finDeLaAplicacion();
+                    salida = true;
                     break;
                 default:
                     break;

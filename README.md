@@ -218,5 +218,7 @@ me gustaria hacer lo de todas maneras
 Ahora mismo solo me queda crearle ahora las claves a dirección y a los contratos. Despues de eso en la tabla contratos pasarle el
 codigo del empleado y a la tabla empleados pasarle el codigo de direccion asignado a él
 
-- [ ] ¿Que tabla tendra la fk entre la relacion de empleados y direccion?
+- [x] ¿Que tabla tendra la fk entre la relacion de empleados y direccion?
 
+<b>_→ 20/05/2021 :_</b> Hoy sobre todo ha ido la cosa de hacer el update y pulir parte del codigo. Hoy se lo pasamos a curro
+para que le de un repaso en general y lo ve.

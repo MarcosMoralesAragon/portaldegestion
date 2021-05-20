@@ -2,11 +2,14 @@ package com.ficheros;
 
 import com.modelos.*;
 import com.utilidades.Fecha;
+import com.utilidades.Prints;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class GestionBaseDeDatos {
+
+
 
     public static Connection cargarBaseDeDatos(){
         try {
@@ -131,6 +134,7 @@ public class GestionBaseDeDatos {
         return variableContrato;
     }
 
+
     public static void guardarDatosEmpleadosBaseDeDato(String nombreTabla, Empleado empleado){
         Connection conexion = cargarBaseDeDatos();
         PreparedStatement stmt = null;
@@ -176,15 +180,15 @@ public class GestionBaseDeDatos {
             try {
                 stmt = conexion.prepareStatement("insert into " + nombreTabla + " values(?,?,?,?,?,?,?,?,?)");
 
-                stmt.setInt(1, empleado.getDireccion().getCodigo());        // Codigo
-                stmt.setString(2, empleado.getDireccion().getCalle());      // Calle
-                stmt.setInt(3, empleado.getDireccion().getNumero());        // Numero
-                stmt.setString(4, empleado.getDireccion().getBloque());     // Bloque
-                stmt.setString(5, empleado.getDireccion().getPiso());       // Piso
-                stmt.setString(6, empleado.getDireccion().getPuerta());     // Puerta
-                stmt.setInt(7, empleado.getDireccion().getCodigoPostal());  // Codigo Postal
-                stmt.setString(8, empleado.getDireccion().getLocalidad());  // Localidad
-                stmt.setString(9, empleado.getDireccion().getProvincia());  // Provincia
+                stmt.setInt(1, empleado.getDireccion().getCodigo());         // Codigo
+                stmt.setString(2, empleado.getDireccion().getCalle());       // Calle
+                stmt.setInt(3, empleado.getDireccion().getNumero());         // Numero
+                stmt.setString(4, empleado.getDireccion().getBloque());      // Bloque
+                stmt.setString(5, empleado.getDireccion().getPiso());        // Piso
+                stmt.setString(6, empleado.getDireccion().getPuerta());      // Puerta
+                stmt.setInt(7, empleado.getDireccion().getCodigoPostal());   // Codigo Postal
+                stmt.setString(8, empleado.getDireccion().getLocalidad());   // Localidad
+                stmt.setString(9, empleado.getDireccion().getProvincia());   // Provincia
 
                 int cantidadAfectada = stmt.executeUpdate();
                 System.out.println("Guardado con exito, " + cantidadAfectada + " fila/s afectada/s en " + nombreTabla);
@@ -203,7 +207,7 @@ public class GestionBaseDeDatos {
         }
     }
 
-    public static void guardarDatosContrato(String nombreTabla, Empleado empleado, int numeroDeContrato){
+    public static void guardarDatosContrato(String nombreTabla, Empleado empleado, int numeroDeContrato){ // TODO
         Connection conexion = cargarBaseDeDatos();
         PreparedStatement stmt = null;
 
@@ -211,13 +215,13 @@ public class GestionBaseDeDatos {
             try {
                 stmt = conexion.prepareStatement("insert into " + nombreTabla + " values(?,?,?,?,?,?,?)");
 
-                stmt.setInt(1, empleado.getContratos().get(numeroDeContrato).getId());        // Codigo
-                stmt.setDate(2,  Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaInicioContrato()));      // Calle
-                stmt.setDate(3, Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaFinalContrato()));        // Numero
-                stmt.setDate(4, Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaFinalizacionEstimada()));     // Bloque
-                stmt.setInt(5, (int) empleado.getContratos().get(numeroDeContrato).getSalario());       // Piso
-                stmt.setString(6, String.valueOf(empleado.getContratos().get(numeroDeContrato).getPuesto()));     // Puerta
-                stmt.setString(7, empleado.getContratos().get(numeroDeContrato).getCodigoEmpleadoAsignado());  // Codigo Postal
+                stmt.setInt(1, empleado.getContratos().get(numeroDeContrato).getId());                                                     // Codigo
+                stmt.setDate(2,  Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaInicioContrato()));       // Calle
+                stmt.setDate(3, Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaFinalContrato()));         // Numero
+                stmt.setDate(4, Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaFinalizacionEstimada()));  // Bloque
+                stmt.setInt(5, (int) empleado.getContratos().get(numeroDeContrato).getSalario());                                          // Piso
+                stmt.setString(6, String.valueOf(empleado.getContratos().get(numeroDeContrato).getPuesto()));                              // Puerta
+                stmt.setString(7, empleado.getContratos().get(numeroDeContrato).getCodigoEmpleadoAsignado());                              // Codigo Postal
 
                 int cantidadAfectada = stmt.executeUpdate();
                 System.out.println("Guardado con exito, " + cantidadAfectada + " fila/s afectada/s en " + nombreTabla);
@@ -235,6 +239,7 @@ public class GestionBaseDeDatos {
             }
         }
     }
+
 
     public static void borrarFilaBaseDeDatos(String nombreTabla){
         Connection conexion = cargarBaseDeDatos();
@@ -255,26 +260,55 @@ public class GestionBaseDeDatos {
         }
     }
 
-    public static void updateFilaBaseDeDatos(String nombreTabla, Empleado empleado){
+    public static void updateFilaBaseDeDatos(String nombreTabla, Empleado empleado){ // TODO
         Connection conexion = cargarBaseDeDatos();
         PreparedStatement stmt = null;
         try {
             stmt = conexion.prepareStatement("update " + nombreTabla + " set NOMBRE = ?, PRIMER_APELLIDO = ?, " +
                     "SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?, NACIONALIDAD = ?, ESTADO = ? where ID = ?" );
-            stmt.setString(1, empleado.getNombre());                                   // Nombre
-            stmt.setString(2, empleado.getPrimerApellido());                           // Primer apellido
-            stmt.setString(3, empleado.getSegundoApellido());                          // Segundo apellido
-            stmt.setString(4, empleado.getDNI());                                      // DNI
-            stmt.setDate(6, Fecha.cambiarDateADateSQL(empleado.getFechaNacimiento())); // Fecha nacimiento
-            stmt.setString(9, empleado.getEstado().toString());                        // Estado
-            stmt.setString(5, empleado.getCodigo());                                   // Codigo
+            stmt.setString(1, empleado.getNombre());                                    // Nombre
+            stmt.setString(2, empleado.getPrimerApellido());                            // Primer apellido
+            stmt.setString(3, empleado.getSegundoApellido());                           // Segundo apellido
+            stmt.setString(4, empleado.getDNI());                                       // DNI
+            stmt.setDate(5, Fecha.cambiarDateADateSQL(empleado.getFechaNacimiento()));  // Fecha nacimiento
+            stmt.setString(6, empleado.getNacionalidad());                              // Nacionalidad
+            stmt.setString(7, empleado.getEstado().toString());                         // Estado
+            stmt.setString(8, empleado.getCodigo());                                    // Codigo TODO
             int cantidadAfectada = stmt.executeUpdate();
-            stmt.close();
-            conexion.close();
-            System.out.println("Campos modificados guardados con exito, " + cantidadAfectada + " fila/s afectada/s");
+            stmt = conexion.prepareStatement("update FPM_DIRECCION set CALLE = ?, NUMERO = ?," +
+                    " BLOQUE = ?, PISO = ?, PUERTA = ?, CODIGO_POSTAL = ?, LOCALIDAD = ?, PROVINCIA = ? where ID_DIRECCION = ?" );
+            stmt.setString(1, empleado.getDireccion().getCalle());
+            stmt.setInt(2, empleado.getDireccion().getNumero());
+            stmt.setString(3, empleado.getDireccion().getBloque());
+            stmt.setString(4, empleado.getDireccion().getPiso());
+            stmt.setString(5, empleado.getDireccion().getPuerta());
+            stmt.setInt(6, empleado.getDireccion().getCodigoPostal());
+            stmt.setString(7, empleado.getDireccion().getLocalidad());
+            stmt.setString(8, empleado.getDireccion().getProvincia());
+            stmt.setInt(9, empleado.getDireccion().getCodigo());
+            cantidadAfectada += stmt.executeUpdate();
+            if (empleado.getContratos() == null){
+                System.out.println("Este empleado no tiene contratos asignados");
+            } else {
+                try {
+                    stmt = conexion.prepareStatement("update FPM_CONTRATOS set FECHA_INICIO_CONTRATO = ?, FECHA_FINAL_CONTRATO = ?," +
+                            " FECHA_FINALIZACION_ESTIMADA = ?, SALARIO = ?, PUESTO = ? where CODIGO_EMPLEADO = ?");
+                    stmt.setDate(1, Fecha.cambiarDateADateSQL(empleado.getContratos().get(empleado.getContratos().size() - 1).getFechaInicioContrato()));
+                    stmt.setDate(2, Fecha.cambiarDateADateSQL(empleado.getContratos().get(empleado.getContratos().size() - 1).getFechaFinalContrato()));
+                    stmt.setDate(3, Fecha.cambiarDateADateSQL(empleado.getContratos().get(empleado.getContratos().size() - 1).getFechaFinalizacionEstimada()));
+                    stmt.setInt(4, (int) empleado.getContratos().get(empleado.getContratos().size() - 1).getSalario());
+                    stmt.setString(5, String.valueOf(empleado.getContratos().get(empleado.getContratos().size() - 1).getPuesto()));
+                    stmt.setString(6, empleado.getCodigo());
+                    cantidadAfectada += stmt.executeUpdate();
+                }catch (NullPointerException e){
+                    System.out.println("No se pueden actualizar campos vacios");
+                }
+            }
+            System.out.println("Campos modificados con exito, " + cantidadAfectada + " fila/s afectada/s");
         } catch (SQLException throwables) {
-            System.out.println("Error borrando una fila en la tabla " + nombreTabla);
+            System.out.println("Error actualizando las tablas " + nombreTabla);
         } finally {
+            Prints.limpiar(1);
             try {
                 stmt.close();
                 conexion.close();

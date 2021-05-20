@@ -32,7 +32,10 @@ public class Fecha {
     }
 
     public static java.sql.Date cambiarDateADateSQL(Date fecha){
-        java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
+        java.sql.Date fechaSQL = null;
+        if (fecha != null){
+            fechaSQL = new java.sql.Date(fecha.getTime());
+        }
         return fechaSQL;
     }
 

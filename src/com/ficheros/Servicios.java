@@ -1,5 +1,7 @@
 package com.ficheros;
 
+import com.ficheros.GestionFicheros;
+import com.ficheros.Informe;
 import com.modelos.*;
 import com.utilidades.GeneradorCodigos;
 import com.utilidades.Fecha;
@@ -26,6 +28,12 @@ public class Servicios {
         System.out.println(contratos);
 
         Prints.finalFuncion();
+    }
+
+    public static void updateEmpleadosABaseDeDatos(){
+        for (int i = 0; i < empleados.size(); i++){
+            GestionBaseDeDatos.updateFilaBaseDeDatos("FPM_PRUEBA", empleados.get(i));
+        }
     }
 
     public static void guardarMemoriaABaseDeDatos(){
