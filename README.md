@@ -195,11 +195,11 @@ PLAN PARA MAÑANA (18/05/2021)
 - [ ] Hacer el update para los empleados modificados
 - [x] Ser capaz de guardar los empleados de manera exitosa
 
-Es bastante complicado pero intentare hacer todos esos puntos mañana 
+Es bastante complicado pero intentaré hacer todos esos puntos mañana 
 
 ---
 
-<b>_→ 18/05/2021 :_</b> ¿Como se hace el set de direccion a una base de datos?. Por ahora estoy liado con aplicar el update
+<b>_→ 18/05/2021 :_</b> ¿Cómo se hace el set de dirección a una base de datos?. Por ahora estoy liado con aplicar el update
 al modificar los campos. Entiendo como se realiza la consulta y la estructura pero no del todo como aplicarla de manera efectiva
 
 - [X] Hacerle un check (Estado ('Baja', 'Alta', 'En trámite')) en Java <br> → ALTER TABLE *nombre-tabla*
@@ -210,15 +210,17 @@ al modificar los campos. Entiendo como se realiza la consulta y la estructura pe
 ![img.png](src/capturas/img_7.png)
 
 <b>_→ 19/05/2021 :_</b> Para los updates planeo utilizar una lista, es decir, cuando modifico un empleado guardo sus
-codigo en una lista para que luego el programa ejecute el update a sus campos. Esto es mas bien para optimización pero
-me gustaria hacer lo de todas maneras
+codigo en una lista para que luego el programa ejecute el update a sus campos. Esto es más bien para optimización pero
+me gustaría hacer lo de todas maneras
 
 - [x] Campos tipo date
 
 Ahora mismo solo me queda crearle ahora las claves a dirección y a los contratos. Despues de eso en la tabla contratos pasarle el
-codigo del empleado y a la tabla empleados pasarle el codigo de direccion asignado a él
+codigo del empleado y a la tabla empleados pasarle el codigo de dirección asignado a él
 
-- [x] ¿Que tabla tendra la fk entre la relacion de empleados y direccion?
+- [x] ¿Qué tabla tendra la fk entre la relación de empleados y dirección?
 
 <b>_→ 20/05/2021 :_</b> Hoy sobre todo ha ido la cosa de hacer el update y pulir parte del codigo. Hoy se lo pasamos a curro
-para que le de un repaso en general y lo ve.
+para que le de un repaso en general y lo ve. Quiero sobre todo mirar la carga y update de los contratos es lo que peor puede estar
+del proyecto. No se si este finde tendre algo de tiempo pero me gustaria repasar algo el codigo si es que consigo algo de tiempo
+por las tardes porque con el proyecto no queda mucho.

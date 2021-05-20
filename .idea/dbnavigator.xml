@@ -41,7 +41,6 @@ delete from FPM_PRUEBA
 delete from FPM_DIRECCION
 
 
-
 update FPM_PRUEBA set NOMBRE = ?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?,
         NACIONALIDAD = ? where "ID" = ?]]></console>
     </connection>

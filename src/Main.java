@@ -83,9 +83,6 @@ public class Main {
                     Servicios.updateEmpleadosABaseDeDatos();
                     break;
                 case 16:
-
-                    break;
-                case 17:
                     Prints.limpiar(1);
                     Prints.finDeLaAplicacion();
                     salida = true;

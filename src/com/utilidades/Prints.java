@@ -58,7 +58,9 @@ public class Prints {
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Restaurar papelera -_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Guardar a base de datos  -_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 15. Update a base de datos -_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 16. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }

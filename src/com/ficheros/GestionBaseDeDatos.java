@@ -275,6 +275,7 @@ public class GestionBaseDeDatos {
             stmt.setString(7, empleado.getEstado().toString());                         // Estado
             stmt.setString(8, empleado.getCodigo());                                    // Codigo TODO
             int cantidadAfectada = stmt.executeUpdate();
+
             stmt = conexion.prepareStatement("update FPM_DIRECCION set CALLE = ?, NUMERO = ?," +
                     " BLOQUE = ?, PISO = ?, PUERTA = ?, CODIGO_POSTAL = ?, LOCALIDAD = ?, PROVINCIA = ? where ID_DIRECCION = ?" );
             stmt.setString(1, empleado.getDireccion().getCalle());
@@ -291,6 +292,7 @@ public class GestionBaseDeDatos {
                 System.out.println("Este empleado no tiene contratos asignados");
             } else {
                 try {
+
                     stmt = conexion.prepareStatement("update FPM_CONTRATOS set FECHA_INICIO_CONTRATO = ?, FECHA_FINAL_CONTRATO = ?," +
                             " FECHA_FINALIZACION_ESTIMADA = ?, SALARIO = ?, PUESTO = ? where CODIGO_EMPLEADO = ?");
                     stmt.setDate(1, Fecha.cambiarDateADateSQL(empleado.getContratos().get(empleado.getContratos().size() - 1).getFechaInicioContrato()));
