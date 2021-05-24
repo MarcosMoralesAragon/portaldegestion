@@ -46,21 +46,22 @@ public class Prints {
     public static void main(){
         System.out.println("╔━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╗");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 1. Crear -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 2. Contrato  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 2. Crear Contrato  -_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 3. Listar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 4. Borrar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 5. Modificar _-_-_-_-_-_-_-_-_-_-_-_-_--_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 6. Guardar Empleados -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Guardar Todo  -_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 8. Listar Papelera -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 4. Listar Contrato -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 5. Listar Papelera  -_-_-_-_-_-_-_-_-_--_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 6. Modificar -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 7. Borrar  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 8. Cargar Papelera -_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 9. Guardar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Recuperar papelera -_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Restaurar papelera -_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Vaciar papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Restaurar Papelera -_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Vaciar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Guardar Todo -_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Guardar a base de datos  -_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 15. Update a base de datos -_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 16. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Cargar Datos BBDD  -_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 15. Guardar a BBDD -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 16. Actualizar BBDD  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 17. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }

@@ -34,55 +34,57 @@ public class Main {
             int eleccion = Servicios.transformaStringAIntDevuelveInt(in);
             switch (eleccion){
                 case 1:
-                        Servicios.crear(in);
+                        Servicios.crearEmpleado(in);
                     break;
                 case 2:
                         Servicios.crearContrato(in);
                     break;
                 case 3:
-                        Servicios.listarEmpleados("3. ");
+                        Servicios.listarEmpleados("3");
                     break;
 
                 case 4:
-                        Servicios.borrado(in);
+                        Servicios.listarContratos();
                     break;
 
                 case 5:
-                        Servicios.modificar(in);
+                        Servicios.listarPapelera();
                     break;
 
                 case 6:
-                        Servicios.guardarEmpleados("empleados.txt");
+                        Servicios.modificar(in);
                     break;
                 case 7:
-                        Servicios.guardarTodo();
+                        Servicios.borrado(in);
                     break;
-
                 case 8:
-                        Servicios.listarPapelera();
-                    break;
-                case 9:
-                        Servicios.guardarPapelera("copiaDeSeguridad");
-                    break;
-                case 10:
                         Servicios.recuperarPapelera();
                     break;
-                case 11:
+                case 9:
+                        Servicios.guardarPapelera("copiaDeSeguridad.txt");
+                    break;
+                case 10:
                         Servicios.restaurarPapelera();
                     break;
-                case 12:
+                case 11:
                         Servicios.vaciarPapelera();
+                    break;
+                case 12:
+                        Servicios.guardarTodo();
                     break;
                 case 13:
                         Servicios.informe();
                     break;
                 case 14:
-                    Servicios.guardarMemoriaABaseDeDatos();
+                        Servicios.cargarEmpleadosDesdeBaseDeDatos();
                     break;
                 case 15:
-                    Servicios.updateEmpleadosABaseDeDatos();
+                        Servicios.guardarMemoriaABaseDeDatos();
                     break;
                 case 16:
+                        Servicios.updateEmpleadosABaseDeDatos();
+                    break;
+                case 17:
                     Prints.limpiar(1);
                     Prints.finDeLaAplicacion();
                     salida = true;

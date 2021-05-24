@@ -224,3 +224,14 @@ codigo del empleado y a la tabla empleados pasarle el codigo de dirección asign
 para que le de un repaso en general y lo ve. Quiero sobre todo mirar la carga y update de los contratos es lo que peor puede estar
 del proyecto. No se si este finde tendre algo de tiempo pero me gustaria repasar algo el codigo si es que consigo algo de tiempo
 por las tardes porque con el proyecto no queda mucho.
+
+<b>_→ 24/05/2021 :_</b> He estado toda la mañana optimizando algunas partes del codigo ( eliminando funciones innecesarias y cosas del estilo).
+Me queda todavía dejar bien preparado la funcion de update. He reestructurado algunas funciones, creo que terminare de dedicar
+el dia a optimización.
+
+He empezado una optimizacion del codigo muy grande. He empezado a adaptar para cargar los datos en la misma funcion independientemente
+de donde sacamos el dato. Sinceramente esta tarde intentare ponerme para mañana tener esto ya hecho o al menos casi por terminar.
+Asi podré dedicar el dia a testearlo y ver como va. Basicamente ahora cuando llamas a la funcion, indicas de donde viene el dato
+y en funcion de donde venga.
+
+He dejado varios TODO pendientes para guiarme el proximo día.
