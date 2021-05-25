@@ -104,7 +104,6 @@ public class Servicios {
                 i++;
             }
         }
-        System.out.println(empleadosBorrados);
         Prints.finalFuncion();
     } // 5
 
