@@ -19,19 +19,21 @@ public class Servicios {
     public static ArrayList<Contrato> contratos = new ArrayList<>();
     public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
+    private static int contador;
 
     public static void crearEmpleado(Scanner in) {
         System.out.println("1. Crear");
         Prints.separador();
         Prints.limpiar(1);
-        Empleado variableEmpleado = new Empleado();
+        String deDondeVieneElDato = "teclado";
         try {
-            // TODO datosEmpleadosPorTeclado(in, variableEmpleado);
-            // TODO variableEmpleado.setDireccion(datosDireccionPorTeclado(in));
+            Empleado variableEmpleado = new Empleado();
+            datosEmpleados(in,variableEmpleado,deDondeVieneElDato,null,null, null);
+            variableEmpleado.setDireccion(datosDireccion(in, deDondeVieneElDato, null, null, null));
             empleados.add(variableEmpleado);
             empleadosNuevos.add(variableEmpleado);
         } catch (Exception e) {
-            Prints.error();
+            e.printStackTrace();
         }
         Prints.finalFuncion();
     } // 1
@@ -155,7 +157,6 @@ public class Servicios {
         System.out.println("8. Recuperar papelera");
         Prints.separador();
         Prints.limpiar(1);
-
         Prints.limpiar(1);
         GestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
         Prints.finalFuncion();
@@ -193,29 +194,19 @@ public class Servicios {
         System.out.println("10. Restaurar papelera");
         Prints.separador();
         Prints.limpiar(1);
+        String deDondeVieneElDato = "papelera";
 
         if (!empleadosBorrados.isEmpty()){
             for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
                 Empleado variableEmpleado = new Empleado();
-                variableEmpleado.setCodigo(entry.getValue().getCodigo());
-                variableEmpleado.setNombre(entry.getValue().getNombre());
-                variableEmpleado.setPrimerApellido(entry.getValue().getPrimerApellido());
-                variableEmpleado.setSegundoApellido(entry.getValue().getSegundoApellido());
-                variableEmpleado.setDNI(entry.getValue().getDNI());
-                variableEmpleado.setFechaNacimiento(entry.getValue().getFechaNacimiento());
-                variableEmpleado.setNacionalidad(entry.getValue().getNacionalidad());
-                variableEmpleado.setEstado(entry.getValue().getEstado());
-                variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
-                Direccion variableDireccion = new Direccion();
-                variableDireccion.setCalle(entry.getValue().getDireccion().getCalle());
-                variableDireccion.setNumero(entry.getValue().getDireccion().getNumero());
-                variableDireccion.setBloque(entry.getValue().getDireccion().getBloque());
-                variableDireccion.setPiso(entry.getValue().getDireccion().getPiso());
-                variableDireccion.setPuerta(entry.getValue().getDireccion().getPuerta());
-                variableDireccion.setCodigoPostal(entry.getValue().getDireccion().getCodigoPostal());
-                variableDireccion.setLocalidad(entry.getValue().getDireccion().getLocalidad());
-                variableDireccion.setProvincia(entry.getValue().getDireccion().getProvincia());
-                variableEmpleado.setDireccion(variableDireccion);
+                try {
+                    datosEmpleados(null,variableEmpleado,deDondeVieneElDato,null,entry, null);
+                    variableEmpleado.setDireccion(datosDireccion(null, deDondeVieneElDato, null, entry, null));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ParseException e) {
+                    System.out.println("Problema con la conversion de los parametros");
+                }
                 empleados.add(variableEmpleado);
             }
             System.out.println("Los empleados borrados han sido restaurados con exito. Recuerda que mientras no guardes los cambios no surtiran efecto");
@@ -241,9 +232,9 @@ public class Servicios {
         Prints.separador();
         Prints.limpiar(1);
 
-        // guardarEmpleados("empleados.txt");
+        guardarMemoriaABaseDeDatos();
         guardarPapelera("copiaDeSeguridad.txt");
-    } // 12 TODO
+    } // 12
 
     public static void informe(){
         System.out.println("13. Informe");
@@ -264,20 +255,6 @@ public class Servicios {
         Prints.finalFuncion();
     } // 14
 
-    public static void guardarMemoriaABaseDeDatos(){
-        System.out.println("15. Guardar empleados a la base de datos");
-        Prints.separador();
-        Prints.limpiar(1);
-        if (empleadosNuevos.size() == 0){
-            System.out.println("No existen empleados nuevos creados. Cree un empleado nuevo");
-        } else {
-            for ( int i = 0; i < empleadosNuevos.size(); i++){
-                GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
-            }
-        }
-        Prints.finalFuncion();
-    } // 15
-
     public static void updateEmpleadosABaseDeDatos(){
         System.out.println("16. Actualizar empleados a la base de datos");
         Prints.separador();
@@ -290,31 +267,21 @@ public class Servicios {
             }
         }
         Prints.finalFuncion();
-    } // 16
+    } // 15
 
-    // Este metodo ha caido en desuso debido a que ahora los empleados se guardan en la base de datos y
-    // ya no se guardan en ficheros
-    /* public static void guardarEmpleados(String nombreFichero) {
-        System.out.println("6. Guardar empleados");
+    public static void guardarMemoriaABaseDeDatos(){
+        System.out.println("15. Guardar empleados a la base de datos");
         Prints.separador();
         Prints.limpiar(1);
-        boolean creado = false;
-        boolean borrado = GestionFicheros.borrarFichero(nombreFichero);
-        if (borrado){
-            creado = GestionFicheros.creadorFicheros(nombreFichero);
-        }
-        if (creado) {
-            for (Empleado empleado : empleados) {
-                try {
-                    GestionFicheros.escribirFichero(nombreFichero, empleado.toString());
-                } catch (IOException e) {
-                    System.out.println("Fallo guardando el fichero : " + nombreFichero);
-                }
+        if (empleadosNuevos.size() == 0){
+            System.out.println("No existen empleados nuevos creados. Cree un empleado nuevo");
+        } else {
+            for ( int i = 0; i < empleadosNuevos.size(); i++){
+                GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
             }
-            System.out.println("Empleados guardados con exito");
         }
         Prints.finalFuncion();
-    }*/
+    }
 
     // ------------------------> FUNCIONES <-----------------------------
 
@@ -415,9 +382,17 @@ public class Servicios {
 
     public static void cargarLista(String[] datoSeparado, String palabra) throws ParseException {
         Empleado variableEmpleado = new Empleado(null);
-        // TODO datosEmpleados(variableEmpleado, datoSeparado);
-        // TODO variableEmpleado.setDireccion(datosDireccion(datoSeparado));
-        if ("empleados".equals(palabra)){
+        String deDondeVieneElDato = palabra;
+        if (palabra.equals("papelera")){
+            deDondeVieneElDato = "cargarpapelera";
+        }
+        try {
+            datosEmpleados(null, variableEmpleado, deDondeVieneElDato, null, null, datoSeparado);
+            variableEmpleado.setDireccion(datosDireccion(null, deDondeVieneElDato,null,null,datoSeparado));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if ("fichero".equals(palabra)){
             empleados.add(variableEmpleado);
         } else if ("papelera".equals(palabra)){
             empleadosBorrados.put(variableEmpleado.getCodigo(), variableEmpleado);
@@ -468,26 +443,6 @@ public class Servicios {
         return in.nextLine();
     }
 
-    private static int leerInt(Scanner in, String campo){
-        String campoElegido = campo.toLowerCase(Locale.ROOT);
-        int resultado = 0;
-        switch (campoElegido){
-            case "estado":
-                leerEstado(in);
-                break;
-            case "puesto":
-                resultado = leerPuesto(in);
-                break;
-            case "numero":
-            case "codigo postal":
-                resultado = leerNumeroYCodigoPostal(in,campo);
-                break;
-            default:
-                System.out.println("Nombre de campo erroneo");
-        }
-        return resultado;
-    }
-
     private static int leerEstado(Scanner in){
         Prints.separadorConTexto("Estado");
         String palabraIntroducida;
@@ -516,140 +471,115 @@ public class Servicios {
     }
 
 
-    // -------------------->  FUNCIONES CREAR  <------------------------
+    // -------------------->  FUNCIONES PARA PONER LOS DATOS EN MEMORIA  <------------------------
 
-    /* private static void datosEmpleados( Empleado variableEmpleado, String[] datoSeparado) throws ParseException {
-
-        // Almacena y guarda los datos del empleado.
-
-        if (datoSeparado[0].equals("null")){
-            variableEmpleado.setCodigo(GeneradorCodigos.generarCodigoEmpleados());
-        } else {
-            variableEmpleado.setCodigo(datoSeparado[0]);
-        }
-        variableEmpleado.setNombre(datoSeparado[1]);
-        variableEmpleado.setPrimerApellido(datoSeparado[2]);
-        variableEmpleado.setSegundoApellido(datoSeparado[3]);
-        variableEmpleado.setDNI(datoSeparado[4]);
-        variableEmpleado.setFechaNacimiento(Fecha.fecha(datoSeparado[5]));
-        variableEmpleado.setNacionalidad(datoSeparado[6]);
-        variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoSeparado[7])]);
-        if ( datoSeparado[17].equals("null")){
-            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(null));
-        } else {
-            variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoSeparado[17]));
-        }
-   } */
-
-    /* private static Direccion datosDireccion( String[] datoSeparado){
-
-        // Almacena y guarda los datos sobre la direccion
-        Direccion variableDireccion = new Direccion();
-        variableDireccion.setCodigo(Integer.parseInt(datoSeparado[8]));
-        variableDireccion.setCalle(datoSeparado[9]);
-        variableDireccion.setNumero(Integer.parseInt(datoSeparado[10]));
-        variableDireccion.setBloque(datoSeparado[11]);
-        variableDireccion.setPiso(datoSeparado[12]);
-        variableDireccion.setPuerta(datoSeparado[13]);
-        variableDireccion.setCodigoPostal(Integer.parseInt(datoSeparado[14]));
-        variableDireccion.setLocalidad(datoSeparado[15]);
-        variableDireccion.setProvincia(datoSeparado[16]);
-        return variableDireccion;
-    } */
-
-    private static void datosEmpleadosPorTeclado( Scanner in , Empleado variableEmpleado, String deDondeVieneElDato,
-                                                  ResultSet set, Map.Entry<String, Empleado> entry, String[] datoSeparado)
+    public static void datosEmpleados(Scanner in , Empleado variableEmpleado, String deDondeVieneElDato,
+                                       ResultSet set, Map.Entry<String, Empleado> entry, String[] datoseparado)
             throws ParseException, SQLException {
 
-        // TODO variableEmpleado.setCodigo();
-
-        variableEmpleado.setNombre(tipoDeDatoString(deDondeVieneElDato,"Nombre",
-                set.getString(2),entry.getValue().getNombre(),datoSeparado[1], in));
-
-        variableEmpleado.setPrimerApellido(tipoDeDatoString(deDondeVieneElDato,"Primer apellido",
-                set.getString(3),entry.getValue().getPrimerApellido(),datoSeparado[2], in));
-
-        variableEmpleado.setSegundoApellido(tipoDeDatoString(deDondeVieneElDato,"Segundo apellido",
-                set.getString(4),entry.getValue().getSegundoApellido(),datoSeparado[3], in));
-
-        variableEmpleado.setDNI(tipoDeDatoString(deDondeVieneElDato,"DNI",
-                set.getString(5),entry.getValue().getDNI(),datoSeparado[4], in));
-
-        variableEmpleado.setFechaNacimiento(Fecha.fecha(tipoDeDatoString(deDondeVieneElDato,
-                "Fecha nacimiento",set.getString(6),
-                Fecha.formateoDeFechaParaFechaCreadoYBorrado(entry.getValue().getFechaNacimiento()),datoSeparado[5], in)));
-
-        variableEmpleado.setNacionalidad(tipoDeDatoString(deDondeVieneElDato,"Nacionalidad",
-                set.getString(7),entry.getValue().getNacionalidad(),datoSeparado[6], in));
-        // TODO variableEmpleado.setEstado(Estado.values()[leerEstado(in)]);
-        if (deDondeVieneElDato.equals("teclado")){
-            variableEmpleado.setFechaAlta(Fecha.creaciónFechaActual());
-        } else {
-            variableEmpleado.setFechaAlta(Fecha.fecha(tipoDeDatoString(deDondeVieneElDato,"Fecha Alta",
-                    set.getString(10),Fecha.formateoDeFechaParaFechaCreadoYBorrado(entry.getValue().getFechaAlta())
-                    ,datoSeparado[17], in)));
+        switch (deDondeVieneElDato){
+            case "teclado":
+                variableEmpleado.setCodigo(GeneradorCodigos.generarCodigoEmpleados());
+                variableEmpleado.setNombre(leerStringTeclado(in, "Nombre"));
+                variableEmpleado.setPrimerApellido(leerStringTeclado(in, "Primer Apellido"));
+                variableEmpleado.setSegundoApellido(leerStringTeclado(in, "Segundo Apellido"));
+                variableEmpleado.setDNI(leerStringTeclado(in, "DNI"));
+                variableEmpleado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in, "Fecha nacimiento")));
+                variableEmpleado.setNacionalidad(leerStringTeclado(in, "Nacionalidad"));
+                variableEmpleado.setEstado(Estado.values()[estadoEleccion(leerStringTeclado(in, "Estado"))]);
+                variableEmpleado.setFechaAlta(Fecha.creaciónFechaActual());
+                break;
+            case "papelera":
+                variableEmpleado.setCodigo(entry.getValue().getCodigo());
+                variableEmpleado.setNombre(entry.getValue().getNombre());
+                variableEmpleado.setPrimerApellido(entry.getValue().getPrimerApellido());
+                variableEmpleado.setSegundoApellido(entry.getValue().getSegundoApellido());
+                variableEmpleado.setDNI(entry.getValue().getDNI());
+                variableEmpleado.setFechaNacimiento(entry.getValue().getFechaNacimiento());
+                variableEmpleado.setNacionalidad(entry.getValue().getNacionalidad());
+                variableEmpleado.setEstado(entry.getValue().getEstado());
+                variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
+                break;
+            case "bbdd":
+                variableEmpleado.setCodigo(set.getString(1));
+                variableEmpleado.setNombre(set.getString(2));
+                variableEmpleado.setPrimerApellido(set.getString(3));
+                variableEmpleado.setSegundoApellido(set.getString(4));
+                variableEmpleado.setDNI(set.getString(5));
+                variableEmpleado.setFechaNacimiento(set.getDate(6));
+                variableEmpleado.setNacionalidad(set.getString(7));
+                variableEmpleado.setDireccion(GestionBaseDeDatos.cargarDireccion( "FPM_DIRECCION", set.getInt(8)));
+                variableEmpleado.setEstado(Estado.values()[Servicios.estadoEleccion(set.getString(9))]);
+                variableEmpleado.setFechaAlta(set.getDate(10));
+                break;
+            case "cargapapelera":
+            case "fichero":
+                variableEmpleado.setCodigo(datoseparado[0]);
+                variableEmpleado.setNombre(datoseparado[1]);
+                variableEmpleado.setNombre(datoseparado[2]);
+                variableEmpleado.setPrimerApellido(datoseparado[3]);
+                variableEmpleado.setSegundoApellido(datoseparado[4]);
+                variableEmpleado.setDNI(datoseparado[5]);
+                variableEmpleado.setFechaNacimiento(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[6]));
+                variableEmpleado.setNacionalidad(datoseparado[7]);
+                variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoseparado[8])]);
+                variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[16]));
+                break;
         }
-
     }
 
-    private static Direccion datosDireccionPorTeclado(Scanner in, String deDondeVieneElDato, ResultSet set,
-                                                      Map.Entry<String, Empleado> entry, String[] datoSeparado) throws SQLException {
+    public static Direccion datosDireccion(Scanner in, String deDondeVieneElDato, ResultSet set,
+                                            Entry<String, Empleado> entry,String[] datoseparado) throws SQLException {
 
         Direccion variableDireccion = new Direccion();
-        // TODO variableDireccion.setCodigo(GeneradorCodigos.generarCodigoDirección());
-        variableDireccion.setCalle(tipoDeDatoString(deDondeVieneElDato,"Calle",
-                set.getString(2),entry.getValue().getDireccion().getCalle(),datoSeparado[9], in));
-        // TODO variableDireccion.setNumero(leerNumeroYCodigoPostal(in));
-        variableDireccion.setBloque(tipoDeDatoString(deDondeVieneElDato,"Bloque",
-                set.getString(4),entry.getValue().getDireccion().getBloque(),datoSeparado[11], in));
-        variableDireccion.setPiso(tipoDeDatoString(deDondeVieneElDato,"Piso",
-                set.getString(5),entry.getValue().getDireccion().getPiso(),datoSeparado[12], in));
-        variableDireccion.setPuerta(tipoDeDatoString(deDondeVieneElDato,"Puerta",
-                set.getString(6),entry.getValue().getDireccion().getPuerta(),datoSeparado[13], in));
-        // TODO variableDireccion.setCodigoPostal(leerNumeroYCodigoPostal(in));
-        variableDireccion.setLocalidad(tipoDeDatoString(deDondeVieneElDato,"Localidad",
-                set.getString(8),entry.getValue().getDireccion().getLocalidad(),datoSeparado[15], in));
-        variableDireccion.setProvincia(tipoDeDatoString(deDondeVieneElDato,"Provincia",
-                set.getString(9),entry.getValue().getDireccion().getProvincia(),datoSeparado[16], in));
-        return variableDireccion;
-    }
 
-    private static String tipoDeDatoString(String deDondeVieneElDato, String nombreCampo, String campoBaseDeDatos,
-                                           String campoPapelera, String campoFichero, Scanner in){
-        String resultado = "";
-        deDondeVieneElDato = deDondeVieneElDato.toLowerCase(Locale.ROOT);
-
-        if (deDondeVieneElDato.equals("teclado")){
-            resultado = leerStringTeclado(in,nombreCampo);
-        } else if (deDondeVieneElDato.equals("bbd")){
-            resultado = campoBaseDeDatos;
-        } else if (deDondeVieneElDato.equals("papelera")){
-            resultado = campoPapelera;
-        } else if (deDondeVieneElDato.equals("fichero")){
-            resultado = campoFichero;
-        } else {
-            System.out.println("El programa no acepta el tipo de dato introducido");
+        switch (deDondeVieneElDato){
+            case "teclado":
+                variableDireccion.setCodigo(GeneradorCodigos.generarCodigoDirección());
+                variableDireccion.setCalle(leerStringTeclado(in, "Calle"));
+                variableDireccion.setNumero(leerNumeroYCodigoPostal(in, "Numero"));
+                variableDireccion.setBloque(leerStringTeclado(in, "Bloque"));
+                variableDireccion.setPiso(leerStringTeclado(in, "Piso"));
+                variableDireccion.setPuerta(leerStringTeclado(in, "Puerta"));
+                variableDireccion.setCodigoPostal(leerNumeroYCodigoPostal(in, "Codigo postal"));
+                variableDireccion.setLocalidad(leerStringTeclado(in, "Localidad"));
+                variableDireccion.setProvincia(leerStringTeclado(in, "Provincia"));
+                break;
+            case "papelera":
+                variableDireccion.setCodigo(entry.getValue().getDireccion().getCodigo());
+                variableDireccion.setCalle(entry.getValue().getDireccion().getCalle());
+                variableDireccion.setNumero(entry.getValue().getDireccion().getNumero());
+                variableDireccion.setBloque(entry.getValue().getDireccion().getBloque());
+                variableDireccion.setPiso(entry.getValue().getDireccion().getPiso());
+                variableDireccion.setPuerta(entry.getValue().getDireccion().getPuerta());
+                variableDireccion.setCodigoPostal(entry.getValue().getDireccion().getCodigoPostal());
+                variableDireccion.setLocalidad(entry.getValue().getDireccion().getLocalidad());
+                variableDireccion.setProvincia(entry.getValue().getDireccion().getProvincia());
+                break;
+            case "bbdd":
+                variableDireccion.setCodigo(set.getInt(1));
+                variableDireccion.setCalle(set.getString(2));
+                variableDireccion.setNumero(set.getInt(3));
+                variableDireccion.setBloque(set.getString(4));
+                variableDireccion.setPiso(set.getString(5));
+                variableDireccion.setPuerta(set.getString(6));
+                variableDireccion.setCodigoPostal(set.getInt(7));
+                variableDireccion.setLocalidad(set.getString(8));
+                variableDireccion.setProvincia(set.getString(9));
+                break;
+            case "fichero":
+                variableDireccion.setCodigo(Integer.parseInt(datoseparado[8]));
+                variableDireccion.setCalle(datoseparado[9]);
+                variableDireccion.setNumero(Integer.parseInt(datoseparado[10]));
+                variableDireccion.setBloque(datoseparado[11]);
+                variableDireccion.setPiso(datoseparado[12]);
+                variableDireccion.setPuerta(datoseparado[13]);
+                variableDireccion.setCodigoPostal(Integer.parseInt(datoseparado[14]));
+                variableDireccion.setLocalidad(datoseparado[15]);
+                variableDireccion.setProvincia(datoseparado[16]);
+                break;
         }
-        return resultado;
-    }
-
-    private static int tipoDeDatoInt(String deDondeVieneElDato, String nombreCampo, int campoBaseDeDatos,
-                                     int campoPapelera, int campoFichero, Scanner in){
-        int resultado = 0;
-        deDondeVieneElDato = deDondeVieneElDato.toLowerCase(Locale.ROOT);
-
-        if (deDondeVieneElDato.equals("teclado")){
-            resultado = leerInt(in,nombreCampo);
-        } else if (deDondeVieneElDato.equals("bbd")){
-            resultado = campoBaseDeDatos;
-        } else if (deDondeVieneElDato.equals("papelera")){
-            resultado = campoPapelera;
-        } else if (deDondeVieneElDato.equals("fichero")){
-            resultado = campoFichero;
-        } else {
-            System.out.println("El programa no acepta el tipo de dato introducido");
-        }
-        return resultado;
+        return variableDireccion;// TODO
     }
 
     // -------------------------------> FUNCIONES CONTRATOS <---------------------------
@@ -814,11 +744,11 @@ public class Servicios {
 
     private static void cambioCamposDireccion(Scanner in, Empleado empleadoBuscado){
         empleadoBuscado.getDireccion().setCalle(leerStringTeclado(in,"Calle"));
-         // TODO empleadoBuscado.getDireccion().setNumero(leerNumeroYCodigoPostal(in));
+        empleadoBuscado.getDireccion().setNumero(leerNumeroYCodigoPostal(in, "Numero"));
         empleadoBuscado.getDireccion().setBloque(leerStringTeclado(in,"Bloque"));
         empleadoBuscado.getDireccion().setPiso(leerStringTeclado(in,"Piso"));
         empleadoBuscado.getDireccion().setPuerta(leerStringTeclado(in,"Puerta"));
-        // TODO empleadoBuscado.getDireccion().setCodigoPostal(leerNumeroYCodigoPostal(in));
+        empleadoBuscado.getDireccion().setCodigoPostal(leerNumeroYCodigoPostal(in, "Codigo postal"));
         empleadoBuscado.getDireccion().setLocalidad(leerStringTeclado(in,"Localidad"));
         empleadoBuscado.getDireccion().setProvincia(leerStringTeclado(in,"Provincia"));
     }

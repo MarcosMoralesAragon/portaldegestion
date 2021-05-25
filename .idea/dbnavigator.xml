@@ -26,7 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-        <schema name="TD_CMDB_V1" object-types="materialized view, view, synonym, table" />
+        <schema name="TD_CMDB_V1" object-types="synonym, table, materialized view, view" />
       </connection>
     </loaded-nodes>
   </component>

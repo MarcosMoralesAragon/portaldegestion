@@ -26,7 +26,7 @@ public class GestionFicheros {
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
                 try {
-                    if (palabra.equals("empleados")){
+                    if (palabra.equals("fichero")){
                         Servicios.cargarLista(datoSeparado,palabra);
                     } else if (palabra.equals("papelera")){
                         Servicios.cargarLista(datoSeparado,palabra);

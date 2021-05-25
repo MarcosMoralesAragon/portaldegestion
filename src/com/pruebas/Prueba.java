@@ -17,18 +17,19 @@ public class Prueba {
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
     public static void main(String[] args){
-        Scanner in = new Scanner(System.in);
-        ArrayList<Empleado> empleados = new ArrayList<>();
-        Empleado variableEmpleado = new Empleado();
-        ResultSet set = null;
-        for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
-            pruebita(entry.getValue().getNombre());
-        }
-        /* Servicios.cargarEmpleadosDesdeBaseDeDatos();
-        Servicios.listarEmpleados(""); */
+
+        String [] datoseparado = new String[18];
+
+        datoseparado[0] = "aaa";
+
+
+
     }
 
-    public static void pruebita(String entry){
-
+    public static void pruebita(String palabra){
+        pruebita2(palabra);
+    }
+    public static void pruebita2(String palabra){
+        System.out.println(palabra);
     }
 }

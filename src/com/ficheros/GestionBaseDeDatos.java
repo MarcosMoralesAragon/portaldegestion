@@ -6,6 +6,7 @@ import com.utilidades.Prints;
 
 import java.net.ConnectException;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class GestionBaseDeDatos {
@@ -44,17 +45,7 @@ public class GestionBaseDeDatos {
                 set = stmt.executeQuery();
                 while (set.next()) {
                     variableEmpleado = new Empleado();
-                    variableEmpleado.setCodigo(set.getString(1));                                                        // Codigo
-                    variableEmpleado.setNombre(set.getString(2));                                                        // Nombre
-                    variableEmpleado.setPrimerApellido(set.getString(3));                                                // Primer apellido
-                    variableEmpleado.setSegundoApellido(set.getString(4));                                               // Segundo apellido
-                    variableEmpleado.setDNI(set.getString(5));                                                           // DNI
-                    variableEmpleado.setFechaNacimiento(set.getDate(6));                                                 // Fecha nacimiento
-                    variableEmpleado.setNacionalidad(set.getString(7));                                                  // Nacionalidad
-                    variableEmpleado.setDireccion(cargarDireccion( "FPM_DIRECCION", set.getInt(8),conexion)); // Direccion
-                    variableEmpleado.setEstado(Estado.values()[Servicios.estadoEleccion(set.getString(9))]);             // Estado
-                    variableEmpleado.setFechaAlta(set.getDate(10));                                                      // Fecha alta
-                    variableEmpleado.getContratos().add(cargarContrato("FPM_CONTRATOS", variableEmpleado.getCodigo(), conexion));
+                    Servicios.datosEmpleados(null,variableEmpleado,"bbdd",set,null,null);
                     empleados.add(variableEmpleado);
                     cantidadAfectada ++;
                 }
@@ -63,6 +54,8 @@ public class GestionBaseDeDatos {
                 System.out.println("Error cargando en la tabla " + nombreTabla);
             } catch (NullPointerException e){
                 System.out.println("Uno de los campos se encuentra vacio o con un dato erroneo, revise la BBDD");
+            } catch (ParseException e) {
+                System.out.println("Formato de fecha erroneo");
             } finally {
                 try {
                     stmt.close();
@@ -76,9 +69,9 @@ public class GestionBaseDeDatos {
         return empleados;
     }
 
-
-    public static Direccion cargarDireccion(String nombreTabla, int codigoDireccicon, Connection conexion) {
+    public static Direccion cargarDireccion(String nombreTabla, int codigoDireccicon) {
         Direccion variableDireccion = new Direccion();
+        Connection conexion = cargarBaseDeDatos();
         PreparedStatement stmt = null;
         ResultSet set = null;
         if (conexion != null) {
@@ -88,15 +81,7 @@ public class GestionBaseDeDatos {
                 stmt.setInt(1, codigoDireccicon);
                 set = stmt.executeQuery();
                 while (set.next()){
-                    variableDireccion.setCodigo(set.getInt(1));                    // Codigo
-                    variableDireccion.setCalle(set.getString(2));                  // Calle
-                    variableDireccion.setNumero(set.getInt(3));                    // Numero
-                    variableDireccion.setBloque(set.getString(4));                 // Bloque
-                    variableDireccion.setPiso(set.getString(5));                   // Piso
-                    variableDireccion.setPuerta(set.getString(6));                 // Puerta
-                    variableDireccion.setCodigoPostal(set.getInt(7));              // Codigo postal
-                    variableDireccion.setLocalidad(set.getString(8));              // Localidad
-                    variableDireccion.setProvincia(set.getString(9));              // Provincia
+                    variableDireccion = Servicios.datosDireccion(null, "bbdd", set, null, null);
                 }
             } catch (SQLException exception) {
                 System.out.println("Error cargando en la tabla " + nombreTabla);

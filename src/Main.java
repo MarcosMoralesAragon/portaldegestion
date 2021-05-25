@@ -76,15 +76,12 @@ public class Main {
                         Servicios.informe();
                     break;
                 case 14:
-                        Servicios.cargarEmpleadosDesdeBaseDeDatos();
-                    break;
-                case 15:
                         Servicios.guardarMemoriaABaseDeDatos();
                     break;
-                case 16:
+                case 15:
                         Servicios.updateEmpleadosABaseDeDatos();
                     break;
-                case 17:
+                case 16:
                     Prints.limpiar(1);
                     Prints.finDeLaAplicacion();
                     salida = true;
