@@ -1,5 +1,6 @@
 package com.ficheros;
 
+import com.Servicios;
 import com.utilidades.Prints;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,8 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
-
-
 
 public class GestionFicheros {
 
@@ -26,9 +25,9 @@ public class GestionFicheros {
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
                 try {
-                    if (palabra.equals("fichero")){
+                    if ("fichero".equals(palabra)){
                         Servicios.cargarLista(datoSeparado,palabra);
-                    } else if (palabra.equals("papelera")){
+                    } else if ("papelera".equals(palabra)){
                         Servicios.cargarLista(datoSeparado,palabra);
                     }
                     fraseConfirmaciconDeLectura = true;

@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class Prints {
 
+    public static void escribir(String frase){
+        System.out.println(frase);
+    }
+
     public static void siNo (){
         System.out.println("━━━━━━━━━━");
         System.out.println("|         |");

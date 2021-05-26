@@ -1,4 +1,4 @@
-package com.ficheros;
+package com;
 
 import com.modelos.Empleado;
 import com.utilidades.Fecha;
@@ -61,7 +61,7 @@ public class Informe {
 
     private static Empleado empleadoConMenosEdad(ArrayList<Empleado> empleados){
         Date fechaMasBaja = null;
-        String fecha = "30-11-0002";
+        String fecha = "30-11-0002"; // TODO
         try {
             fechaMasBaja = Fecha.fecha(fecha);
         } catch (ParseException e){ // Nunca deberia de darse este caso porque la fecha esta introducida como una variable y no como un Scanner

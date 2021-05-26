@@ -63,23 +63,21 @@ public class Contrato extends ArrayList<Contrato> {
     }
 
     public String cadenaFormateadaConAlmohadillas() {
-
-        String fechaAltaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaInicioContrato);
-        String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
-
-        return id + "#" + fechaAltaFormateada + " # " + fechaBajaFormateada + " # " + salario
-                + " * " + puesto + " # " + codigoEmpleadoAsignado;
-
-    }
-
-    @Override
-    public String toString() {
-
         String fechaInicioFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaInicioContrato);
         String fechaFinalFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
         String fechaFinalizacionFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalizacionEstimada);
 
         return id + " / " + fechaInicioFormateada + " / " + fechaFinalFormateada + " / "
-                + fechaFinalizacionEstimada + " / " + salario + " / " + puesto + " / " + codigoEmpleadoAsignado ;
+                + fechaFinalizacionFormateada + " / " + salario + " / " + puesto + " / " + codigoEmpleadoAsignado + " // ";
+    }
+
+    @Override
+    public String toString() {
+        String fechaAltaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaInicioContrato);
+        String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
+        String fechaFinalizacionFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalizacionEstimada);
+
+        return id + "#" + fechaAltaFormateada + "#" + fechaBajaFormateada + "#" + "#" + fechaFinalizacionFormateada
+                + salario + "#" + puesto + "#" + codigoEmpleadoAsignado +"/";
     }
 }

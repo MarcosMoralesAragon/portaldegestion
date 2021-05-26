@@ -123,12 +123,16 @@ public class Empleado {
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fechaNacimientoFormateada = null;
+        String fechaAltaFormateada = null;
         if (fechaNacimiento != null){
             fechaNacimientoFormateada = formatoFecha.format(this.fechaNacimiento);
+        }
+        if (fechaAlta != null){
+            fechaAltaFormateada = formatoFecha.format(this.fechaAlta);
         }
 
         return codigo + "#" + nombre + "#" + primerApellido + "#" + segundoApellido + "#" + DNI + "#" +
                 fechaNacimientoFormateada + "#" + nacionalidad + "#" + estado + "#" +
-                direccion.cadenaConAlmohadillaDireccion() + contratos + "\n";
+                direccion.cadenaConAlmohadillaDireccion() + "#" + fechaAltaFormateada + "#" + contratos + "\n";
     }
 }

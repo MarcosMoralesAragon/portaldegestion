@@ -235,3 +235,7 @@ Asi podré dedicar el dia a testearlo y ver como va. Basicamente ahora cuando ll
 y en funcion de donde venga.
 
 He dejado varios TODO pendientes para guiarme el proximo día.
+
+<b>_→ 26/05/2021 :_</b> Hoy hemos hablado de la revision que nos han hecho en el codigo y he tomado la decision de invertir
+mucho más tiempo en planificación a la hora de crear codigo. Estoy diseñando esquemas y planeo previamente la estructura y objetivo
+del codigo. Ayer fue dia de rematar todo un poco asi que no tenía tiempo para documentar. He arreglado un problema que tenía con los códigos.

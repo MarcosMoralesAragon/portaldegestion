@@ -1,10 +1,12 @@
-package com.ficheros;
+package com;
 
+import com.ficheros.GestionFicheros;
 import com.modelos.*;
 import com.utilidades.GeneradorCodigos;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -14,12 +16,24 @@ import static java.util.Map.*;
 
 public class Servicios {
 
+    // TODO Ahora tendre que cambiar como busco los codigos de direccion y contratos, es importante
+    // TODO Comentar todas las funciones como es debido JavaDOC
+    // TODO Arreglar la cantidad de sout ( usar funcion Prints.escribir("") )
+    // TODO Eliminar cantidad de bucles ( si se puede )
+    // TODO Eliminar static
+
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
-    public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
+    public static HashMap< String , Empleado> empleadosModificados = new HashMap<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
     private static int contador;
+
+    public static void guardar(){
+        for (int i = 0; i < empleados.size(); i++) {
+            GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleados.get(i));
+        }
+    }
 
     public static void crearEmpleado(Scanner in) {
         System.out.println("1. Crear");
@@ -246,10 +260,9 @@ public class Servicios {
     } // 13
 
     public static void cargarEmpleadosDesdeBaseDeDatos(){
-        System.out.println("14. Cargar empleados desde la base de datos");
         Prints.separador();
         Prints.limpiar(1);
-        GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_PRUEBA", empleados);
+        empleados = GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
 
         Prints.finalFuncion();
     } // 14
@@ -261,8 +274,34 @@ public class Servicios {
         if (empleadosModificados.size() == 0){
             System.out.println("No se ha modificado ningun empleado. Modifique un empleado");
         } else {
-            for (int i = 0; i < empleadosModificados.size(); i++) {
-                GestionBaseDeDatos.updateFilaBaseDeDatos("FPM_PRUEBA", empleadosModificados.get(i));
+            for (Map.Entry<String, Empleado> entry : empleadosModificados.entrySet()) {
+                String camposAfectados = entry.getKey();
+                Connection conexion = GestionBaseDeDatos.cargarBaseDeDatos("");
+                try {
+                    switch (camposAfectados) {
+                        case "1":
+                            GestionBaseDeDatos.updateCamposPersonales(entry);
+                            break;
+                        case "2":
+                            GestionBaseDeDatos.updateCamposDireccion(entry);
+                            break;
+                        case "3":
+                            GestionBaseDeDatos.updateCamposContrato(entry);
+                            break;
+                        case "4":
+                            GestionBaseDeDatos.updateTodoBaseDeDatos(conexion, entry);
+                            break;
+                    }
+                } catch (SQLException throwables) {
+                    System.out.println("Error actualizando las tablas");
+                } finally {
+                Prints.limpiar(1);
+                    try {
+                        conexion.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+            }
             }
         }
         Prints.finalFuncion();
@@ -310,7 +349,7 @@ public class Servicios {
     private static Empleado buscaEmpleadoPorCodigo(ArrayList<Empleado> empleados, String codigo){
         Empleado empleadoResultado = null;
         int contadorParaRecorrerElArray = 0;
-        if (codigoEstaAsignadoAAlguien(empleados, codigo)){
+        if (codigoExiste(empleados,0,codigo,"empleados")){
 
             while (contadorParaRecorrerElArray < empleados.size() && empleadoResultado == null){
                 if (empleados.get(contadorParaRecorrerElArray).getCodigo().equals(codigo)){
@@ -322,14 +361,60 @@ public class Servicios {
         return empleadoResultado;
     }
 
-    private static void generarCodigo(ArrayList<Empleado> empleados, Empleado variableEmpleado){
-        Prints.separadorConTexto("Codigo");
-        String codigo;
+    private static String generarCodigo(String nombreLista){
+        int codigoInt = 0;
+        String codigoString = "";
+        String resultado = "";
         do {
-            codigo = GeneradorCodigos.generarCodigoEmpleados();
-        }while (codigoEstaAsignadoAAlguien(empleados, codigo));
-        variableEmpleado.setCodigo(codigo);
-        System.out.println(variableEmpleado.getCodigo()); }
+            if (nombreLista.equals("direccion") || nombreLista.equals("contratos")){
+                codigoInt = GeneradorCodigos.generarCodigoDirección();
+                resultado = String.valueOf(codigoInt);
+            }
+            if (nombreLista.equals("empleados")) {
+                codigoString = GeneradorCodigos.generarCodigoEmpleados();
+                resultado = codigoString;
+            }
+        }while (codigoExiste(empleados, codigoInt, codigoString, "empleados"));
+        return resultado;
+    }
+
+    public static boolean codigoExiste(ArrayList lista, int codigoInt, String codigoString, String nombreLista){
+        boolean resultado = false;
+
+        switch (nombreLista.toLowerCase(Locale.ROOT)){ // TODO Control null
+            case "empleados":
+                ArrayList <Empleado> empleadosLista = lista;
+                Iterator <Empleado> listaIteradaEmpleados = empleadosLista.iterator();
+                while (listaIteradaEmpleados.hasNext()){
+                    if(listaIteradaEmpleados.next().getCodigo().toString().equals(codigoString)){
+                        resultado = true;
+                    }
+                }
+                break;
+            case "contratos":
+                ArrayList <Contrato> contratosLista = lista;
+                Iterator <Contrato> listaIteradaContratos = contratosLista.iterator();
+                while (listaIteradaContratos.hasNext()){
+                    if(listaIteradaContratos.next().getId() == codigoInt){
+                        resultado = true;
+                    }
+                }
+                break;
+            case "direccion":
+                ArrayList <Empleado> empleadosListaDireccion = lista;
+                Iterator <Empleado> listaIteradaEmpleadosDireccion = empleadosListaDireccion.iterator();
+                while (listaIteradaEmpleadosDireccion.hasNext()){
+                    if(listaIteradaEmpleadosDireccion.next().getDireccion().getCodigo() == codigoInt){
+                        resultado = true;
+                    }
+                }
+                break;
+            default:
+                resultado = false;
+                Prints.escribir("No existe la lista elegida, no se podrá comparar el codigo"); // TODO
+        }
+        return resultado;
+    }
 
     public static int estadoEleccion(String palabraIntroducida){
 
@@ -382,8 +467,8 @@ public class Servicios {
     public static void cargarLista(String[] datoSeparado, String palabra) throws ParseException {
         Empleado variableEmpleado = new Empleado(null);
         String deDondeVieneElDato = palabra;
-        if (palabra.equals("papelera")){
-            deDondeVieneElDato = "cargarpapelera";
+        if ("papelera".equals(palabra)){
+            deDondeVieneElDato = "fichero";
         }
         try {
             datosEmpleados(null, variableEmpleado, deDondeVieneElDato, null, null, datoSeparado);
@@ -396,19 +481,6 @@ public class Servicios {
         } else if ("papelera".equals(palabra)){
             empleadosBorrados.put(variableEmpleado.getCodigo(), variableEmpleado);
         }
-    }
-
-    public static boolean codigoEstaAsignadoAAlguien(ArrayList<Empleado> empleados, String codigo){
-        boolean resultado = false;
-
-        int contadorParaRecorrerElArray = 0;
-        while ((contadorParaRecorrerElArray < empleados.size()) && !resultado){
-            if (empleados.get(contadorParaRecorrerElArray).getCodigo().equals(codigo)) {
-                resultado = true;
-            }
-            contadorParaRecorrerElArray ++;
-        }
-        return resultado;
     }
 
     public static int transformaStringAIntDevuelveInt(Scanner in){
@@ -478,7 +550,7 @@ public class Servicios {
 
         switch (deDondeVieneElDato){
             case "teclado":
-                variableEmpleado.setCodigo(GeneradorCodigos.generarCodigoEmpleados());
+                variableEmpleado.setCodigo(generarCodigo("empleados"));
                 variableEmpleado.setNombre(leerStringTeclado(in, "Nombre"));
                 variableEmpleado.setPrimerApellido(leerStringTeclado(in, "Primer Apellido"));
                 variableEmpleado.setSegundoApellido(leerStringTeclado(in, "Segundo Apellido"));
@@ -498,6 +570,7 @@ public class Servicios {
                 variableEmpleado.setNacionalidad(entry.getValue().getNacionalidad());
                 variableEmpleado.setEstado(entry.getValue().getEstado());
                 variableEmpleado.setFechaAlta(entry.getValue().getFechaAlta());
+                variableEmpleado.setContratos(entry.getValue().getContratos());
                 break;
             case "bbdd":
                 variableEmpleado.setCodigo(set.getString(1));
@@ -507,22 +580,22 @@ public class Servicios {
                 variableEmpleado.setDNI(set.getString(5));
                 variableEmpleado.setFechaNacimiento(set.getDate(6));
                 variableEmpleado.setNacionalidad(set.getString(7));
-                variableEmpleado.setDireccion(GestionBaseDeDatos.cargarDireccion( "FPM_DIRECCION", set.getInt(8)));
+                variableEmpleado.setFechaAlta(set.getDate(8));
                 variableEmpleado.setEstado(Estado.values()[Servicios.estadoEleccion(set.getString(9))]);
-                variableEmpleado.setFechaAlta(set.getDate(10));
+                variableEmpleado.setDireccion(GestionBaseDeDatos.cargarDireccion( "FPM_DIRECCION", set.getInt(10)));
+
                 break;
-            case "cargapapelera":
             case "fichero":
                 variableEmpleado.setCodigo(datoseparado[0]);
                 variableEmpleado.setNombre(datoseparado[1]);
-                variableEmpleado.setNombre(datoseparado[2]);
-                variableEmpleado.setPrimerApellido(datoseparado[3]);
-                variableEmpleado.setSegundoApellido(datoseparado[4]);
-                variableEmpleado.setDNI(datoseparado[5]);
-                variableEmpleado.setFechaNacimiento(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[6]));
-                variableEmpleado.setNacionalidad(datoseparado[7]);
-                variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoseparado[8])]);
-                variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[16]));
+                variableEmpleado.setPrimerApellido(datoseparado[2]);
+                variableEmpleado.setSegundoApellido(datoseparado[3]);
+                variableEmpleado.setDNI(datoseparado[4]);
+                variableEmpleado.setFechaNacimiento(Fecha.fecha(datoseparado[5]));
+                variableEmpleado.setNacionalidad(datoseparado[6]);
+                variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoseparado[7])]);
+                variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[17]));
+                // variableEmpleado.setContratos(datoseparado[18]);
                 break;
         }
     }
@@ -534,7 +607,7 @@ public class Servicios {
 
         switch (deDondeVieneElDato){
             case "teclado":
-                variableDireccion.setCodigo(GeneradorCodigos.generarCodigoDirección());
+                variableDireccion.setCodigo(Integer.parseInt(generarCodigo("direccion")));
                 variableDireccion.setCalle(leerStringTeclado(in, "Calle"));
                 variableDireccion.setNumero(leerNumeroYCodigoPostal(in, "Numero"));
                 variableDireccion.setBloque(leerStringTeclado(in, "Bloque"));
@@ -578,9 +651,17 @@ public class Servicios {
                 variableDireccion.setProvincia(datoseparado[16]);
                 break;
         }
-        return variableDireccion;// TODO
+        return variableDireccion;
     }
+    /*
+    public static ArrayList<Contrato> transformaStringDatoSeparadoAArrayContratos(String[] datoseparado){
+        Contrato variableContrato = new Contrato();
+        int contado = 0;
+        datoseparado[18].split()
 
+        return variableContrato;
+    }
+    */
     // -------------------------------> FUNCIONES CONTRATOS <---------------------------
 
     private static void generarContrato(ArrayList<Contrato> contratoArrayList, Empleado empleadoBuscado, Scanner in){
@@ -592,7 +673,8 @@ public class Servicios {
             seguir = establecerSalarioParaContrato(in,contrato);
             if (seguir) {
                 establecerPuesto(in, contrato);
-                contrato.setId(empleadoBuscado.getContratos().size()); // TODO
+                contrato.setId(Integer.parseInt(generarCodigo("contratos")));
+                contrato.setCodigoEmpleadoAsignado(empleadoBuscado.getCodigo());
                 empleadoBuscado.getContratos().add(contrato);
                 contratoArrayList.add(contrato);
             }
@@ -698,7 +780,12 @@ public class Servicios {
 
         // Al empleado buscado, le asigna una fecha de borrado, lo guarda en un mapa y lo borra del array
         int ultimoContrato = empleadoBuscado.getContratos().size();
-        empleadoBuscado.getContratos().get(ultimoContrato).setFechaFinalContrato(Fecha.creaciónFechaActual());
+        if (empleadoBuscado.getContratos().size() == 0){
+            System.out.println("Este empleado no tiene contratos");
+        } else {
+            empleadoBuscado.getContratos().get(ultimoContrato - 1).setFechaFinalContrato(Fecha.creaciónFechaActual());
+            System.out.println("Se ha establecido la fecha actual como fecha de finalización de su ultimo contrato");
+        }
         empleadosBorrados.put(codigo,empleadoBuscado);
         empleados.remove(empleadoBuscado);
     }
@@ -738,7 +825,7 @@ public class Servicios {
                 salida = false;
             }
         }while (!salida);
-        empleadosModificados.add(empleadoBuscado);
+        empleadosModificados.put(String.valueOf(decision),empleadoBuscado);
     }
 
     private static void cambioCamposDireccion(Scanner in, Empleado empleadoBuscado){
@@ -752,7 +839,7 @@ public class Servicios {
         empleadoBuscado.getDireccion().setProvincia(leerStringTeclado(in,"Provincia"));
     }
     private static void cambioCamposPersonales(Scanner in, Empleado empleadoBuscado) throws ParseException {
-        empleadoBuscado.setNombre(leerStringTeclado(in,""));
+        empleadoBuscado.setNombre(leerStringTeclado(in,"Nombre"));
         cambioApellidos(in ,empleadoBuscado);
         empleadoBuscado.setDNI(leerStringTeclado(in,"DNI"));
         empleadoBuscado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in,"Fecha de nacimiento")));
