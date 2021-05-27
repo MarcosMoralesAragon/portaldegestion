@@ -18,7 +18,7 @@ public class Main {
 
         /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1); */
-
+        Servicios Servicios = new Servicios();
         ficheroEstaCorrectoParaListar = true;
         Servicios.cargarEmpleadosDesdeBaseDeDatos();
 
@@ -58,7 +58,7 @@ public class Main {
                         Servicios.borrado(in);
                     break;
                 case 8:
-                        Servicios.recuperarPapelera();
+                        Servicios.cargarPapelera();
                     break;
                 case 9:
                         Servicios.guardarPapelera("copiaDeSeguridad.txt");

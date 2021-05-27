@@ -11,68 +11,69 @@ import java.util.Date;
 public class Informe {
     public static void generarInforme(ArrayList<Empleado> empleados){
         System.out.println("→ ¿Cuál es el empleado actual de mayor edad?");
-        empleadoMasMayor(empleados);
+        System.out.println(empleadoMasMayor(empleados));
         Prints.limpiar(1);
 
         System.out.println("→ ¿Cuál es el empleado actual de menor edad?");
-        empleadoMasJoven(empleados);
+        System.out.println(empleadoMasJoven(empleados));
         Prints.limpiar(1);
 
         System.out.println("→ ¿Cuántos empleados tiene la empresa actualmente?");
         Prints.limpiar(1);
         System.out.println("La empresa cuenta actualmente con : " + empleados.size() + " empleados en plantilla");
     }
+
     // ¿Cuál es el empleado actual de mayor edad?
-
-    private static void empleadoMasMayor(ArrayList<Empleado> empleados){
+    private static Empleado empleadoMasMayor(ArrayList<Empleado> empleados){
         Prints.limpiar(1);
-        try {
-            System.out.println("Empleado más mayor  ↓");
-            System.out.println(empleadoConMasEdad(empleados).cadenaFormateadaParaMostrarPorPantalla());
-        }catch (NullPointerException e){
-            System.out.println("Al compararse las fechas se ha encontrado que ningun empleado es mas viejo que la fecha actual del equipo");
-        }
-    }
-
-    private static Empleado empleadoConMasEdad(ArrayList<Empleado> empleados){
-        Date fechaMasBaja = Fecha.creaciónFechaActual();
+        System.out.println("Empleado más mayor  ↓");
         Empleado empleadoMasMayor = new Empleado();
-        for (Empleado empleadoSepardoDelArrayList : empleados) {
-            if (empleadoSepardoDelArrayList.getFechaNacimiento().before(fechaMasBaja)) {
-                empleadoMasMayor = empleadoSepardoDelArrayList;
-                fechaMasBaja = empleadoSepardoDelArrayList.getFechaNacimiento();
+        if (empleados.size() > 1) {
+            for (int i = 0; i < empleados.size(); i++) {
+                if (i == 0){
+                    if (empleados.get(i).getFechaNacimiento().before(empleados.get(i + 1).getFechaNacimiento())){
+                        empleadoMasMayor = empleados.get(i);
+                    } else {
+                        empleadoMasMayor = empleados.get(i + 1);
+                    }
+                    // Sumo 1 para que pase de ser i = 0 a i = 2 para la próxima referencia ya que he usado i=0 y i=1
+                    i++;
+                } else if (i >= 2){
+                    if (empleados.get(i).getFechaNacimiento().before(empleadoMasMayor.getFechaNacimiento())){
+                        empleadoMasMayor = empleados.get(i);
+                    }
+                }
             }
+        } else {
+            System.out.println(empleados.get(0));
         }
         return empleadoMasMayor;
     }
 
     // ¿Cuál es el empleado actual de menor edad?
 
-    private static void empleadoMasJoven(ArrayList<Empleado> empleados){
+    private static Empleado empleadoMasJoven(ArrayList<Empleado> empleados){
         Prints.limpiar(1);
-        try {
-            System.out.println("Empleado más joven  ↓");
-            System.out.println(empleadoConMenosEdad(empleados).cadenaFormateadaParaMostrarPorPantalla());
-
-        } catch (NullPointerException e) {
-            System.out.println("Al compararse las fechas se ha encontrado que ningun empleado es mas joven que la fecha : 30-11-0002");
-        }
-    }
-
-    private static Empleado empleadoConMenosEdad(ArrayList<Empleado> empleados){
-        Date fechaMasBaja = null;
-        String fecha = "30-11-0002"; // TODO
-        try {
-            fechaMasBaja = Fecha.fecha(fecha);
-        } catch (ParseException e){ // Nunca deberia de darse este caso porque la fecha esta introducida como una variable y no como un Scanner
-            System.out.println("Error en la fecha base");
-        }
+        System.out.println("Empleado más joven  ↓");
         Empleado empleadoMasJoven = new Empleado();
-        for (Empleado empleadoSepardoDelArrayList : empleados) {
-            if (empleadoSepardoDelArrayList.getFechaNacimiento().after(fechaMasBaja)) {
-                empleadoMasJoven = empleadoSepardoDelArrayList;
-                fechaMasBaja = empleadoSepardoDelArrayList.getFechaNacimiento();
+        if (empleados.size() > 1) {
+            for (int i = 0; i < empleados.size(); i++) {
+                if (i == 0){
+                    if (empleados.get(i).getFechaNacimiento().after(empleados.get(i + 1).getFechaNacimiento())){
+                        empleadoMasJoven = empleados.get(i);
+                    } else {
+                        empleadoMasJoven = empleados.get(i + 1);
+                    }
+                    // Sumo 1 para que pase de ser i = 0 a i = 2 para la próxima referencia ya que he usado i=0 y i=1
+                    i++;
+                } else if (i >= 2){
+                    if (empleados.get(i).getFechaNacimiento().after(empleadoMasJoven.getFechaNacimiento())){
+                        empleadoMasJoven = empleados.get(i);
+                    }
+                }
             }
+        } else {
+            System.out.println(empleados.get(0));
         }
         return empleadoMasJoven;
     }

@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class GestionBaseDeDatos {
 
+    private static com.Servicios Servicios;
+
     public static Connection cargarBaseDeDatos(String palabra){
         String frase = "";
         try {
@@ -35,7 +37,6 @@ public class GestionBaseDeDatos {
         }
         return conexion;
     }
-
 
     public static ArrayList<Empleado> cargarFilaBaseDeDatos(String nombreTabla, ArrayList<Empleado> empleados) {
         Empleado variableEmpleado;

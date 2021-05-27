@@ -11,7 +11,9 @@ import java.util.Scanner;
 
 public class GestionFicheros {
 
-    public static boolean leerFichero (String nombreFichero,String palabra){
+    Servicios Servicios = new Servicios();
+
+    public boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;
         boolean fraseConfirmaciconDeLectura = false;
         Scanner in = null;

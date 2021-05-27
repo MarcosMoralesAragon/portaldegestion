@@ -3,7 +3,7 @@ package com.utilidades;
 public class GeneradorCodigos {
 
 
-    public static int generarCodigoDirección(){
+    public int generarCodigoDirección(){
 
         int resultado = 0;
         String stringResultado = "";
@@ -16,7 +16,7 @@ public class GeneradorCodigos {
      return resultado;
     }
 
-    public static String generarCodigoEmpleados() {
+    public String generarCodigoEmpleados() {
 
         // Genera el codigo alfanumerico de manera aleatroia entre numeros y letras minusculas
 

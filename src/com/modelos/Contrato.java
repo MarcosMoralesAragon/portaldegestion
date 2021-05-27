@@ -77,7 +77,7 @@ public class Contrato extends ArrayList<Contrato> {
         String fechaBajaFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalContrato);
         String fechaFinalizacionFormateada = Fecha.formateoDeFechaParaFechaCreadoYBorrado(fechaFinalizacionEstimada);
 
-        return id + "#" + fechaAltaFormateada + "#" + fechaBajaFormateada + "#" + "#" + fechaFinalizacionFormateada
+        return id + "#" + fechaAltaFormateada + "#" + fechaBajaFormateada + "#" + fechaFinalizacionFormateada + "#"
                 + salario + "#" + puesto + "#" + codigoEmpleadoAsignado +"/";
     }
 }
