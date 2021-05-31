@@ -1,12 +1,11 @@
 package com;
 
+import com.modelos.Contrato;
 import com.modelos.Empleado;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+
+import java.util.*;
 
 public class Informe {
     public static void generarInforme(ArrayList<Empleado> empleados){
@@ -79,20 +78,23 @@ public class Informe {
     }
 
     // ¿Cuántos empleados se han dado de baja el año actual?
-    // TODO Extraer el año mediante alguna función del Date.Una vez con esa fecha hacer un array con los empleados que
-    //  estan baja y luego seleccionar de esos que el año sea el mismo
 
-    private static void dadoDeBajaEsteAño(ArrayList<Empleado> empleados){
-
-        SimpleDateFormat sacarElAñoDeLaFecha = new SimpleDateFormat("yyyy");
-        Date añoActual = Fecha.creaciónFechaActual();
-        ArrayList<Empleado> empleadosBorradosEsteAño = new ArrayList<> ();
-
-        for (Empleado empleadoSepardoDelArrayList : empleados) {
-            /** if (sacarElAñoDeLaFecha.format(añoActual).equals(sacarElAñoDeLaFecha.format(empleadoSepardoDelArrayList.getFechaBaja()))) {
-             empleadosBorradosEsteAño.add(empleadoSepardoDelArrayList);
-             } */ // TODO
+    private Set<String> dadoDeBajaEsteAño(ArrayList<Empleado> empleados){
+        Set<String> hashset = new HashSet<>();
+        for (int i = 0; i < empleados.size(); i++){
+            if(empleados.get(i).getContratos() != null){
+                Iterator <Contrato> listaIterada = empleados.get(i).getContratos().iterator();
+                boolean salida = false;
+                String añoActual = Fecha.extraerElAñoDeUnaFecha(Fecha.creaciónFechaActual());
+                while (listaIterada.hasNext() || !salida){
+                    if (Fecha.extraerElAñoDeUnaFecha(listaIterada.next().getFechaFinalContrato()).equals(añoActual)){
+                        hashset.add(empleados.get(i).getCodigo());
+                        salida = true;
+                    }
+                }
+            }
         }
+        return hashset;
     }
 
     // ¿Qué directivo es responsable de más departamentos?

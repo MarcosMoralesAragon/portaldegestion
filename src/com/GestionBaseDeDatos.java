@@ -13,9 +13,7 @@ import java.util.Map;
 
 public class GestionBaseDeDatos {
 
-    private static com.Servicios Servicios;
-
-    public static Connection cargarBaseDeDatos(String palabra){
+    public Connection cargarBaseDeDatos(String palabra){
         String frase = "";
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -38,7 +36,7 @@ public class GestionBaseDeDatos {
         return conexion;
     }
 
-    public static ArrayList<Empleado> cargarFilaBaseDeDatos(String nombreTabla, ArrayList<Empleado> empleados) {
+    public ArrayList<Empleado> cargarFilaBaseDeDatos(String nombreTabla, ArrayList<Empleado> empleados) {
         Empleado variableEmpleado;
         Connection conexion = cargarBaseDeDatos("");
         PreparedStatement stmt = null;
@@ -48,9 +46,11 @@ public class GestionBaseDeDatos {
             try {
                 stmt = conexion.prepareStatement("select * from " + nombreTabla);
                 set = stmt.executeQuery();
+                Servicios Servicios = new Servicios();
                 while (set.next()) {
                     variableEmpleado = new Empleado();
                     Servicios.datosEmpleados(null,variableEmpleado,"bbdd",set,null,null);
+                    variableEmpleado.setContratos(cargarContrato("FPM_CONTRATOS",variableEmpleado.getCodigo(),conexion));
                     empleados.add(variableEmpleado);
                     cantidadAfectada ++;
                 }
@@ -74,7 +74,7 @@ public class GestionBaseDeDatos {
         return empleados;
     }
 
-    public static Direccion cargarDireccion(String nombreTabla, int codigoDireccicon) {
+    public Direccion cargarDireccion(String nombreTabla, int codigoDireccicon) {
         Direccion variableDireccion = new Direccion();
         Connection conexion = cargarBaseDeDatos("no");
         PreparedStatement stmt = null;
@@ -82,6 +82,7 @@ public class GestionBaseDeDatos {
         if (conexion != null) {
             int cantidadAfectada = 0;
             try {
+                Servicios Servicios = new Servicios();
                 stmt = conexion.prepareStatement("select * from " + nombreTabla + " where ID_DIRECCION = " + codigoDireccicon);
                 set = stmt.executeQuery();
                 while (set.next()){
@@ -95,17 +96,17 @@ public class GestionBaseDeDatos {
         }
         return variableDireccion;
     }
-    public static Contrato cargarContrato(String nombreTabla, String codigoEmpleado, Connection conexion) {
-        Contrato variableContrato = new Contrato();
+    public Contrato cargarContrato(String nombreTabla, String codigoEmpleado, Connection conexion) {
+        Contrato variableContrato = null;
         PreparedStatement stmt = null;
         ResultSet set = null;
         if (conexion != null) {
             int cantidadAfectada = 0;
             try {
-                stmt = conexion.prepareStatement("select * from " + nombreTabla + " where CODIGO_EMPLEADO = ?");
-                stmt.setString(1, codigoEmpleado);
+                stmt = conexion.prepareStatement("select * from " + nombreTabla + " where CODIGO_EMPLEADO = " + codigoEmpleado);
                 set = stmt.executeQuery();
                 while (set.next()){
+                    variableContrato = new Contrato();
                     variableContrato.setId(set.getInt(1));                           // Id Contrato
                     variableContrato.setFechaInicioContrato(set.getDate(2));         // Fecha inicio contrato
                     variableContrato.setFechaFinalContrato(set.getDate(3));          // Fecha final contrato
@@ -124,7 +125,7 @@ public class GestionBaseDeDatos {
     }
 
 
-    public static void guardarDatosEmpleadosBaseDeDato(String nombreTabla, Empleado empleado){
+    public void guardarDatosEmpleadosBaseDeDato(String nombreTabla, Empleado empleado){
         Connection conexion = cargarBaseDeDatos("");
         PreparedStatement stmt = null;
         String nombreTablaModificando = nombreTabla;
@@ -148,7 +149,7 @@ public class GestionBaseDeDatos {
             }
         }
     }
-    public static int guardarDatosCamposPersonales(PreparedStatement stmt, Connection conexion, String nombreTabla, Empleado empleado) throws SQLException {
+    public int guardarDatosCamposPersonales(PreparedStatement stmt, Connection conexion, String nombreTabla, Empleado empleado) throws SQLException {
         String nombreTablaModificando = nombreTabla;
         stmt = conexion.prepareStatement("insert into " + nombreTablaModificando + " values(?,?,?,?,?,?,?,?,?,?)");
         stmt.setString(1, empleado.getCodigo());                                   // Codigo
@@ -167,7 +168,7 @@ public class GestionBaseDeDatos {
         cantidadAfectada =+ stmt.executeUpdate();
         return cantidadAfectada;
     }
-    public static int guardarDatosDireccionBaseDeDato(String nombreTabla, Empleado empleado, PreparedStatement stmt, Connection conexion) throws SQLException {
+    public int guardarDatosDireccionBaseDeDato(String nombreTabla, Empleado empleado, PreparedStatement stmt, Connection conexion) throws SQLException {
         stmt = conexion.prepareStatement("insert into " + nombreTabla + " values(?,?,?,?,?,?,?,?,?)");
         stmt.setInt(1, empleado.getDireccion().getCodigo());         // Codigo
         stmt.setString(2, empleado.getDireccion().getCalle());       // Calle
@@ -182,7 +183,7 @@ public class GestionBaseDeDatos {
         System.out.println("Guardado con exito, " + cantidadAfectada + " fila/s afectada/s en " + nombreTabla);
         return cantidadAfectada;
     }
-    public static int guardarDatosContrato(String nombreTabla, Empleado empleado, int numeroDeContrato, PreparedStatement stmt, Connection conexion) throws SQLException {
+    public int guardarDatosContrato(String nombreTabla, Empleado empleado, int numeroDeContrato, PreparedStatement stmt, Connection conexion) throws SQLException {
         stmt = conexion.prepareStatement("insert into " + nombreTabla + " values(?,?,?,?,?,?,?)");
         stmt.setInt(1, empleado.getContratos().get(numeroDeContrato).getId());                                                     // Id contrato
         stmt.setDate(2,  Fecha.cambiarDateADateSQL(empleado.getContratos().get(numeroDeContrato).getFechaInicioContrato()));       // Fecha inicio
@@ -197,7 +198,7 @@ public class GestionBaseDeDatos {
     }
 
 
-    public static void borrarFilaBaseDeDatos(String nombreTabla){
+    public void borrarFilaBaseDeDatos(String nombreTabla){
         Connection conexion = cargarBaseDeDatos("");
         PreparedStatement stmt = null;
         try {
@@ -217,7 +218,7 @@ public class GestionBaseDeDatos {
     }
 
 
-    public static void updateTodoBaseDeDatos( Connection conexion, Map.Entry<String, Empleado> entry) throws SQLException { // TODO
+    public void updateTodoBaseDeDatos( Connection conexion, Map.Entry<String, Empleado> entry) throws SQLException { // TODO
         PreparedStatement stmt = null;
 
         int cantidadAfectada = updateCamposPersonales(entry);
@@ -230,7 +231,7 @@ public class GestionBaseDeDatos {
         System.out.println("Campos modificados con exito, " + cantidadAfectada + " fila/s afectada/s");
 
     }
-    public static int updateCamposPersonales( Map.Entry<String, Empleado> entry) throws SQLException {
+    public int updateCamposPersonales( Map.Entry<String, Empleado> entry) throws SQLException {
         Connection conexion = cargarBaseDeDatos("no");
         PreparedStatement stmt = conexion.prepareStatement("update FPM_PRUEBA set NOMBRE = ?, PRIMER_APELLIDO = ?, " +
                 "SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?, NACIONALIDAD = ?, ESTADO = ? where ID = ?" );
@@ -245,7 +246,7 @@ public class GestionBaseDeDatos {
 
         return stmt.executeUpdate();
     }
-    public static int updateCamposDireccion(Map.Entry<String, Empleado> entry) throws SQLException {
+    public int updateCamposDireccion(Map.Entry<String, Empleado> entry) throws SQLException {
         Connection conexion = cargarBaseDeDatos("no");
         PreparedStatement stmt = conexion.prepareStatement("update FPM_DIRECCION set CALLE = ?, NUMERO = ?," +
                 " BLOQUE = ?, PISO = ?, PUERTA = ?, CODIGO_POSTAL = ?, LOCALIDAD = ?, PROVINCIA = ? where ID_DIRECCION = ?" );
@@ -260,7 +261,7 @@ public class GestionBaseDeDatos {
         stmt.setInt(9, entry.getValue().getDireccion().getCodigo());
         return stmt.executeUpdate();
     }
-    public static int updateCamposContrato(Map.Entry<String, Empleado> entry) throws SQLException {
+    public int updateCamposContrato(Map.Entry<String, Empleado> entry) throws SQLException {
         Connection conexion = cargarBaseDeDatos("no");
         PreparedStatement stmt = conexion.prepareStatement("update FPM_CONTRATOS set FECHA_INICIO_CONTRATO = ?, FECHA_FINAL_CONTRATO = ?," +
                 " FECHA_FINALIZACION_ESTIMADA = ?, SALARIO = ?, PUESTO = ? where CODIGO_EMPLEADO = ?");

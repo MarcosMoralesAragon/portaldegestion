@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class GestionFicheros {
 
-    Servicios Servicios = new Servicios();
+    private static com.Servicios Servicios;
 
     public boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;

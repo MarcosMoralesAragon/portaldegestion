@@ -28,12 +28,10 @@ public class Servicios {
     public static HashMap<String, Empleado> empleadosModificados = new HashMap<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
-    GestionFicheros GestionFicheros = new GestionFicheros();
-    GeneradorCodigos GeneradorCodigos = new GeneradorCodigos();
-
     public void guardar() {
+        GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
         for (int i = 0; i < empleados.size(); i++) {
-            GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleados.get(i));
+            gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleados.get(i));
         }
     }
 
@@ -169,11 +167,12 @@ public class Servicios {
     } // 7
 
     public void cargarPapelera() {
+        GestionFicheros gestionFicheros = new GestionFicheros();
         System.out.println("8. Recuperar papelera");
         Prints.separador();
         Prints.limpiar(1);
         Prints.limpiar(1);
-        GestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
+        gestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
         Prints.finalFuncion();
     } // 8
 
@@ -268,8 +267,9 @@ public class Servicios {
         if (empleadosNuevos.size() == 0) {
             System.out.println("No existen empleados nuevos creados. Cree un empleado nuevo");
         } else {
+            GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
             for (int i = 0; i < empleadosNuevos.size(); i++) {
-                GestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
             }
         }
         Prints.finalFuncion();
@@ -282,22 +282,23 @@ public class Servicios {
         if (empleadosModificados.size() == 0) {
             System.out.println("No se ha modificado ningun empleado. Modifique un empleado");
         } else {
+            GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
             for (Map.Entry<String, Empleado> entry : empleadosModificados.entrySet()) {
                 String camposAfectados = entry.getKey();
-                Connection conexion = GestionBaseDeDatos.cargarBaseDeDatos("");
+                Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
                 try {
                     switch (camposAfectados) {
                         case "1":
-                            GestionBaseDeDatos.updateCamposPersonales(entry);
+                            gestionBaseDeDatos.updateCamposPersonales(entry);
                             break;
                         case "2":
-                            GestionBaseDeDatos.updateCamposDireccion(entry);
+                            gestionBaseDeDatos.updateCamposDireccion(entry);
                             break;
                         case "3":
-                            GestionBaseDeDatos.updateCamposContrato(entry);
+                            gestionBaseDeDatos.updateCamposContrato(entry);
                             break;
                         case "4":
-                            GestionBaseDeDatos.updateTodoBaseDeDatos(conexion, entry);
+                            gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, entry);
                             break;
                     }
                 } catch (SQLException throwables) {
@@ -316,9 +317,10 @@ public class Servicios {
     } // 15
 
     public void cargarEmpleadosDesdeBaseDeDatos() {
+        GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
         Prints.separador();
         Prints.limpiar(1);
-        empleados = GestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
+        empleados = gestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
 
         Prints.finalFuncion();
     }
@@ -386,15 +388,16 @@ public class Servicios {
         String resultado = "";
         ArrayList lista = empleados;
         do {
+            GeneradorCodigos generadorCodigos = new GeneradorCodigos();
             if ("direccion".equals(nombreLista) || "contratos".equals(nombreLista)) {
-                codigoInt = GeneradorCodigos.generarCodigoDirección();
+                codigoInt = generadorCodigos.generarCodigoDirección();
                 resultado = String.valueOf(codigoInt);
                 if("contratos".equals(nombreLista)){
                     lista = contratos;
                 }
             }
             if ("empleados".equals(nombreLista)) {
-                codigoString = GeneradorCodigos.generarCodigoEmpleados();
+                codigoString = generadorCodigos.generarCodigoEmpleados();
                 resultado = codigoString;
             }
         } while (codigoExiste(lista, codigoInt, codigoString, nombreLista));
@@ -639,6 +642,7 @@ public class Servicios {
                 variableEmpleado.setContratos(entry.getValue().getContratos());
                 break;
             case "bbdd":
+                GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
                 variableEmpleado.setCodigo(set.getString(1));
                 variableEmpleado.setNombre(set.getString(2));
                 variableEmpleado.setPrimerApellido(set.getString(3));
@@ -648,7 +652,7 @@ public class Servicios {
                 variableEmpleado.setNacionalidad(set.getString(7));
                 variableEmpleado.setFechaAlta(set.getDate(8));
                 variableEmpleado.setEstado(Estado.values()[estadoEleccion(set.getString(9))]);
-                variableEmpleado.setDireccion(GestionBaseDeDatos.cargarDireccion("FPM_DIRECCION", set.getInt(10)));
+                variableEmpleado.setDireccion(gestionBaseDeDatos.cargarDireccion("FPM_DIRECCION", set.getInt(10)));
 
                 break;
             case "fichero":
@@ -757,7 +761,7 @@ public class Servicios {
         if (seguir) {
             seguir = establecerSalarioParaContrato(in, contrato);
             if (seguir) {
-                establecerPuesto(in, contrato);
+                contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
                 contrato.setId(Integer.parseInt(generarCodigo("contratos")));
                 contrato.setCodigoEmpleadoAsignado(empleadoBuscado.getCodigo());
                 empleadoBuscado.getContratos().add(contrato);
@@ -767,11 +771,11 @@ public class Servicios {
     }
 
     /**
-     *
-     * @param empleadoBuscado
-     * @param in
-     * @param contrato
-     * @return
+     * Establece las fechas para los datos del contrato
+     * @param empleadoBuscado El empleado al que se le guarda el contrato
+     * @param in Scanner para leer desde consola
+     * @param contrato El objeto contrato
+     * @return boolean para comprobar si se ha realizado la acción o no
      */
     private boolean establecerFechasParaContrato(Empleado empleadoBuscado, Scanner in, Contrato contrato) {
         Prints.generarContrato();
@@ -779,11 +783,12 @@ public class Servicios {
         boolean resultado = true;
 
         establecerFecha(in, contrato, empleadoBuscado, "Inicio");
+        establecerFecha(in, contrato, empleadoBuscado, "Final");
 
         if (eleccion == 1) {
-            establecerFecha(in, contrato, empleadoBuscado, "Final");
+            establecerFecha(in, contrato, empleadoBuscado, "Estimada");
         } else if (eleccion == 2) {
-            contrato.setFechaFinalContrato(null);
+            contrato.setFechaFinalizacionEstimada(null);
         } else {
             System.out.println("Elección errónea. Volviendo al menu principal");
             resultado = false;
@@ -792,11 +797,11 @@ public class Servicios {
     }
 
     /**
-     *
-     * @param in
-     * @param contrato
-     * @param empleado
-     * @param inicioOFinal
+     * Funcion para establecer las fechas desde el teclado
+     * @param in Scanner para leer desde consola
+     * @param contrato Objeto contrato al que se le estan guardando los valores
+     * @param empleado El empleado al que se le estan guardando los datos
+     * @param inicioOFinal String para indicar si es para fecha inicio , fecha final o fecha estiamda
      */
     private void establecerFecha(Scanner in, Contrato contrato, Empleado empleado, String inicioOFinal) {
         boolean salida = true;
@@ -811,8 +816,11 @@ public class Servicios {
                 System.out.print("> ");
                 try {
                     fecha = in.nextLine();
-                    if ("Inicio".equals(inicioOFinal)) {
-                        contrato.setFechaFinalContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
+                    if ("Estimada".equals(inicioOFinal)){
+                        contrato.setFechaFinalizacionEstimada(Fecha.leerStringDevolviendoFechaFormateada(fecha));
+                        salida = true;
+                    }else if ("Inicio".equals(inicioOFinal)) {
+                        contrato.setFechaInicioContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
                         salida = true;
                     } else if ("Final".equals(inicioOFinal)) {
                         contrato.setFechaFinalContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
@@ -841,9 +849,9 @@ public class Servicios {
 
     /**
      *
-     * @param in
-     * @param contrato
-     * @return
+     * @param in Scanner para leer desde teclado los datos
+     * @param contrato Objeto contrato al que se le introducen los datos
+     * @return boolean para indicar si la acción se realiza o no
      */
     private boolean establecerSalarioParaContrato(Scanner in, Contrato contrato) {
         boolean resultado;
@@ -873,10 +881,6 @@ public class Servicios {
         } while (!resultado);
 
         return resultado;
-    }
-
-    private void establecerPuesto(Scanner in, Contrato contrato) {
-        contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
     }
 
     // -------------------------------> FUNCION BORRADO <-----------------------------

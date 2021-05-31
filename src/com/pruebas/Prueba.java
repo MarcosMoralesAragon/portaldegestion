@@ -4,6 +4,7 @@ import com.*;
 import com.ficheros.GestionFicheros;
 import com.modelos.Empleado;
 import com.utilidades.Fecha;
+import com.utilidades.GeneradorCodigos;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,9 +13,11 @@ import java.util.*;
 
 public class Prueba {
     public static void main(String[] args){
-        DateFormat format = new SimpleDateFormat("yyyy");
-        Date fecha = Fecha.creaciónFechaActual();
-        String fechaResulado = format.format(fecha);
-        System.out.println(fechaResulado);
+        int contador = 0;
+        while(contador < 5){
+            GeneradorCodigos generadorCodigos = new GeneradorCodigos();
+            System.out.println(generadorCodigos.generarCodigoDirección());
+            contador++;
+        }
     }
 }

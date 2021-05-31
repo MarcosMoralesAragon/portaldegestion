@@ -49,4 +49,9 @@ public class Fecha {
         }
         return fechaResultado;
     }
+
+    public static String extraerElAñoDeUnaFecha(Date fecha){
+        DateFormat format = new SimpleDateFormat("yyyy");
+        return format.format(fecha);
+    }
 }

@@ -24,7 +24,12 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
+        <schema name="PUBLIC" object-types="type, package, sequence, synonym, function, view, materialized view, table" />
+        <schema name="TD_CMDB_V1" object-types="type, package, sequence, synonym, function, view, materialized view, column, table" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
