@@ -9,22 +9,24 @@ import java.util.*;
 
 public class Informe {
     public static void generarInforme(ArrayList<Empleado> empleados){
+        Prints prints = new Prints();
         System.out.println("→ ¿Cuál es el empleado actual de mayor edad?");
         System.out.println(empleadoMasMayor(empleados));
-        Prints.limpiar(1);
+        prints.limpiar(1);
 
         System.out.println("→ ¿Cuál es el empleado actual de menor edad?");
         System.out.println(empleadoMasJoven(empleados));
-        Prints.limpiar(1);
+        prints.limpiar(1);
 
         System.out.println("→ ¿Cuántos empleados tiene la empresa actualmente?");
-        Prints.limpiar(1);
+        prints.limpiar(1);
         System.out.println("La empresa cuenta actualmente con : " + empleados.size() + " empleados en plantilla");
     }
 
     // ¿Cuál es el empleado actual de mayor edad?
     private static Empleado empleadoMasMayor(ArrayList<Empleado> empleados){
-        Prints.limpiar(1);
+        Prints prints = new Prints();
+        prints.limpiar(1);
         System.out.println("Empleado más mayor  ↓");
         Empleado empleadoMasMayor = new Empleado();
         if (empleados.size() > 1) {
@@ -52,7 +54,8 @@ public class Informe {
     // ¿Cuál es el empleado actual de menor edad?
 
     private static Empleado empleadoMasJoven(ArrayList<Empleado> empleados){
-        Prints.limpiar(1);
+        Prints prints = new Prints();
+        prints.limpiar(1);
         System.out.println("Empleado más joven  ↓");
         Empleado empleadoMasJoven = new Empleado();
         if (empleados.size() > 1) {

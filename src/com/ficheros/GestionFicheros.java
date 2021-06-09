@@ -11,44 +11,45 @@ import java.util.Scanner;
 
 public class GestionFicheros {
 
-    private static com.Servicios Servicios;
+    private Servicios servicios = new Servicios();
 
     public boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;
         boolean fraseConfirmaciconDeLectura = false;
         Scanner in = null;
         boolean archivoLeido = false;
+        Prints prints = new Prints();
         try {
             in = new Scanner(Paths.get(nombreFichero));
             if (!in.hasNextLine()){
-                System.out.println("El archivo ''" + nombreFichero + "'' esta vacio. Revise el contenido y reintente");
+                prints.escribir("El archivo ''" + nombreFichero + "'' esta vacio. Revise el contenido y reintente");
             }
             while (in.hasNextLine()){
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
                 try {
                     if ("fichero".equals(palabra)){
-                        Servicios.cargarLista(datoSeparado,palabra);
+                        servicios.cargarLista(datoSeparado,palabra);
                     } else if ("papelera".equals(palabra)){
-                        Servicios.cargarLista(datoSeparado,palabra);
+                        servicios.cargarLista(datoSeparado,palabra);
                     }
                     fraseConfirmaciconDeLectura = true;
                     archivoLeido = true;
                 } catch (Exception e){
-                   System.out.println("Fallo cargando el archivo ''" + nombreFichero + "''. Los datos del interior tienen defectos");
-                   fraseConfirmaciconDeLectura = false;
+                    prints.escribir("Fallo cargando el archivo ''" + nombreFichero + "''. Los datos del interior tienen defectos");
+                    fraseConfirmaciconDeLectura = false;
                 }
             }
         } catch (IOException e) {
-            System.out.println("Fallo con el archivo "+ nombreFichero+" , revise que existe y que este dentro de la carpeta del proyecto");
+            prints.escribir("Fallo con el archivo "+ nombreFichero+" , revise que existe y que este dentro de la carpeta del proyecto");
         } finally {
             if (in != null){
                 in.close();
             }
         }
         if (fraseConfirmaciconDeLectura){
-            System.out.println("Archivo " + nombreFichero + " cargado");
-            Prints.limpiar(1);
+            prints.escribir("Archivo " + nombreFichero + " cargado");
+            prints.limpiar(1);
         }
         return archivoLeido;
     }
@@ -65,8 +66,8 @@ public class GestionFicheros {
         try {
             creado = fichero.createNewFile();
         } catch (IOException e) {
-            System.out.println("No se ha podido crear el archivo");
-        }
+            Prints prints = new Prints();
+            prints.escribir("No se ha podido crear el archivo"); }
         return creado;
     }
 

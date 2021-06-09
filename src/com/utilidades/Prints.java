@@ -3,12 +3,10 @@ package com.utilidades;
 import java.util.Scanner;
 
 public class Prints {
-
-    public static void escribir(String frase){
+    public void escribir(String frase){
         System.out.println(frase);
     }
-
-    public static void siNo (){
+    public void siNo (){
         System.out.println("━━━━━━━━━━");
         System.out.println("|         |");
         System.out.println("| 1. Sí   |");
@@ -17,7 +15,7 @@ public class Prints {
         System.out.println("━━━━━━━━━━");
         System.out.print(" > ");
     }
-    public static void  otroSalir(){
+    public void  otroSalir(){
         System.out.println("━━━━━━━━━━━━━━");
         System.out.println("|            |");
         System.out.println("| 1. Salir   |");
@@ -25,29 +23,26 @@ public class Prints {
         System.out.println("|            |");
         System.out.println("━━━━━━━━━━━━━━");
     }
-    public static void eleccionContrato(){
-
-    }
-    public static void terminadaAccion(){
+    public void terminadaAccion(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         System.out.println(" → Acción terminada, volviendo a la selección principal ← ");
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
     }
-    public static void finDeLaAplicacion(){
+    public void finDeLaAplicacion(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         System.out.println("░░             → Cerrando programa, gracias por su uso ←            ░░");
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
     }
-    public static void separadorConTexto(String campo){
-        Prints.separador();
+    public void separadorConTexto(String campo){
+        separador();
         System.out.println(campo);
         System.out.print("> ");
     }
 
-    public static void separador(){
+    public void separador(){
         System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
     }
-    public static void main(){
+    public void main(){
         System.out.println("╔━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╗");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 1. Crear -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 2. Crear Contrato  -_-_-_-_-_-_-_-_-_-_-_-_╣");
@@ -68,7 +63,7 @@ public class Prints {
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }
-    public static void eleccionModificar() {
+    public void eleccionModificar() {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("|                     |");
         System.out.println("| 1. Datos personales |");
@@ -78,29 +73,26 @@ public class Prints {
         System.out.println("|                     |");
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━");
     }
-    public static void limpiar(int lineas) {
+    public void limpiar(int lineas) {
         for (int i=0; i < lineas; i++) {
             System.out.println();
         }
     }
-
-    public static void finalFuncion(){
+    public void finalFuncion(){
         limpiar(1);
         terminadaAccion();
         limpiar(1);
     }
-    public static void introduzcaDatos(Scanner in){
-        Prints.separador();
+    public void introduzcaDatos(Scanner in){
+        separador();
         System.out.println("Introduzca el codigo del empleado");
         System.out.print("> ");
     }
-
-    public static void error (){
+    public void error (){
         System.out.println("Error introduciendo datos, volviendo a el menu principal");
     }
-
-    public static void generarContrato(){
+    public void generarContrato(){
         System.out.println("¿Quiere introducir una fecha de finalización estimada?");
-        Prints.siNo();
+        siNo();
     }
 }

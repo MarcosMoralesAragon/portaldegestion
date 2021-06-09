@@ -11,10 +11,10 @@ public class Main {
         Scanner in = new Scanner(System.in);
         boolean salida = false;
         boolean ficheroEstaCorrectoParaListar;
+        Prints prints = new Prints();
 
-        System.out.println("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
-
-        Prints.limpiar(1);
+        prints.escribir("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
+        prints.limpiar(1);
 
         /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1); */
@@ -25,12 +25,12 @@ public class Main {
         if (ficheroEstaCorrectoParaListar){
             Servicios.listarEmpleados("");
         } else {
-            System.out.println("El archivo no ha sido cargado con exito, no se pueden listar los datos");
+            prints.escribir("El archivo no ha sido cargado con exito, no se pueden listar los datos");
         }
 
         while (!salida){
-            System.out.println("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
-            Prints.main();
+            prints.escribir("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
+            prints.main();
             int eleccion = Servicios.transformaStringAIntDevuelveInt(in);
             switch (eleccion){
                 case 1:
@@ -82,8 +82,8 @@ public class Main {
                         Servicios.updateEmpleadosABaseDeDatos();
                     break;
                 case 16:
-                    Prints.limpiar(1);
-                    Prints.finDeLaAplicacion();
+                    prints.limpiar(1);
+                    prints.finDeLaAplicacion();
                     salida = true;
                     break;
                 default:

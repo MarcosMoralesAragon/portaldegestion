@@ -26,8 +26,9 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-        <schema name="PUBLIC" object-types="type, package, sequence, synonym, function, view, materialized view, table" />
-        <schema name="TD_CMDB_V1" object-types="type, package, sequence, synonym, function, view, materialized view, column, table" />
+        <schema name="APEX_180200" object-types="synonym, procedure, function" />
+        <schema name="PUBLIC" object-types="synonym, table, type, package, materialized view, view, sequence, function" />
+        <schema name="TD_CMDB_V1" object-types="synonym, table, package function, type, package, column, materialized view, package type, view, type function, sequence, function" />
       </connection>
     </loaded-nodes>
   </component>
@@ -42,8 +43,7 @@ delete from FPM_PRUEBA
 delete from FPM_DIRECCION
 
 
-update FPM_PRUEBA set NOMBRE = ?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?, DNI = ?, FECHA_NACIMIENTO = ?,
-        NACIONALIDAD = ? where "ID" = ?]]></console>
+select * from FPM_CONTRATOS where CODIGO_EMPLEADO = '3bj626';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

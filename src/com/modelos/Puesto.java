@@ -1,15 +1,15 @@
 package com.modelos;
 
 public enum Puesto {
-    DIRECTIVO("Directivo"),
+    DIRECTIVO ("Directivo"),
     OFICIAL("Oficial"),
     OPERARIO("Operario"),
     TECNICO("Tecnico");
 
     private String puesto;
 
-    Puesto(String estado) {
-        this.puesto = estado;
+    Puesto(String puesto) {
+        this.puesto = puesto;
     }
 
     @Override

@@ -16,17 +16,14 @@ import static java.util.Map.*;
 
 public class Servicios {
 
-    // TODO Ahora tendre que cambiar como busco los codigos de direccion y contratos, es importante
-    // TODO Comentar todas las funciones como es debido JavaDOC
-    // TODO Arreglar la cantidad de sout ( usar funcion Prints.escribir("") )
     // TODO Eliminar cantidad de bucles ( si se puede )
-    // TODO Eliminar static
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
+    public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
-    public static HashMap<String, Empleado> empleadosModificados = new HashMap<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
+    private Prints prints = new Prints();
 
     public void guardar() {
         GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
@@ -36,9 +33,9 @@ public class Servicios {
     }
 
     public void crearEmpleado(Scanner in) {
-        System.out.println("1. Crear");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("1. Crear");
+        prints.separador();
+        prints.limpiar(1);
         String deDondeVieneElDato = "teclado";
         try {
             Empleado variableEmpleado = new Empleado();
@@ -49,19 +46,17 @@ public class Servicios {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 1
 
     public void crearContrato(Scanner in) {
-        System.out.println("2. Crear contrato");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("2. Crear contrato");
         boolean salida;
         do {
-            Prints.introduzcaDatos(in);
+            prints.introduzcaDatos(in);
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
-                System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
+                prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
                 salida = eleccionSiNoYSalirOOtro(in, "sino");
                 if (salida) {
                     generarContrato(contratos, empleadoBuscado, in);
@@ -69,66 +64,66 @@ public class Servicios {
                     salida = eleccionSiNoYSalirOOtro(in, "crear un contrato");
                 }
             } else {
-                System.out.println("Código erroneo, cerrando acción");
+                prints.escribir("Código erroneo, cerrando acción");
                 salida = true;
             }
         } while (!salida);
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 2
 
     public void listarEmpleados(String numero) {
-        System.out.println(numero + "Listado");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir(numero + "Listado");
+        prints.separador();
+        prints.limpiar(1);
         if (empleados.isEmpty()) {
-            System.out.println("No hay todavia ningun empleado registrado");
+            prints.escribir("No hay todavia ningun empleado registrado");
         } else {
             for (int i = 0; i < empleados.size(); i++) {
-                System.out.println("Empleado Nº " + (i + 1) + " --> " + empleados.get(i).cadenaFormateadaParaMostrarPorPantalla());
+                prints.escribir("Empleado Nº " + (i + 1) + " --> " + empleados.get(i).cadenaFormateadaParaMostrarPorPantalla());
             }
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 3
 
     public void listarContratos() {
-        System.out.println("4. Contratos");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("4. Contratos");
+        prints.separador();
+        prints.limpiar(1);
         if (contratos.isEmpty()) {
-            System.out.println("No existen todavia contratos registrados");
+            prints.escribir("No existen todavia contratos registrados");
         } else {
             for (int i = 0; i < contratos.size(); i++) {
-                System.out.println("Contrato Nº " + (i + 1) + " --> " + contratos.get(i).toString());
+                prints.escribir("Contrato Nº " + (i + 1) + " --> " + contratos.get(i).toString());
             }
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 4
 
     public void listarPapelera() {
-        System.out.println("5. Listar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("5. Listar papelera");
+        prints.separador();
+        prints.limpiar(1);
         int i = 0;
         if (empleadosBorrados.isEmpty()) {
-            System.out.println("La papelera esta vacía");
+            prints.escribir("La papelera esta vacía");
         } else {
             for (Entry borrados : empleadosBorrados.entrySet()) {
-                System.out.print("Empleado en papelera Nª" + (i + 1) + " --> ");
-                System.out.println(borrados.getValue().toString());
+                prints.escribir("Empleado en papelera Nª" + (i + 1) + " --> ");
+                prints.escribir(borrados.getValue().toString());
                 i++;
             }
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 5
 
     public void modificar(Scanner in) {
         boolean salida;
-        System.out.println("6. Modificar");
+        prints.escribir("6. Modificar");
         do {
-            Prints.introduzcaDatos(in);
+            prints.introduzcaDatos(in);
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
-                System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
+                prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
                 salida = eleccionSiNoYSalirOOtro(in, "sino");
                 if (salida) {
                     elecciónDeGrupoQueQuiereCambiar(in, empleadoBuscado);
@@ -136,22 +131,22 @@ public class Servicios {
                     salida = eleccionSiNoYSalirOOtro(in, "cambiar");
                 }
             } else {
-                System.out.println("Codigo erroneo, volviendo a menú principal");
+                prints.escribir("Codigo erroneo, volviendo a menú principal");
                 salida = true;
             }
         } while (!salida);
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 6
 
     public void borrado(Scanner in) {
         boolean salida;
-        System.out.println("7. Borrado");
+        prints.escribir("7. Borrado");
         do {
-            Prints.introduzcaDatos(in);
+            prints.introduzcaDatos(in);
             String codigo;
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, codigo = in.nextLine());
             if (empleadoBuscado != null) {
-                System.out.println("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
+                prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
                 salida = eleccionSiNoYSalirOOtro(in, "sino");
                 if (salida) {
                     accionBorradoEmpleado(empleados, empleadoBuscado);
@@ -159,27 +154,26 @@ public class Servicios {
                     salida = eleccionSiNoYSalirOOtro(in, "borrado");
                 }
             } else {
-                System.out.println("Código erroneo, cerrando acción");
+                prints.escribir("Código erroneo, cerrando acción");
                 salida = true;
             }
         } while (!salida);
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 7
 
     public void cargarPapelera() {
         GestionFicheros gestionFicheros = new GestionFicheros();
-        System.out.println("8. Recuperar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
-        Prints.limpiar(1);
+        prints.escribir("8. Recuperar papelera");
+        prints.separador();
+        prints.limpiar(2);
         gestionFicheros.leerFichero("copiaDeSeguridad.txt", "papelera");
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 8
 
     public void guardarPapelera(String nombreFichero) {
-        System.out.println("9. Guardar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("9. Guardar papelera");
+        prints.separador();
+        prints.limpiar(1);
 
         boolean creado = true;
         if (!nombreFichero.equals("empleados.txt")) {
@@ -194,20 +188,20 @@ public class Servicios {
                 try {
                     GestionFicheros.escribirFichero(nombreFichero, entry.getValue().toString());
                 } catch (IOException e) { // TODO
-                    System.out.println("Fallo guardando el fichero : " + nombreFichero);
+                    prints.escribir("Fallo guardando el fichero : " + nombreFichero);
                 }
             }
-            System.out.println("Papelera guardada con exito");
+            prints.escribir("Papelera guardada con exito");
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 9
 
     public void restaurarPapelera() {
         // Mete los empeleados del mapa a donde van los borrados, y los introduce en el arraylist
         // de empleados
-        System.out.println("10. Restaurar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("10. Restaurar papelera");
+        prints.separador();
+        prints.limpiar(1);
         String deDondeVieneElDato = "papelera";
 
         if (!empleadosBorrados.isEmpty()) {
@@ -219,92 +213,75 @@ public class Servicios {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 } catch (ParseException e) {
-                    System.out.println("Problema con la conversion de los parametros");
+                    prints.escribir("Problema con la conversion de los parametros");
                 }
                 empleados.add(variableEmpleado);
             }
-            System.out.println("Los empleados borrados han sido restaurados con exito. Recuerda que mientras no guardes los cambios no surtiran efecto");
+            prints.escribir("Los empleados borrados han sido restaurados con exito. Recuerda que mientras no guardes los cambios no surtiran efecto");
         } else {
-            System.out.println("Papelera vacía. Borre empleados o recupere la papelera");
+            prints.escribir("Papelera vacía. Borre empleados o recupere la papelera");
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 10
 
     public void vaciarPapelera() {
-        System.out.println("11. Vaciar papelera");
-        Prints.separador();
-        Prints.limpiar(1);
-
+        prints.escribir("11. Vaciar papelera");
+        prints.separador();
+        prints.limpiar(1);
         empleadosBorrados.clear();
-        Prints.limpiar(1);
-        System.out.println("Papelera vaciada con exito");
-        Prints.finalFuncion();
+        prints.limpiar(1);
+        prints.escribir("Papelera vaciada con exito");
+        prints.finalFuncion();
     } // 11
 
     public void guardarTodo() {
-        System.out.println("12. Guardar todo");
-        Prints.separador();
-        Prints.limpiar(1);
-
+        prints.escribir("12. Guardar todo");
+        prints.separador();
+        prints.limpiar(1);
         guardarMemoriaABaseDeDatos();
         guardarPapelera("copiaDeSeguridad.txt");
     } // 12
 
     public void informe() {
-        System.out.println("13. Informe");
-        Prints.separador();
-        Prints.limpiar(1);
-
+        prints.escribir("13. Informe");
+        prints.separador();
+        prints.limpiar(1);
         Informe.generarInforme(empleados);
-
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 13
 
     public void guardarMemoriaABaseDeDatos() {
-        System.out.println("14. Guardar empleados a la base de datos");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("14. Guardar empleados a la base de datos");
+        prints.separador();
+        prints.limpiar(1);
         if (empleadosNuevos.size() == 0) {
-            System.out.println("No existen empleados nuevos creados. Cree un empleado nuevo");
+            prints.escribir("No existen empleados nuevos creados. Cree un empleado nuevo");
         } else {
             GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
             for (int i = 0; i < empleadosNuevos.size(); i++) {
                 gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
             }
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 14
 
     public void updateEmpleadosABaseDeDatos() {
-        System.out.println("16. Actualizar empleados a la base de datos");
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.escribir("16. Actualizar empleados a la base de datos");
+        prints.separador();
+        prints.limpiar(1);
         if (empleadosModificados.size() == 0) {
-            System.out.println("No se ha modificado ningun empleado. Modifique un empleado");
+            prints.escribir("No se ha modificado ningun empleado. Modifique un empleado");
         } else {
             GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
-            for (Map.Entry<String, Empleado> entry : empleadosModificados.entrySet()) {
-                String camposAfectados = entry.getKey();
+            for (int i = 0; empleadosModificados.size() > i; i++) {
                 Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
                 try {
-                    switch (camposAfectados) {
-                        case "1":
-                            gestionBaseDeDatos.updateCamposPersonales(entry);
-                            break;
-                        case "2":
-                            gestionBaseDeDatos.updateCamposDireccion(entry);
-                            break;
-                        case "3":
-                            gestionBaseDeDatos.updateCamposContrato(entry);
-                            break;
-                        case "4":
-                            gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, entry);
-                            break;
-                    }
+                    gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, empleadosModificados.get(i));
+                    break;
                 } catch (SQLException throwables) {
-                    System.out.println("Error actualizando las tablas");
+                    prints.escribir("Error actualizando las tablas");
                 } finally {
-                    Prints.limpiar(1);
+                    prints.limpiar(1);
                     try {
                         conexion.close();
                     } catch (SQLException throwables) {
@@ -313,16 +290,15 @@ public class Servicios {
                 }
             }
         }
-        Prints.finalFuncion();
+        prints.finalFuncion();
     } // 15
 
     public void cargarEmpleadosDesdeBaseDeDatos() {
         GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
-        Prints.separador();
-        Prints.limpiar(1);
+        prints.separador();
+        prints.limpiar(1);
         empleados = gestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
-
-        Prints.finalFuncion();
+        prints.finalFuncion();
     }
 
     // ------------------------> FUNCIONES <-----------------------------
@@ -336,10 +312,10 @@ public class Servicios {
     private  boolean eleccionSiNoYSalirOOtro(Scanner in, String palabra) {
         boolean salida;
         if ("sino".equals(palabra)) {
-            Prints.siNo();
+            prints.siNo();
         } else {
-            System.out.println("¿Quiere " + palabra + " a otro empleado o desea salir?");
-            Prints.otroSalir();
+            prints.escribir("¿Quiere " + palabra + " a otro empleado o desea salir?");
+            prints.otroSalir();
         }
         int eleccionParseada = transformaStringAIntDevuelveInt(in);
         switch (eleccionParseada) {
@@ -446,7 +422,7 @@ public class Servicios {
                 break;
             default:
                 resultado = false;
-                Prints.escribir("No existe la lista elegida, no se podrá comparar el codigo"); // TODO
+                prints.escribir("No existe la lista elegida, no se podrá comparar el codigo"); // TODO
         }
         return resultado;
     }
@@ -472,7 +448,7 @@ public class Servicios {
                 eleccion = 2;
                 break;
             default:
-                System.out.println("Palabra introducida erronea, se establecera ''Alta'' como predeterminado," +
+                prints.escribir("Palabra introducida erronea, se establecera ''Alta'' como predeterminado," +
                         "porfavor cambie el dato con la acción modificar");
                 eleccion = 0;
                 break;
@@ -486,7 +462,7 @@ public class Servicios {
      * @param palabraIntroducida Recibe un string con una palabra y lo compara
      * @return Devuelve un numero (int) en funcion de a que grupo se parecía
      */
-    private  int puestoEleccion(String palabraIntroducida) {
+    public int puestoEleccion(String palabraIntroducida) {
         String palabraIntroducidaMayusculas = palabraIntroducida.toUpperCase();
         int eleccion;
         switch (palabraIntroducidaMayusculas) {
@@ -503,7 +479,7 @@ public class Servicios {
                 eleccion = 3;
                 break;
             default:
-                System.out.println("Palabra introducida erronea, se establecera ''Operario'' como predeterminado," +
+                prints.escribir("Palabra introducida erronea, se establecera ''Operario'' como predeterminado," +
                         "porfavor cambie el dato con la acción modificar");
                 eleccion = 2;
                 break;
@@ -552,28 +528,27 @@ public class Servicios {
                 eleccionParseado = Integer.parseInt(eleccion);
                 salida = true;
             } catch (NumberFormatException e) {
-                System.out.println("Formato erroneo, vuelva a repetir. Le quedan " + (3 - contador));
-                System.out.println("> ");
+                prints.escribir("Formato erroneo, vuelva a repetir. Le quedan " + (3 - contador));
+                prints.escribir("> ");
                 contador++;
             }
             if (contador == 3) {
-                System.out.println("No quedan intentos");
+                prints.escribir("No quedan intentos");
                 eleccionParseado = -1;
             }
         } while (!salida);
-
         return eleccionParseado;
     }
 
     // ######## --------> FUNCIONES LEER <-------------------- #########
 
     private String leerStringTeclado(Scanner in, String palabra) {
-        Prints.separadorConTexto(palabra);
+        prints.separadorConTexto(palabra);
         return in.nextLine();
     }
 
     private int leerEstado(Scanner in) {
-        Prints.separadorConTexto("Estado");
+        prints.separadorConTexto("Estado");
         String palabraIntroducida;
         palabraIntroducida = in.nextLine();
 
@@ -581,7 +556,7 @@ public class Servicios {
     }
 
     public int leerPuesto(Scanner in) {
-        Prints.separadorConTexto("Puesto");
+        prints.separadorConTexto("Puesto");
         String palabraIntroducida;
         palabraIntroducida = in.nextLine();
 
@@ -589,11 +564,11 @@ public class Servicios {
     }
 
     private int leerNumeroYCodigoPostal(Scanner in, String campo) {
-        Prints.separadorConTexto(campo);
+        prints.separadorConTexto(campo);
         int resultado = 0;
         resultado = transformaStringAIntDevuelveInt(in);
         if (resultado == -1) {
-            System.out.println("Se establecera 0 por defecto");
+            prints.escribir("Se establecera 0 por defecto");
             resultado = 0;
         }
         return resultado;
@@ -665,9 +640,6 @@ public class Servicios {
                 variableEmpleado.setNacionalidad(datoseparado[6]);
                 variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoseparado[7])]);
                 variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[17]));
-                // variableEmpleado.setContratos(datoseparado[18]);
-                // System.out.println(datoseparado[18]);
-                // System.out.println(datoseparado);
                 break;
         }
     }
@@ -735,15 +707,6 @@ public class Servicios {
         }
         return variableDireccion;
     }
-    /*
-    public static ArrayList<Contrato> transformaStringDatoSeparadoAArrayContratos(String[] datoseparado){
-        Contrato variableContrato = new Contrato();
-        int contado = 0;
-        datoseparado[18].split()
-
-        return variableContrato;
-    }
-    */
     // -------------------------------> FUNCIONES CONTRATOS <---------------------------
 
     /**
@@ -764,7 +727,11 @@ public class Servicios {
                 contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
                 contrato.setId(Integer.parseInt(generarCodigo("contratos")));
                 contrato.setCodigoEmpleadoAsignado(empleadoBuscado.getCodigo());
-                empleadoBuscado.getContratos().add(contrato);
+                if (empleadoBuscado.getContratos() == null){
+                    empleadoBuscado.setContratos(contrato);
+                } else {
+                    empleadoBuscado.getContratos().add(contrato);
+                }
                 contratoArrayList.add(contrato);
             }
         }
@@ -778,21 +745,10 @@ public class Servicios {
      * @return boolean para comprobar si se ha realizado la acción o no
      */
     private boolean establecerFechasParaContrato(Empleado empleadoBuscado, Scanner in, Contrato contrato) {
-        Prints.generarContrato();
-        int eleccion = transformaStringAIntDevuelveInt(in);
         boolean resultado = true;
-
         establecerFecha(in, contrato, empleadoBuscado, "Inicio");
-        establecerFecha(in, contrato, empleadoBuscado, "Final");
-
-        if (eleccion == 1) {
-            establecerFecha(in, contrato, empleadoBuscado, "Estimada");
-        } else if (eleccion == 2) {
-            contrato.setFechaFinalizacionEstimada(null);
-        } else {
-            System.out.println("Elección errónea. Volviendo al menu principal");
-            resultado = false;
-        }
+        contrato.setFechaFinalContrato(null);
+        establecerFecha(in, contrato, empleadoBuscado, "Estimada");
         return resultado;
     }
 
@@ -803,48 +759,47 @@ public class Servicios {
      * @param empleado El empleado al que se le estan guardando los datos
      * @param inicioOFinal String para indicar si es para fecha inicio , fecha final o fecha estiamda
      */
-    private void establecerFecha(Scanner in, Contrato contrato, Empleado empleado, String inicioOFinal) {
+    private boolean establecerFecha(Scanner in, Contrato contrato, Empleado empleado, String inicioOFinal) {
         boolean salida = true;
-        String fecha;
         int contador = 0;
-        if (empleado.getContratos().size() > 0) {
-            contrato.setFechaInicioContrato(empleado.getFechaAlta());
-        } else {
-            do {
-                System.out.println("Introduzca una fecha con el siguiente formato -> hh : mm : ss AM/PM || dd-MM-yyyy");
-                System.out.println("Es importante que respete los espacios y ponga AM o PM");
-                System.out.print("> ");
-                try {
-                    fecha = in.nextLine();
-                    if ("Estimada".equals(inicioOFinal)){
-                        contrato.setFechaFinalizacionEstimada(Fecha.leerStringDevolviendoFechaFormateada(fecha));
-                        salida = true;
-                    }else if ("Inicio".equals(inicioOFinal)) {
-                        contrato.setFechaInicioContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
-                        salida = true;
-                    } else if ("Final".equals(inicioOFinal)) {
-                        contrato.setFechaFinalContrato(Fecha.leerStringDevolviendoFechaFormateada(fecha));
-                        salida = true;
-                        if (contrato.getFechaFinalContrato().before(contrato.getFechaInicioContrato())) {
-                            System.out.println("La fecha introducida es antes de la fecha de alta del empleado");
-                            salida = false;
-                        }
+        do {
+            prints.escribir("Introduzca una fecha con el siguiente formato -> hh : mm : ss AM/PM || dd-MM-yyyy");
+            prints.escribir("Es importante que respete los espacios y ponga AM o PM");
+            System.out.print(inicioOFinal + " --> ");
+            try {
+                if ("Estimada".equals(inicioOFinal)){
+                    contrato.setFechaFinalizacionEstimada(Fecha.leerStringDevolviendoFechaFormateada(in.nextLine()));
+                    salida = true;
+                }else if ("Inicio".equals(inicioOFinal)) {
+                    if (empleado.getContratos() == null) {
+                        contrato.setFechaInicioContrato(empleado.getFechaAlta());
+                        prints.escribir(empleado.getFechaAlta() + "\n");
+                    } else {
+                        contrato.setFechaInicioContrato(Fecha.leerStringDevolviendoFechaFormateada(in.nextLine()));
                     }
-                } catch (ParseException e) {
-                    System.out.println("Ha cometido un error de formato con la fecha");
-                    salida = false;
-                }
-                if (!salida) {
-                    System.out.println("Quedan " + (3 - contador) + " intentos" + "\n");
-                    contador++;
-                }
-                if (contador == 3) {
-                    System.out.println("Ha fallado 3 veces, se establecera la fecha de estimacion como null");
-                    contrato.setFechaFinalContrato(null);
                     salida = true;
                 }
-            } while (!salida);
-        }
+            } catch (ParseException e) {
+                prints.escribir("Ha cometido un error de formato con la fecha");
+                salida = false;
+            }
+            if (!salida) {
+                prints.escribir("Quedan " + (3 - contador) + " intentos" + "\n");
+                contador++;
+            }
+            if (contador == 3) {
+                prints.escribir("Ha fallado 3 veces, se establecerá la fecha como ");
+                if ("Inicio".equals(inicioOFinal)) {
+                    prints.escribir("--> " + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()));
+                    contrato.setFechaInicioContrato(Fecha.creaciónFechaActual());
+                } else if ("Estimada".equals(inicioOFinal)) {
+                    prints.escribir("--> " + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()));
+                    contrato.setFechaFinalizacionEstimada((Fecha.creaciónFechaActual()));
+                }
+                salida = true;
+            }
+        } while (!salida);
+        return salida;
     }
 
     /**
@@ -858,8 +813,8 @@ public class Servicios {
         int contador = 0;
 
         do {
-            Prints.separador();
-            System.out.println("Introduzca el salario");
+            prints.separador();
+            prints.escribir("Introduzca el salario");
             System.out.print("> ");
             try {
                 String salario = in.nextLine();
@@ -868,18 +823,17 @@ public class Servicios {
                 resultado = true;
             } catch (NumberFormatException e) {
                 contador++;
-                System.out.println("Ha cometido un error, recuerde introducir solo números ( con dos decimales ) " +
+                prints.escribir("Ha cometido un error, recuerde introducir solo números ( con dos decimales ) " +
                         "vuelva a intentarlo te quedan " + (3 - contador) + "\n");
                 resultado = false;
             }
             if (contador == 3) {
                 double salarioPorDefecto = 1108.3;
-                System.out.println("Ha fallado 3 veces, se establecera por defecto el salario minimo interprofesional");
+                prints.escribir("Ha fallado 3 veces, se establecera por defecto el salario minimo interprofesional");
                 contrato.setSalario(salarioPorDefecto);
                 resultado = true;
             }
         } while (!resultado);
-
         return resultado;
     }
 
@@ -895,10 +849,10 @@ public class Servicios {
         // Al empleado buscado, le asigna una fecha de borrado, lo guarda en un mapa y lo borra del array
         int ultimoContrato = empleadoBuscado.getContratos().size();
         if (empleadoBuscado.getContratos().size() == 0) {
-            System.out.println("Este empleado no tiene contratos");
+            prints.escribir("Este empleado no tiene contratos");
         } else {
             empleadoBuscado.getContratos().get(ultimoContrato - 1).setFechaFinalContrato(Fecha.creaciónFechaActual());
-            System.out.println("Se ha establecido la fecha actual como fecha de finalización de su ultimo contrato");
+            prints.escribir("Se ha establecido la fecha actual como fecha de finalización de su ultimo contrato");
         }
         empleadosBorrados.put(empleadoBuscado.getCodigo(), empleadoBuscado);
         empleados.remove(empleadoBuscado);
@@ -913,8 +867,8 @@ public class Servicios {
      */
     private void elecciónDeGrupoQueQuiereCambiar(Scanner in, Empleado empleadoBuscado) {
 
-        Prints.eleccionModificar();
-        System.out.println("Elija que campo quiere cambiar");
+        prints.eleccionModificar();
+        prints.escribir("Elija que campo quiere cambiar");
         int decision = transformaStringAIntDevuelveInt(in);
         boolean salida = true;
         do {
@@ -937,14 +891,14 @@ public class Servicios {
                     cambioCamposDireccion(in, empleadoBuscado);
                     empleadoBuscado.setEstado(Estado.values()[leerEstado(in)]);
                 } else {
-                    System.out.println("Error. Numero introducido por teclado erroneo");
+                    prints.escribir("Error. Numero introducido por teclado erroneo");
                 }
             } catch (Exception e) {
-                System.out.println("Error introduciendo datos, vuelva a intentarlo");
+                prints.escribir("Error introduciendo datos, vuelva a intentarlo");
                 salida = false;
             }
         } while (!salida);
-        empleadosModificados.put(String.valueOf(decision), empleadoBuscado);
+        empleadosModificados.add(empleadoBuscado);
     }
 
     private void cambioCamposDireccion(Scanner in, Empleado empleadoBuscado) {
