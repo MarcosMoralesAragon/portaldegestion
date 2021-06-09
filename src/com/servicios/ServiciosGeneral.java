@@ -273,7 +273,7 @@ public class ServiciosGeneral {
         } else for (Empleado empleadosModificado : empleadosModificados) {
             Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
             try {
-                gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, empleadosModificado);
+                gestionBaseDeDatos.updateTodoBaseDeDatos(empleadosModificado);
                 break;
             } catch (SQLException throwables) {
                 prints.escribir("Error actualizando las tablas");
