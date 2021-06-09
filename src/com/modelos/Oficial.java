@@ -3,9 +3,7 @@ package com.modelos;
 public class Oficial  extends Operario{
 
 
-    public Oficial(String n) {
-        super(n);
-    }
+    public Oficial() {}
 
 
     @Override

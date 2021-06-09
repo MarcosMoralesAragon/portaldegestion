@@ -2,9 +2,7 @@ package com.modelos;
 
 public class Operario extends Empleado{
 
-    public Operario(String n) {
-        super(n);
-    }
+    public Operario() {}
 
     @Override
     public String toString() {

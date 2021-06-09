@@ -20,10 +20,6 @@ public class Empleado {
 
     public Empleado(){}
 
-    public Empleado(String nombre) {
-        this.nombre = nombre;
-    }
-
     public void setNombre(String n){
         this.nombre = n;
     }

@@ -54,12 +54,12 @@ public class GestionFicheros {
         return archivoLeido;
     }
 
-    public static boolean borrarFichero(String nombreFichero){
+    public boolean borrarFichero(String nombreFichero){
         File fichero = new File(nombreFichero);
         return fichero.delete();
     }
 
-    public static boolean creadorFicheros(String nombreFichero){
+    public boolean creadorFicheros(String nombreFichero){
 
         File fichero = new File(nombreFichero);
         boolean creado = false;
@@ -71,7 +71,7 @@ public class GestionFicheros {
         return creado;
     }
 
-    public static void escribirFichero (String nombreFichero, String cadena) throws IOException {
+    public void escribirFichero (String nombreFichero, String cadena) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(nombreFichero, true));
         writer.append(cadena);
         writer.close();

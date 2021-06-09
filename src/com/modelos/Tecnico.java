@@ -27,9 +27,7 @@ public class Tecnico extends Operario{
     }
 
 
-    public Tecnico(String n) {
-        super(n);
-    }
+    public Tecnico() {}
 
     @Override
     public String toString() {

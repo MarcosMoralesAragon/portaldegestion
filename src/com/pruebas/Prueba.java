@@ -13,11 +13,7 @@ import java.util.*;
 
 public class Prueba {
     public static void main(String[] args){
-        int contador = 0;
-        while(contador < 5){
-            GeneradorCodigos generadorCodigos = new GeneradorCodigos();
-            System.out.println(generadorCodigos.generarCodigoDirección());
-            contador++;
-        }
+        GestionFicheros gestionFicheros = new GestionFicheros();
+        gestionFicheros.borrarFichero("Funciones que ya no se usan.txt");
     }
 }

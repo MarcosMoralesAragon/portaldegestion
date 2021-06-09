@@ -176,17 +176,18 @@ public class Servicios {
         prints.limpiar(1);
 
         boolean creado = true;
+        GestionFicheros gestionFicheros = new GestionFicheros();
         if (!nombreFichero.equals("empleados.txt")) {
             creado = false;
-            boolean borrado = GestionFicheros.borrarFichero(nombreFichero);
+            boolean borrado = gestionFicheros.borrarFichero(nombreFichero);
             if (borrado) {
-                creado = GestionFicheros.creadorFicheros(nombreFichero);
+                creado = gestionFicheros.creadorFicheros(nombreFichero);
             }
         }
         if (creado) {
             for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
                 try {
-                    GestionFicheros.escribirFichero(nombreFichero, entry.getValue().toString());
+                    gestionFicheros.escribirFichero(nombreFichero, entry.getValue().toString());
                 } catch (IOException e) { // TODO
                     prints.escribir("Fallo guardando el fichero : " + nombreFichero);
                 }
@@ -494,7 +495,7 @@ public class Servicios {
      * @throws ParseException
      */
     public void cargarLista(String[] datoSeparado, String palabra) throws ParseException {
-        Empleado variableEmpleado = new Empleado(null);
+        Empleado variableEmpleado = new Empleado();
         String deDondeVieneElDato = palabra;
         if ("papelera".equals(palabra)) {
             deDondeVieneElDato = "fichero";

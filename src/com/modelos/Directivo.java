@@ -12,10 +12,7 @@ public class Directivo extends Empleado{
         this.departamentoACargo = departamento;
     }
 
-    public Directivo(String n, String departamento) {
-        super(n);
-        this.departamentoACargo = departamento;
-    }
+    public Directivo() {}
 
     @Override
     public String toString() {
