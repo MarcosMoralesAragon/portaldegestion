@@ -1,7 +1,7 @@
-package com.ficheros;
+package com.servicios;
 
-import com.Servicios;
 import com.utilidades.Prints;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class GestionFicheros {
+public class ServiciosFicheros {
 
-    private Servicios servicios = new Servicios();
+    private ServiciosGeneral servicios = new ServiciosGeneral();
 
     public boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;

@@ -1,4 +1,4 @@
-import com.Servicios;
+import com.servicios.ServiciosGeneral;
 import com.utilidades.Prints;
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class Main {
 
         /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1); */
-        Servicios Servicios = new Servicios();
+        ServiciosGeneral Servicios = new ServiciosGeneral();
         ficheroEstaCorrectoParaListar = true;
         Servicios.cargarEmpleadosDesdeBaseDeDatos();
 

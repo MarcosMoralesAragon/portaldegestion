@@ -1,18 +1,16 @@
-package com;
+package com.servicios;
 
-import com.Servicios;
+
 import com.modelos.*;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
-
-import java.net.ConnectException;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Map;
 
-public class GestionBaseDeDatos {
+public class ServiciosBaseDeDatos {
     private Prints prints = new Prints();
+    private ServiciosGeneral Servicios = new ServiciosGeneral();
 
     public Connection cargarBaseDeDatos(String palabra){
         String frase = "";
@@ -48,7 +46,6 @@ public class GestionBaseDeDatos {
             try {
                 stmt = conexion.prepareStatement("select * from " + nombreTabla);
                 set = stmt.executeQuery();
-                Servicios Servicios = new Servicios();
                 while (set.next()) {
                     variableEmpleado = new Empleado();
                     Servicios.datosEmpleados(null,variableEmpleado,"bbdd",set,null,null);
@@ -80,12 +77,10 @@ public class GestionBaseDeDatos {
         Direccion variableDireccion = new Direccion();
         Connection conexion = cargarBaseDeDatos("no");
         if (conexion != null) {
-            int cantidadAfectada = 0;
             try {
                 PreparedStatement stmt = conexion.prepareStatement("select * from " + nombreTabla + " where ID_DIRECCION = " + codigoDireccicon);
                 ResultSet set = stmt.executeQuery();
                 while (set.next()){
-                    Servicios Servicios = new Servicios();
                     variableDireccion = Servicios.datosDireccion(null, "bbdd", set, null, null);
                 }
             } catch (SQLException exception) {
@@ -99,7 +94,6 @@ public class GestionBaseDeDatos {
     public ArrayList<Contrato> cargarContrato(String nombreTabla, String codigoEmpleado, Connection conexion) {
         ArrayList <Contrato> contratoArrayList = new ArrayList<>();
         if (conexion != null) {
-            int cantidadAfectada = 0;
             try {
                 PreparedStatement stmt = stmt = conexion.prepareStatement("select * from " + nombreTabla + " where CODIGO_EMPLEADO = " + "'" + codigoEmpleado + "'");
                 ResultSet set = stmt.executeQuery();
@@ -110,7 +104,6 @@ public class GestionBaseDeDatos {
                     variableContrato.setFechaFinalContrato(set.getDate(3));          // Fecha final contrato
                     variableContrato.setFechaFinalizacionEstimada(set.getDate(4));   // Fecha finalizacion estimada
                     variableContrato.setSalario(set.getInt(5));                      // Salario
-                    Servicios Servicios = new Servicios();
                     variableContrato.setPuesto(Puesto.values()[Servicios.puestoEleccion(set.getString(6))]);      // Puesto
                     variableContrato.setCodigoEmpleadoAsignado(set.getString(7));    // Codigo empleado
                     contratoArrayList.add(variableContrato);

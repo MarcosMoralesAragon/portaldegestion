@@ -1,6 +1,5 @@
-package com;
+package com.servicios;
 
-import com.ficheros.GestionFicheros;
 import com.modelos.*;
 import com.utilidades.GeneradorCodigos;
 import com.utilidades.Fecha;
@@ -11,10 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
-import static java.util.Map.*;
+import java.util.Map.*;
 @SuppressWarnings({"rawtypes", "NonAsciiCharacters"})
 
-public class Servicios {
+public class ServiciosGeneral {
 
     // TODO Eliminar cantidad de bucles ( si se puede )
 
@@ -23,12 +22,15 @@ public class Servicios {
     public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
-    private Prints prints = new Prints();
+
+    private final Prints prints = new Prints();
+    private final ServiciosBaseDeDatos gestionBaseDeDatos = new ServiciosBaseDeDatos();
+    private final ServiciosFicheros gestionFicheros = new ServiciosFicheros();
+    private final ServiciosInformes informes = new ServiciosInformes();
 
     public void guardar() {
-        GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
-        for (int i = 0; i < empleados.size(); i++) {
-            gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleados.get(i));
+        for (Empleado empleado : empleados) {
+            gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleado);
         }
     }
 
@@ -143,8 +145,7 @@ public class Servicios {
         prints.escribir("7. Borrado");
         do {
             prints.introduzcaDatos(in);
-            String codigo;
-            Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, codigo = in.nextLine());
+            Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
                 prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
                 salida = eleccionSiNoYSalirOOtro(in, "sino");
@@ -162,7 +163,6 @@ public class Servicios {
     } // 7
 
     public void cargarPapelera() {
-        GestionFicheros gestionFicheros = new GestionFicheros();
         prints.escribir("8. Recuperar papelera");
         prints.separador();
         prints.limpiar(2);
@@ -176,7 +176,6 @@ public class Servicios {
         prints.limpiar(1);
 
         boolean creado = true;
-        GestionFicheros gestionFicheros = new GestionFicheros();
         if (!nombreFichero.equals("empleados.txt")) {
             creado = false;
             boolean borrado = gestionFicheros.borrarFichero(nombreFichero);
@@ -247,7 +246,7 @@ public class Servicios {
         prints.escribir("13. Informe");
         prints.separador();
         prints.limpiar(1);
-        Informe.generarInforme(empleados);
+        informes.generarInforme(empleados);
         prints.finalFuncion();
     } // 13
 
@@ -258,9 +257,8 @@ public class Servicios {
         if (empleadosNuevos.size() == 0) {
             prints.escribir("No existen empleados nuevos creados. Cree un empleado nuevo");
         } else {
-            GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
-            for (int i = 0; i < empleadosNuevos.size(); i++) {
-                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevos.get(i));
+            for (Empleado empleadosNuevo : empleadosNuevos) {
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo);
             }
         }
         prints.finalFuncion();
@@ -272,22 +270,19 @@ public class Servicios {
         prints.limpiar(1);
         if (empleadosModificados.size() == 0) {
             prints.escribir("No se ha modificado ningun empleado. Modifique un empleado");
-        } else {
-            GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
-            for (int i = 0; empleadosModificados.size() > i; i++) {
-                Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
+        } else for (Empleado empleadosModificado : empleadosModificados) {
+            Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
+            try {
+                gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, empleadosModificado);
+                break;
+            } catch (SQLException throwables) {
+                prints.escribir("Error actualizando las tablas");
+            } finally {
+                prints.limpiar(1);
                 try {
-                    gestionBaseDeDatos.updateTodoBaseDeDatos(conexion, empleadosModificados.get(i));
-                    break;
+                    conexion.close();
                 } catch (SQLException throwables) {
-                    prints.escribir("Error actualizando las tablas");
-                } finally {
-                    prints.limpiar(1);
-                    try {
-                        conexion.close();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    throwables.printStackTrace();
                 }
             }
         }
@@ -295,7 +290,6 @@ public class Servicios {
     } // 15
 
     public void cargarEmpleadosDesdeBaseDeDatos() {
-        GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
         prints.separador();
         prints.limpiar(1);
         empleados = gestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
@@ -398,7 +392,7 @@ public class Servicios {
                 ArrayList<Empleado> empleadosLista = lista;
                 Iterator<Empleado> listaIteradaEmpleados = empleadosLista.iterator();
                 while (listaIteradaEmpleados.hasNext()) {
-                    if (listaIteradaEmpleados.next().getCodigo().toString().equals(codigoString)) {
+                    if (listaIteradaEmpleados.next().getCodigo().equals(codigoString)) {
                         resultado = true;
                     }
                 }
@@ -492,7 +486,6 @@ public class Servicios {
      * Introduce en memoria los datos almacenados en los ficheros
      * @param datoSeparado Un String[] que viene de separar los datos de un fichero
      * @param palabra Puede ser: "papelera" o "fichero"
-     * @throws ParseException
      */
     public void cargarLista(String[] datoSeparado, String palabra) throws ParseException {
         Empleado variableEmpleado = new Empleado();
@@ -566,7 +559,7 @@ public class Servicios {
 
     private int leerNumeroYCodigoPostal(Scanner in, String campo) {
         prints.separadorConTexto(campo);
-        int resultado = 0;
+        int resultado;
         resultado = transformaStringAIntDevuelveInt(in);
         if (resultado == -1) {
             prints.escribir("Se establecera 0 por defecto");
@@ -618,7 +611,6 @@ public class Servicios {
                 variableEmpleado.setContratos(entry.getValue().getContratos());
                 break;
             case "bbdd":
-                GestionBaseDeDatos gestionBaseDeDatos = new GestionBaseDeDatos();
                 variableEmpleado.setCodigo(set.getString(1));
                 variableEmpleado.setNombre(set.getString(2));
                 variableEmpleado.setPrimerApellido(set.getString(3));
@@ -746,11 +738,10 @@ public class Servicios {
      * @return boolean para comprobar si se ha realizado la acción o no
      */
     private boolean establecerFechasParaContrato(Empleado empleadoBuscado, Scanner in, Contrato contrato) {
-        boolean resultado = true;
         establecerFecha(in, contrato, empleadoBuscado, "Inicio");
         contrato.setFechaFinalContrato(null);
         establecerFecha(in, contrato, empleadoBuscado, "Estimada");
-        return resultado;
+        return true;
     }
 
     /**
@@ -760,7 +751,7 @@ public class Servicios {
      * @param empleado El empleado al que se le estan guardando los datos
      * @param inicioOFinal String para indicar si es para fecha inicio , fecha final o fecha estiamda
      */
-    private boolean establecerFecha(Scanner in, Contrato contrato, Empleado empleado, String inicioOFinal) {
+    private void establecerFecha(Scanner in, Contrato contrato, Empleado empleado, String inicioOFinal) {
         boolean salida = true;
         int contador = 0;
         do {
@@ -793,14 +784,13 @@ public class Servicios {
                 if ("Inicio".equals(inicioOFinal)) {
                     prints.escribir("--> " + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()));
                     contrato.setFechaInicioContrato(Fecha.creaciónFechaActual());
-                } else if ("Estimada".equals(inicioOFinal)) {
+                } else {
                     prints.escribir("--> " + Fecha.formateoDeFechaParaFechaCreadoYBorrado(Fecha.creaciónFechaActual()));
                     contrato.setFechaFinalizacionEstimada((Fecha.creaciónFechaActual()));
                 }
                 salida = true;
             }
         } while (!salida);
-        return salida;
     }
 
     /**

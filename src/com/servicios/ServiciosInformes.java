@@ -1,14 +1,17 @@
-package com;
+package com.servicios;
 
 import com.modelos.Contrato;
 import com.modelos.Empleado;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-public class Informe {
-    public static void generarInforme(ArrayList<Empleado> empleados){
+public class ServiciosInformes {
+    public void generarInforme(ArrayList<Empleado> empleados){
         Prints prints = new Prints();
         System.out.println("→ ¿Cuál es el empleado actual de mayor edad?");
         System.out.println(empleadoMasMayor(empleados));
@@ -24,7 +27,7 @@ public class Informe {
     }
 
     // ¿Cuál es el empleado actual de mayor edad?
-    private static Empleado empleadoMasMayor(ArrayList<Empleado> empleados){
+    private Empleado empleadoMasMayor(ArrayList<Empleado> empleados){
         Prints prints = new Prints();
         prints.limpiar(1);
         System.out.println("Empleado más mayor  ↓");
@@ -53,7 +56,7 @@ public class Informe {
 
     // ¿Cuál es el empleado actual de menor edad?
 
-    private static Empleado empleadoMasJoven(ArrayList<Empleado> empleados){
+    private Empleado empleadoMasJoven(ArrayList<Empleado> empleados){
         Prints prints = new Prints();
         prints.limpiar(1);
         System.out.println("Empleado más joven  ↓");
@@ -86,7 +89,7 @@ public class Informe {
         Set<String> hashset = new HashSet<>();
         for (int i = 0; i < empleados.size(); i++){
             if(empleados.get(i).getContratos() != null){
-                Iterator <Contrato> listaIterada = empleados.get(i).getContratos().iterator();
+                Iterator<Contrato> listaIterada = empleados.get(i).getContratos().iterator();
                 boolean salida = false;
                 String añoActual = Fecha.extraerElAñoDeUnaFecha(Fecha.creaciónFechaActual());
                 while (listaIterada.hasNext() || !salida){
