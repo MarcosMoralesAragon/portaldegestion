@@ -1,6 +1,5 @@
 package com.utilidades;
 
-import java.util.Scanner;
 
 public class Prints {
     public void escribir(String frase){
@@ -84,7 +83,7 @@ public class Prints {
         terminadaAccion();
         limpiar(1);
     }
-    public void introduzcaDatos(Scanner in){
+    public void introduzcaDatos(){
         separador();
         System.out.println("Introduzca el codigo del empleado");
         System.out.print("> ");

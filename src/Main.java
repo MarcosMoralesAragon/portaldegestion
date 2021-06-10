@@ -15,8 +15,8 @@ public class Main {
         prints.escribir("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
         prints.limpiar(1);
 
-        /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
-        Prints.limpiar(1); */
+        // ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
+
         ServiciosGeneral Servicios = new ServiciosGeneral();
 
         Servicios.cargarEmpleadosDesdeBaseDeDatos();

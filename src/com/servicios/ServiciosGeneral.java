@@ -1,9 +1,7 @@
 package com.servicios;
 
 import com.modelos.*;
-import com.utilidades.GeneradorCodigos;
-import com.utilidades.Fecha;
-import com.utilidades.Prints;
+import com.utilidades.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,11 +24,11 @@ public class ServiciosGeneral {
     public static ArrayList<Contrato> contratosNuevos = new ArrayList<>();
     public static ArrayList<Empleado> empleadosBorradosNuevos = new ArrayList<>();
 
-    private final Prints prints = new Prints();
     private final ServiciosBaseDeDatos gestionBaseDeDatos = new ServiciosBaseDeDatos();
     private final ServiciosFicheros gestionFicheros = new ServiciosFicheros();
     private final ServiciosInformes informes = new ServiciosInformes();
 
+    private final Prints prints = new Prints();
 
     public void crearEmpleado(Scanner in) {
         prints.escribir("1. Crear");
@@ -53,7 +51,7 @@ public class ServiciosGeneral {
         prints.escribir("2. Crear contrato");
         boolean salida;
         do {
-            prints.introduzcaDatos(in);
+            prints.introduzcaDatos();
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
                 prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
@@ -120,7 +118,7 @@ public class ServiciosGeneral {
         boolean salida;
         prints.escribir("6. Modificar");
         do {
-            prints.introduzcaDatos(in);
+            prints.introduzcaDatos();
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
                 prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
@@ -142,7 +140,7 @@ public class ServiciosGeneral {
         boolean salida;
         prints.escribir("7. Borrado");
         do {
-            prints.introduzcaDatos(in);
+            prints.introduzcaDatos();
             Empleado empleadoBuscado = buscaEmpleadoPorCodigo(empleados, in.nextLine());
             if (empleadoBuscado != null) {
                 prints.escribir("Ha seleccionado a " + empleadoBuscado.getNombre() + " ¿Seguro que desea continuar con este empleado?");
@@ -565,6 +563,42 @@ public class ServiciosGeneral {
         return in.nextLine();
     }
 
+    private String leerDNI (Scanner in)  {
+        int contador = 0;
+        boolean estaBien = false;
+        String resultado;
+        do{
+            String dni = leerStringTeclado(in, "DNI");
+            char[] datoSeparado = dni.toCharArray();
+            try {
+                for(int i = 0; i <= 6; i++){
+                    // Prueba a transformar los 6 primeros caracteres a int usando los parse, los cuales pueden dar
+                    // un error, error que uso a mi favor ya que es la manera de controlar si realmente el dato esta bien
+                    Integer.parseInt(String.valueOf(datoSeparado[i]));
+                }
+                try {
+                    // Prueba a transformar la letra a int, lo cual tiene que dar error ya que una letra no puede ser numero
+                    Integer.parseInt(String.valueOf(datoSeparado[7]));
+                } catch (Exception e){
+                    estaBien = true;
+                }
+            } catch (Exception e) {
+                estaBien = false;
+            }
+            if(!estaBien){
+                contador ++;
+                prints.escribir("DNI incorrecto quedan " + (3-contador) + " intentos");
+            }
+            resultado = dni;
+        } while (contador < 3 || !estaBien);
+
+        if (contador == 3){
+            prints.escribir("Te has quedado sin intentos, serás enviado a la páguina principal");
+            // TODO crear una excepcion y lanzarla hacia arriba
+        }
+        return resultado;
+    }
+
     private int leerEstado(Scanner in) {
         prints.separadorConTexto("Estado");
         String palabraIntroducida;
@@ -616,7 +650,7 @@ public class ServiciosGeneral {
                 variableEmpleado.setNombre(leerStringTeclado(in, "Nombre"));
                 variableEmpleado.setPrimerApellido(leerStringTeclado(in, "Primer Apellido"));
                 variableEmpleado.setSegundoApellido(leerStringTeclado(in, "Segundo Apellido"));
-                variableEmpleado.setDNI(leerStringTeclado(in, "DNI"));
+                variableEmpleado.setDNI(leerDNI(in));
                 variableEmpleado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in, "Fecha nacimiento")));
                 variableEmpleado.setNacionalidad(leerStringTeclado(in, "Nacionalidad"));
                 variableEmpleado.setEstado(Estado.values()[estadoEleccion(leerStringTeclado(in, "Estado"))]);

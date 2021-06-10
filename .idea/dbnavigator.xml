@@ -34,15 +34,10 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
       <console name="TD_CMDB_V1_bg4ve8l8" type="STANDARD" schema="TD_CMDB_V1" session="Main"><![CDATA[select * from FPM_EMPLEADOS
-select * from FPM_PRUEBA
 select * from FPM_DIRECCION
 select * from FPM_CONTRATOS
 
-delete from FPM_PRUEBA
-delete from FPM_DIRECCION
-
-
-select * from FPM_CONTRATOS where CODIGO_EMPLEADO = '3bj626';]]></console>
+select * from FPM_CONTRATOS where CODIGO_EMPLEADO = '3bj626']]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
