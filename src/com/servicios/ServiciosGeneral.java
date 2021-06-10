@@ -319,7 +319,7 @@ public class ServiciosGeneral {
         prints.finalFuncion();
     }
 
-    // ------------------------> FUNCIONES <-----------------------------
+    // ------------------------> FUNCIONES GENERALES <-----------------------------
 
     /**
      * JavaDoc
@@ -557,7 +557,7 @@ public class ServiciosGeneral {
         return eleccionParseado;
     }
 
-    // ######## --------> FUNCIONES LEER <-------------------- #########
+    // ######## --------------> FUNCIONES LEER <-------------------- #########
 
     private String leerStringTeclado(Scanner in, String palabra) {
         prints.separadorConTexto(palabra);
