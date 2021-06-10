@@ -16,13 +16,14 @@ public class ServiciosGeneral {
     // TODO Eliminar cantidad de bucles ( si se puede )
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
-    public static ArrayList<Contrato> contratos = new ArrayList<>();
-    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
-
     public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
     public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
-    public static ArrayList<Contrato> contratosNuevos = new ArrayList<>();
     public static ArrayList<Empleado> empleadosBorradosNuevos = new ArrayList<>();
+
+    public static ArrayList<Contrato> contratos = new ArrayList<>();
+    public static ArrayList<Contrato> contratosNuevos = new ArrayList<>();
+
+    public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
 
     private final ServiciosBaseDeDatos gestionBaseDeDatos = new ServiciosBaseDeDatos();
     private final ServiciosFicheros gestionFicheros = new ServiciosFicheros();
