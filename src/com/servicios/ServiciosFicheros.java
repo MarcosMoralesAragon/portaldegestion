@@ -11,8 +11,6 @@ import java.util.Scanner;
 
 public class ServiciosFicheros {
 
-    private ServiciosGeneral servicios = new ServiciosGeneral();
-
     public boolean leerFichero (String nombreFichero,String palabra){
         String[] datoSeparado;
         boolean fraseConfirmaciconDeLectura = false;
@@ -28,6 +26,7 @@ public class ServiciosFicheros {
                 String linea = in.nextLine();
                 datoSeparado = linea.split("#");
                 try {
+                    ServiciosGeneral servicios = new ServiciosGeneral();
                     if ("fichero".equals(palabra)){
                         servicios.cargarLista(datoSeparado,palabra);
                     } else if ("papelera".equals(palabra)){

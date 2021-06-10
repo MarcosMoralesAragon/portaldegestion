@@ -18,21 +18,19 @@ public class ServiciosGeneral {
     // TODO Eliminar cantidad de bucles ( si se puede )
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
-    public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
-    public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
     public static ArrayList<Contrato> contratos = new ArrayList<>();
     public static HashMap<String, Empleado> empleadosBorrados = new HashMap<>();
+
+    public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
+    public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
+    public static ArrayList<Contrato> contratosNuevos = new ArrayList<>();
+    public static ArrayList<Empleado> empleadosBorradosNuevos = new ArrayList<>();
 
     private final Prints prints = new Prints();
     private final ServiciosBaseDeDatos gestionBaseDeDatos = new ServiciosBaseDeDatos();
     private final ServiciosFicheros gestionFicheros = new ServiciosFicheros();
     private final ServiciosInformes informes = new ServiciosInformes();
 
-    public void guardar() {
-        for (Empleado empleado : empleados) {
-            gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleado);
-        }
-    }
 
     public void crearEmpleado(Scanner in) {
         prints.escribir("1. Crear");
@@ -258,7 +256,7 @@ public class ServiciosGeneral {
             prints.escribir("No existen empleados nuevos creados. Cree un empleado nuevo");
         } else {
             for (Empleado empleadosNuevo : empleadosNuevos) {
-                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo);
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo, null);
             }
         }
         prints.finalFuncion();
@@ -288,6 +286,32 @@ public class ServiciosGeneral {
         }
         prints.finalFuncion();
     } // 15
+
+    public void guardarTodosLosCambios(){
+        prints.escribir("14. Guardar empleados a la base de datos");
+        prints.separador();
+        prints.limpiar(1);
+        if (empleadosNuevos.size() == 0) {
+            prints.escribir("No existen empleados nuevos creados. Cree un empleado nuevo");
+        } else {
+            for (Empleado empleadosNuevo : empleadosNuevos) {
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo, null);
+            }
+        }
+        if (contratosNuevos.size() == 0) {
+            prints.escribir("No existen contratos nuevos creados. Cree un contrato nuevo");
+        } else {
+            for (Contrato contratos : contratosNuevos) {
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_CONTRATOS", null, contratos);
+            }
+        }
+        if (empleadosBorradosNuevos.size() > 0){
+            for(Empleado empleadosBorrados : empleadosBorradosNuevos){
+                gestionBaseDeDatos.borrarFilaBaseDeDatos(empleadosBorrados);
+            }
+        }
+        prints.finalFuncion();
+    } // 16
 
     public void cargarEmpleadosDesdeBaseDeDatos() {
         prints.separador();
@@ -726,6 +750,7 @@ public class ServiciosGeneral {
                     empleadoBuscado.getContratos().add(contrato);
                 }
                 contratoArrayList.add(contrato);
+                contratosNuevos.add(contrato);
             }
         }
     }
@@ -846,6 +871,7 @@ public class ServiciosGeneral {
             prints.escribir("Se ha establecido la fecha actual como fecha de finalización de su ultimo contrato");
         }
         empleadosBorrados.put(empleadoBuscado.getCodigo(), empleadoBuscado);
+        empleadosBorradosNuevos.add(empleadoBuscado);
         empleados.remove(empleadoBuscado);
     }
 

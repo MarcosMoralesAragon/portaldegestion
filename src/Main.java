@@ -10,7 +10,6 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
         boolean salida = false;
-        boolean ficheroEstaCorrectoParaListar;
         Prints prints = new Prints();
 
         prints.escribir("Bienvenido al portal de gestión, ahora tendra acceso al panel de control de acciones.");
@@ -19,14 +18,10 @@ public class Main {
         /** ficheroEstaCorrectoParaListar = GestionFicheros.leerFichero("empleados.txt", "empleados");
         Prints.limpiar(1); */
         ServiciosGeneral Servicios = new ServiciosGeneral();
-        ficheroEstaCorrectoParaListar = true;
+
         Servicios.cargarEmpleadosDesdeBaseDeDatos();
 
-        if (ficheroEstaCorrectoParaListar){
-            Servicios.listarEmpleados("");
-        } else {
-            prints.escribir("El archivo no ha sido cargado con exito, no se pueden listar los datos");
-        }
+        Servicios.listarEmpleados("");
 
         while (!salida){
             prints.escribir("\n" + "Porfavor, introduzca a continuación el numero de la acción que desea realizar");
@@ -82,6 +77,8 @@ public class Main {
                         Servicios.updateEmpleadosABaseDeDatos();
                     break;
                 case 16:
+                    Servicios.guardarTodosLosCambios();
+                case 17:
                     prints.limpiar(1);
                     prints.finDeLaAplicacion();
                     salida = true;
