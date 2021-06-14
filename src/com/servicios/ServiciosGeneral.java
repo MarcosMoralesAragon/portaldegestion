@@ -14,6 +14,7 @@ import java.util.Map.*;
 public class ServiciosGeneral {
 
     // TODO Eliminar cantidad de bucles ( si se puede )
+    // TODO Probar todo y pasar a terminar el informe
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
@@ -33,15 +34,15 @@ public class ServiciosGeneral {
 
     public void crearEmpleado(Scanner in) {
         prints.escribir("1. Crear");
-        prints.separador();
-        prints.limpiar(1);
         String deDondeVieneElDato = "teclado";
         try {
             Empleado variableEmpleado = new Empleado();
             datosEmpleados(in, variableEmpleado, deDondeVieneElDato, null, null, null);
-            variableEmpleado.setDireccion(datosDireccion(in, deDondeVieneElDato, null, null, null));
-            empleados.add(variableEmpleado);
-            empleadosNuevos.add(variableEmpleado);
+            if (variableEmpleado.getDNI() != null){
+                variableEmpleado.setDireccion(datosDireccion(in, deDondeVieneElDato, null, null, null));
+                empleados.add(variableEmpleado);
+                empleadosNuevos.add(variableEmpleado);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -546,12 +547,13 @@ public class ServiciosGeneral {
                 salida = true;
             } catch (NumberFormatException e) {
                 prints.escribir("Formato erroneo, vuelva a repetir. Le quedan " + (3 - contador));
-                prints.escribir("> ");
+                System.out.print("> ");
                 contador++;
             }
             if (contador == 3) {
                 prints.escribir("No quedan intentos");
                 eleccionParseado = -1;
+                salida = true;
             }
         } while (!salida);
         return eleccionParseado;
@@ -566,20 +568,21 @@ public class ServiciosGeneral {
 
     private String leerDNI (Scanner in)  {
         int contador = 0;
-        boolean estaBien = false;
+        boolean estaBien;
         String resultado;
         do{
             String dni = leerStringTeclado(in, "DNI");
             char[] datoSeparado = dni.toCharArray();
             try {
-                for(int i = 0; i <= 6; i++){
+                for(int i = 0; i <= 7; i++){
                     // Prueba a transformar los 6 primeros caracteres a int usando los parse, los cuales pueden dar
                     // un error, error que uso a mi favor ya que es la manera de controlar si realmente el dato esta bien
                     Integer.parseInt(String.valueOf(datoSeparado[i]));
                 }
+                estaBien = false;
                 try {
                     // Prueba a transformar la letra a int, lo cual tiene que dar error ya que una letra no puede ser numero
-                    Integer.parseInt(String.valueOf(datoSeparado[7]));
+                    Integer.parseInt(String.valueOf(datoSeparado[8]));
                 } catch (Exception e){
                     estaBien = true;
                 }
@@ -591,7 +594,7 @@ public class ServiciosGeneral {
                 prints.escribir("DNI incorrecto quedan " + (3-contador) + " intentos");
             }
             resultado = dni;
-        } while (contador < 3 || !estaBien);
+        } while (contador < 3 && !estaBien);
 
         if (contador == 3){
             prints.escribir("Te has quedado sin intentos, serás enviado a la páguina principal");
@@ -652,6 +655,9 @@ public class ServiciosGeneral {
                 variableEmpleado.setPrimerApellido(leerStringTeclado(in, "Primer Apellido"));
                 variableEmpleado.setSegundoApellido(leerStringTeclado(in, "Segundo Apellido"));
                 variableEmpleado.setDNI(leerDNI(in));
+                if(variableEmpleado.getDNI() == null){
+                    break;
+                }
                 variableEmpleado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in, "Fecha nacimiento")));
                 variableEmpleado.setNacionalidad(leerStringTeclado(in, "Nacionalidad"));
                 variableEmpleado.setEstado(Estado.values()[estadoEleccion(leerStringTeclado(in, "Estado"))]);
@@ -763,7 +769,7 @@ public class ServiciosGeneral {
 
     /**
      * Estable los datos para un contrato y lo añade a la lista de contratos de el empleado y a la lista general creada
-     * en servicios
+     * en servicios. Al crear el contrato se le dara de alta directamente a ese empleado
      * @param contratoArrayList La lista general de Servicios para poder listar todos los empleados
      * @param empleadoBuscado El empleado a el que se le quiere hacer el contrato
      * @param in Scanner para leer por consola
@@ -786,6 +792,7 @@ public class ServiciosGeneral {
                 }
                 contratoArrayList.add(contrato);
                 contratosNuevos.add(contrato);
+                empleadoBuscado.setEstado(Estado.ALTA);
             }
         }
     }
@@ -905,6 +912,7 @@ public class ServiciosGeneral {
             empleadoBuscado.getContratos().get(ultimoContrato - 1).setFechaFinalContrato(Fecha.creaciónFechaActual());
             prints.escribir("Se ha establecido la fecha actual como fecha de finalización de su ultimo contrato");
         }
+        empleadoBuscado.setEstado(Estado.BAJA);
         empleadosBorrados.put(empleadoBuscado.getCodigo(), empleadoBuscado);
         empleadosBorradosNuevos.add(empleadoBuscado);
         empleados.remove(empleadoBuscado);
@@ -938,10 +946,11 @@ public class ServiciosGeneral {
                     empleadoBuscado.setEstado(Estado.values()[leerEstado(in)]);
 
                 } else if (decision == 4) { // Todos los campos
+                    if (cambioCamposPersonales(in, empleadoBuscado)){
+                        cambioCamposDireccion(in, empleadoBuscado);
+                        empleadoBuscado.setEstado(Estado.values()[leerEstado(in)]);
+                    }
 
-                    cambioCamposPersonales(in, empleadoBuscado);
-                    cambioCamposDireccion(in, empleadoBuscado);
-                    empleadoBuscado.setEstado(Estado.values()[leerEstado(in)]);
                 } else {
                     prints.escribir("Error. Numero introducido por teclado erroneo");
                 }
@@ -964,12 +973,19 @@ public class ServiciosGeneral {
         empleadoBuscado.getDireccion().setProvincia(leerStringTeclado(in, "Provincia"));
     }
 
-    private void cambioCamposPersonales(Scanner in, Empleado empleadoBuscado) throws ParseException {
-        empleadoBuscado.setNombre(leerStringTeclado(in, "Nombre"));
-        cambioApellidos(in, empleadoBuscado);
-        empleadoBuscado.setDNI(leerStringTeclado(in, "DNI"));
+    private boolean cambioCamposPersonales(Scanner in, Empleado empleadoBuscado) throws ParseException {
+        boolean cambiadoBien = true;
         empleadoBuscado.setFechaNacimiento(Fecha.fecha(leerStringTeclado(in, "Fecha de nacimiento")));
-        empleadoBuscado.setNacionalidad(leerStringTeclado(in, "Nacionalidad"));
+        String dni = leerDNI(in);
+        if (dni != null){
+            empleadoBuscado.setDNI(dni);
+            empleadoBuscado.setNombre(leerStringTeclado(in, "Nombre"));
+            cambioApellidos(in, empleadoBuscado);
+            empleadoBuscado.setNacionalidad(leerStringTeclado(in, "Nacionalidad"));
+        } else {
+            cambiadoBien = false;
+        }
+        return cambiadoBien;
     }
 
     private void cambioApellidos(Scanner in, Empleado empleadoBuscado) {

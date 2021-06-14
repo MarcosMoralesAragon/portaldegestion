@@ -24,6 +24,10 @@ public class ServiciosInformes {
         System.out.println("→ ¿Cuántos empleados tiene la empresa actualmente?");
         prints.limpiar(1);
         System.out.println("La empresa cuenta actualmente con : " + empleados.size() + " empleados en plantilla");
+
+        System.out.println("→ ¿Cuántos empleados se han dado de baja el año actual?");
+        prints.limpiar(1);
+        System.out.println(dadoDeBajaEsteAño(empleados).size());
     }
 
     // ¿Cuál es el empleado actual de mayor edad?

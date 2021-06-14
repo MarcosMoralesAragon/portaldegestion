@@ -25,10 +25,9 @@ public class ServiciosBaseDeDatos {
             if (conexion != null) {
                 frase = "¡ Conexion exitosa !";
             }
-            if (palabra.equals("no")){
-                frase = "";
+            if (palabra.equals("")){
+                prints.escribir(frase);
             }
-            prints.escribir(frase);
         } catch (Exception e) {
             prints.escribir("Error al realizar la conexion");
         }
