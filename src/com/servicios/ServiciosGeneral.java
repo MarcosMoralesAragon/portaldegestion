@@ -13,9 +13,6 @@ import java.util.Map.*;
 
 public class ServiciosGeneral {
 
-    // TODO Eliminar cantidad de bucles ( si se puede )
-    // TODO Probar todo y pasar a terminar el informe
-
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static ArrayList<Empleado> empleadosNuevos = new ArrayList<>();
     public static ArrayList<Empleado> empleadosModificados = new ArrayList<>();
@@ -215,6 +212,8 @@ public class ServiciosGeneral {
                 }
                 empleados.add(variableEmpleado);
             }
+            empleadosBorrados.clear();
+            empleadosBorradosNuevos.clear();
             prints.escribir("Los empleados borrados han sido restaurados con exito. Recuerda que mientras no guardes los cambios no surtiran efecto");
         } else {
             prints.escribir("Papelera vacía. Borre empleados o recupere la papelera");
@@ -232,24 +231,16 @@ public class ServiciosGeneral {
         prints.finalFuncion();
     } // 11
 
-    public void guardarTodo() {
-        prints.escribir("12. Guardar todo");
-        prints.separador();
-        prints.limpiar(1);
-        guardarMemoriaABaseDeDatos();
-        guardarPapelera("copiaDeSeguridad.txt");
-    } // 12
-
     public void informe() {
-        prints.escribir("13. Informe");
+        prints.escribir("12. Informe");
         prints.separador();
         prints.limpiar(1);
         informes.generarInforme(empleados);
         prints.finalFuncion();
-    } // 13
+    } // 12
 
-    public void guardarMemoriaABaseDeDatos() {
-        prints.escribir("14. Guardar empleados a la base de datos");
+    public void guardarEmpleadosAMemoriaABaseDeDatos() {
+        prints.escribir("13. Guardar empleados a la base de datos");
         prints.separador();
         prints.limpiar(1);
         if (empleadosNuevos.size() == 0) {
@@ -260,10 +251,10 @@ public class ServiciosGeneral {
             }
         }
         prints.finalFuncion();
-    } // 14
+    } // 13
 
     public void updateEmpleadosABaseDeDatos() {
-        prints.escribir("16. Actualizar empleados a la base de datos");
+        prints.escribir("14. Actualizar empleados a la base de datos");
         prints.separador();
         prints.limpiar(1);
         if (empleadosModificados.size() == 0) {
@@ -285,17 +276,17 @@ public class ServiciosGeneral {
             }
         }
         prints.finalFuncion();
-    } // 15
+    } // 14
 
     public void guardarTodosLosCambios(){
-        prints.escribir("14. Guardar empleados a la base de datos");
+        prints.escribir("15. Guardar empleados a la base de datos");
         prints.separador();
         prints.limpiar(1);
         if (empleadosNuevos.size() == 0) {
             prints.escribir("No existen empleados nuevos creados. Cree un empleado nuevo");
         } else {
             for (Empleado empleadosNuevo : empleadosNuevos) {
-                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo, null);
+                gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleadosNuevo, null);
             }
         }
         if (contratosNuevos.size() == 0) {
@@ -306,18 +297,19 @@ public class ServiciosGeneral {
             }
         }
         if (empleadosBorradosNuevos.size() > 0){
+            // TODO ??
             for(Empleado empleadosBorrados : empleadosBorradosNuevos){
                 gestionBaseDeDatos.borrarFilaBaseDeDatos(empleadosBorrados);
             }
         }
+        guardarPapelera("copiaDeSeguridad.txt");
         prints.finalFuncion();
-    } // 16
+    } // 15
 
     public void cargarEmpleadosDesdeBaseDeDatos() {
         prints.separador();
         prints.limpiar(1);
         empleados = gestionBaseDeDatos.cargarFilaBaseDeDatos("FPM_EMPLEADOS", empleados);
-        prints.finalFuncion();
     }
 
     // ------------------------> FUNCIONES GENERALES <-----------------------------
@@ -352,7 +344,7 @@ public class ServiciosGeneral {
     }
 
     /**
-     * --> Busca a un empleado en base de su codigo en la lista de empleados
+     * Busca a un empleado en base de su codigo en la lista de empleados
      * @param empleados Arraylist de empleados
      * @param codigo Codigo del empleado que queremos buscar
      * @return Un empleado ( si no lo encuentra será null )
@@ -373,7 +365,7 @@ public class ServiciosGeneral {
     }
 
     /**
-     * --> Un bucle que genera códigos hasta que consigue crear una convinación que no exista
+     * Un bucle que genera códigos hasta que consigue crear una convinación que no exista
      * @param nombreLista Donde quieres buscar, pueder : "direccion", "contratos", "emplados"
      * @return Un string con un codigo ( el codigo int es parseado a string y luego se parsea de vuelta
      */
@@ -413,28 +405,22 @@ public class ServiciosGeneral {
 
         switch (nombreLista.toLowerCase(Locale.ROOT)) { // TODO Control null
             case "empleados":
-                ArrayList<Empleado> empleadosLista = lista;
-                Iterator<Empleado> listaIteradaEmpleados = empleadosLista.iterator();
-                while (listaIteradaEmpleados.hasNext()) {
-                    if (listaIteradaEmpleados.next().getCodigo().equals(codigoString)) {
+                for (Empleado empleado : (ArrayList<Empleado>) lista) {
+                    if (empleado.getCodigo().equals(codigoString)) {
                         resultado = true;
                     }
                 }
                 break;
             case "contratos":
-                ArrayList<Contrato> contratosLista = lista;
-                Iterator<Contrato> listaIteradaContratos = contratosLista.iterator();
-                while (listaIteradaContratos.hasNext()) {
-                    if (listaIteradaContratos.next().getId() == codigoInt) {
+                for (Contrato contrato : (ArrayList<Contrato>) lista) {
+                    if (contrato.getId() == codigoInt) {
                         resultado = true;
                     }
                 }
                 break;
             case "direccion":
-                ArrayList<Empleado> empleadosListaDireccion = lista;
-                Iterator<Empleado> listaIteradaEmpleadosDireccion = empleadosListaDireccion.iterator();
-                while (listaIteradaEmpleadosDireccion.hasNext()) {
-                    if (listaIteradaEmpleadosDireccion.next().getDireccion().getCodigo() == codigoInt) {
+                for (Empleado empleado : (ArrayList<Empleado>) lista) {
+                    if (empleado.getDireccion().getCodigo() == codigoInt) {
                         resultado = true;
                     }
                 }
@@ -778,23 +764,20 @@ public class ServiciosGeneral {
         boolean seguir;
         Contrato contrato = new Contrato();
 
-        seguir = establecerFechasParaContrato(empleadoBuscado, in, contrato);
-        if (seguir) {
-            seguir = establecerSalarioParaContrato(in, contrato);
-            if (seguir) {
-                contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
-                contrato.setId(Integer.parseInt(generarCodigo("contratos")));
-                contrato.setCodigoEmpleadoAsignado(empleadoBuscado.getCodigo());
-                if (empleadoBuscado.getContratos() == null){
-                    empleadoBuscado.setContratos(contrato);
-                } else {
-                    empleadoBuscado.getContratos().add(contrato);
-                }
-                contratoArrayList.add(contrato);
-                contratosNuevos.add(contrato);
-                empleadoBuscado.setEstado(Estado.ALTA);
-            }
+        establecerFechasParaContrato(empleadoBuscado, in, contrato);
+        establecerSalarioParaContrato(in, contrato);
+        contrato.setPuesto(Puesto.values()[leerPuesto(in)]);
+        contrato.setId(Integer.parseInt(generarCodigo("contratos")));
+        contrato.setCodigoEmpleadoAsignado(empleadoBuscado.getCodigo());
+
+        if (empleadoBuscado.getContratos() == null){
+            empleadoBuscado.setContratos(contrato);
+        } else {
+            empleadoBuscado.getContratos().add(contrato);
         }
+        contratoArrayList.add(contrato);
+        contratosNuevos.add(contrato);
+        empleadoBuscado.setEstado(Estado.ALTA);
     }
 
     /**
@@ -804,11 +787,10 @@ public class ServiciosGeneral {
      * @param contrato El objeto contrato
      * @return boolean para comprobar si se ha realizado la acción o no
      */
-    private boolean establecerFechasParaContrato(Empleado empleadoBuscado, Scanner in, Contrato contrato) {
+    private void establecerFechasParaContrato(Empleado empleadoBuscado, Scanner in, Contrato contrato) {
         establecerFecha(in, contrato, empleadoBuscado, "Inicio");
         contrato.setFechaFinalContrato(null);
         establecerFecha(in, contrato, empleadoBuscado, "Estimada");
-        return true;
     }
 
     /**
@@ -864,9 +846,8 @@ public class ServiciosGeneral {
      *
      * @param in Scanner para leer desde teclado los datos
      * @param contrato Objeto contrato al que se le introducen los datos
-     * @return boolean para indicar si la acción se realiza o no
      */
-    private boolean establecerSalarioParaContrato(Scanner in, Contrato contrato) {
+    private void establecerSalarioParaContrato(Scanner in, Contrato contrato) {
         boolean resultado;
         int contador = 0;
 
@@ -892,7 +873,6 @@ public class ServiciosGeneral {
                 resultado = true;
             }
         } while (!resultado);
-        return resultado;
     }
 
     // -------------------------------> FUNCION BORRADO <-----------------------------

@@ -65,20 +65,18 @@ public class Main {
                         Servicios.vaciarPapelera();
                     break;
                 case 12:
-                        Servicios.guardarTodo();
-                    break;
-                case 13:
                         Servicios.informe();
                     break;
-                case 14:
-                        Servicios.guardarMemoriaABaseDeDatos();
+                case 13:
+                        Servicios.guardarEmpleadosAMemoriaABaseDeDatos();
                     break;
-                case 15:
+                case 14:
                         Servicios.updateEmpleadosABaseDeDatos();
                     break;
-                case 16:
+                case 15:
                     Servicios.guardarTodosLosCambios();
-                case 17:
+                    break;
+                case 16:
                     prints.limpiar(1);
                     prints.finDeLaAplicacion();
                     salida = true;

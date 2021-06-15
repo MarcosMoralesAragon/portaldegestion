@@ -1,6 +1,5 @@
 package com.servicios;
 
-
 import com.modelos.*;
 import com.utilidades.Fecha;
 import com.utilidades.Prints;
@@ -196,9 +195,10 @@ public class ServiciosBaseDeDatos {
         Connection conexion = cargarBaseDeDatos("");
         PreparedStatement stmt = null;
         try {
-            stmt = conexion.prepareStatement("delete from FPM_EMPLEADOS where ID = " + empleado.getCodigo());
+            stmt = conexion.prepareStatement("delete from FPM_EMPLEADOS where ID = '" + empleado.getCodigo() + "'");
             int cantidadAfectada = stmt.executeUpdate();
-            stmt = conexion.prepareStatement("delete from FPM_DIRECCION where ID = " + empleado.getDireccion().getCodigo());
+            stmt = conexion.prepareStatement("delete from FPM_DIRECCION where ID_DIRECCION = " + empleado.getDireccion().getCodigo());
+            cantidadAfectada =+ stmt.executeUpdate();
             prints.escribir("Borrado con exito, " + cantidadAfectada + " fila/s afectada/s");
         } catch (SQLException throwables) {
             prints.escribir("Error borrando una fila en la tabla");

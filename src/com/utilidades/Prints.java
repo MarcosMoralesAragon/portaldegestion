@@ -54,12 +54,11 @@ public class Prints {
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 9. Guardar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 10. Restaurar Papelera -_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 11. Vaciar Papelera  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Guardar Todo -_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Guardar a BBDD -_-_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 15. Actualizar BBDD  -_-_-_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 16. Guardar todo a BBDD  -_-_-_-_-_-_-_-_-_╣");
-        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 17. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 12. Informe  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 13. Guardar a BBDD -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 14. Actualizar BBDD  -_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 15. Guardar todos  -_-_-_-_-_-_-_-_-_-_-_-_╣");
+        System.out.println("╠_-_-_-_-_-_-_-_-_-_-_-_- 16. Salir  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_╣");
         System.out.println("╚━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╝");
         System.out.print(" > ");
     }
