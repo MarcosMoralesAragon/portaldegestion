@@ -24,13 +24,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="45cc88a8-64be-428d-8b97-6ddaa064df69">
-        <schema name="APEX_180200" object-types="synonym, procedure, function" />
-        <schema name="PUBLIC" object-types="table, view, materialized view, synonym, sequence, function, package, type" />
-        <schema name="TD_CMDB_V1" object-types="table, view, materialized view, synonym, sequence, function, package, column, package function, type function" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="45cc88a8-64be-428d-8b97-6ddaa064df69">
@@ -39,7 +33,9 @@ select * from FPM_DIRECCION
 select * from FPM_CONTRATOS
 
 select * from FPM_CONTRATOS where CODIGO_EMPLEADO = '3bj626'
-select * from FPM_DIRECCION where ID_DIRECCION = 72]]></console>
+select * from FPM_DIRECCION where ID_DIRECCION = 72
+
+delete from FPM_DIRECCION where ID_DIRECCION = 1517795]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

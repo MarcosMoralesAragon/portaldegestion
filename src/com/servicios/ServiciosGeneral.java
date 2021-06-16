@@ -182,7 +182,7 @@ public class ServiciosGeneral {
             for (Map.Entry<String, Empleado> entry : empleadosBorrados.entrySet()) {
                 try {
                     gestionFicheros.escribirFichero(nombreFichero, entry.getValue().toString());
-                } catch (IOException e) { // TODO
+                } catch (IOException e) {
                     prints.escribir("Fallo guardando el fichero : " + nombreFichero);
                 }
             }
@@ -211,6 +211,7 @@ public class ServiciosGeneral {
                     prints.escribir("Problema con la conversion de los parametros");
                 }
                 empleados.add(variableEmpleado);
+                empleadosNuevos.add(variableEmpleado);
             }
             empleadosBorrados.clear();
             empleadosBorradosNuevos.clear();
@@ -249,6 +250,7 @@ public class ServiciosGeneral {
             for (Empleado empleadosNuevo : empleadosNuevos) {
                 gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_PRUEBA", empleadosNuevo, null);
             }
+            empleadosNuevos.clear();
         }
         prints.finalFuncion();
     } // 13
@@ -263,7 +265,6 @@ public class ServiciosGeneral {
             Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
             try {
                 gestionBaseDeDatos.updateTodoBaseDeDatos(empleadosModificado);
-                break;
             } catch (SQLException throwables) {
                 prints.escribir("Error actualizando las tablas");
             } finally {
@@ -275,6 +276,7 @@ public class ServiciosGeneral {
                 }
             }
         }
+        empleadosModificados.clear();
         prints.finalFuncion();
     } // 14
 
@@ -288,6 +290,7 @@ public class ServiciosGeneral {
             for (Empleado empleadosNuevo : empleadosNuevos) {
                 gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_EMPLEADOS", empleadosNuevo, null);
             }
+            empleadosModificados.clear();
         }
         if (contratosNuevos.size() == 0) {
             prints.escribir("No existen contratos nuevos creados. Cree un contrato nuevo");
@@ -295,13 +298,33 @@ public class ServiciosGeneral {
             for (Contrato contratos : contratosNuevos) {
                 gestionBaseDeDatos.guardarDatosEmpleadosBaseDeDato("FPM_CONTRATOS", null, contratos);
             }
+            contratosNuevos.clear();
         }
+        if (empleadosModificados.size() == 0) {
+            prints.escribir("No se ha modificado ningun empleado. Modifique un empleado");
+        } else for (Empleado empleadosModificado : empleadosModificados) {
+            Connection conexion = gestionBaseDeDatos.cargarBaseDeDatos("");
+            try {
+                gestionBaseDeDatos.updateTodoBaseDeDatos(empleadosModificado);
+            } catch (SQLException throwables) {
+                prints.escribir("Error actualizando las tablas");
+            } finally {
+                prints.limpiar(1);
+                try {
+                    conexion.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+        empleadosModificados.clear();
         if (empleadosBorradosNuevos.size() > 0){
-            // TODO ??
+
             for(Empleado empleadosBorrados : empleadosBorradosNuevos){
                 gestionBaseDeDatos.borrarFilaBaseDeDatos(empleadosBorrados);
             }
         }
+        empleadosBorradosNuevos.clear();
         guardarPapelera("copiaDeSeguridad.txt");
         prints.finalFuncion();
     } // 15
@@ -403,7 +426,7 @@ public class ServiciosGeneral {
     public boolean codigoExiste(ArrayList lista, int codigoInt, String codigoString, String nombreLista) {
         boolean resultado = false;
 
-        switch (nombreLista.toLowerCase(Locale.ROOT)) { // TODO Control null
+        switch (nombreLista.toLowerCase(Locale.ROOT)) {
             case "empleados":
                 for (Empleado empleado : (ArrayList<Empleado>) lista) {
                     if (empleado.getCodigo().equals(codigoString)) {
@@ -427,7 +450,7 @@ public class ServiciosGeneral {
                 break;
             default:
                 resultado = false;
-                prints.escribir("No existe la lista elegida, no se podrá comparar el codigo"); // TODO
+                prints.escribir("No existe la lista elegida, no se podrá comparar el codigo");
         }
         return resultado;
     }
@@ -560,6 +583,9 @@ public class ServiciosGeneral {
             String dni = leerStringTeclado(in, "DNI");
             char[] datoSeparado = dni.toCharArray();
             try {
+                if (datoSeparado.length != 9){
+                    throw new Exception();
+                }
                 for(int i = 0; i <= 7; i++){
                     // Prueba a transformar los 6 primeros caracteres a int usando los parse, los cuales pueden dar
                     // un error, error que uso a mi favor ya que es la manera de controlar si realmente el dato esta bien
@@ -683,7 +709,7 @@ public class ServiciosGeneral {
                 variableEmpleado.setFechaNacimiento(Fecha.fecha(datoseparado[5]));
                 variableEmpleado.setNacionalidad(datoseparado[6]);
                 variableEmpleado.setEstado(Estado.values()[estadoEleccion(datoseparado[7])]);
-                variableEmpleado.setFechaAlta(Fecha.leerStringDevolviendoFechaFormateada(datoseparado[17]));
+                variableEmpleado.setFechaAlta(Fecha.fecha(datoseparado[17]));
                 break;
         }
     }

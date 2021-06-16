@@ -194,18 +194,29 @@ public class ServiciosBaseDeDatos {
     public void borrarFilaBaseDeDatos(Empleado empleado){
         Connection conexion = cargarBaseDeDatos("");
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        int cantidadAfectada = 0;
         try {
-            stmt = conexion.prepareStatement("delete from FPM_EMPLEADOS where ID = '" + empleado.getCodigo() + "'");
-            int cantidadAfectada = stmt.executeUpdate();
-            stmt = conexion.prepareStatement("delete from FPM_DIRECCION where ID_DIRECCION = " + empleado.getDireccion().getCodigo());
-            cantidadAfectada =+ stmt.executeUpdate();
+            stmt = conexion.prepareStatement("delete from FPM_EMPLEADOS where CODIGO = ?");
+            stmt.setString(1, empleado.getCodigo());                // Codigo
+            cantidadAfectada = stmt.executeUpdate();
             prints.escribir("Borrado con exito, " + cantidadAfectada + " fila/s afectada/s");
+
+            stmt2 = conexion.prepareStatement("delete from FPM_DIRECCION where ID_DIRECCION = ?");
+            stmt2.setInt(1, empleado.getDireccion().getCodigo());
+            cantidadAfectada =+ stmt2.executeUpdate();
+            prints.escribir("Borrado con exito, " + cantidadAfectada + " fila/s afectada/s");
+
         } catch (SQLException throwables) {
-            prints.escribir("Error borrando una fila en la tabla");
+            prints.escribir("Error borrando una fila en la tabla FPM_EMPLEADOS");
         } finally {
             try {
-                assert stmt != null;
-                stmt.close();
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (stmt2 != null){
+                    stmt2.close();
+                }
                 conexion.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -214,7 +225,7 @@ public class ServiciosBaseDeDatos {
     }
 
 
-    public void updateTodoBaseDeDatos(Empleado empleado) throws SQLException { // TODO
+    public void updateTodoBaseDeDatos(Empleado empleado) throws SQLException {
         int cantidadAfectada = updateCamposPersonales(empleado);
         cantidadAfectada += updateCamposDireccion(empleado);
         if (empleado.getContratos() == null){

@@ -35,9 +35,9 @@ las funciones de la aplicacion
 
 Todos estos datos los separaremos con #
 
-| Código | Nombre | Primer Apellido | Segundo Apellido | DNI | Fecha nacimiento | Nacionalidad | Estado | Calle | Numero | Bloque | Piso | Puerta | Codigo postal | Localidad | Provincia | Fecha Creacion | Fecha Borrado |
+| Código | Nombre | Primer Apellido | Segundo Apellido | DNI | Fecha nacimiento | Nacionalidad | Estado | Calle | Numero | Bloque | Piso | Puerta | Codigo postal | Localidad | Provincia | Fecha Creacion | Contrato |
 | :---:  | :---:  |     :---:       |      :---:       |:---:|       :---:      |    :---:     |  :---: | :---: | :---:  | :---:  |:---: |  :---: |      :---:    |   :---:   |   :---:   |     :---:      |     :---:     |
-| Admite NULL |   |                 |                  |     |                  |              |        |       |        |        |      |        |               |           |           | Puede ser NULL (se le asignara la fecha del momento del ordenador) | Debe ser NULL (Se le asigna una al mandarlo a la papelera) |
+| Admite NULL |   |                 |                  |     |                  |              |        |       |        |        |      |        |               |           |           | Puede ser NULL (se le asignara la fecha del momento del ordenador) | Debe ser [] |
 
 `Registro diario :`
 
